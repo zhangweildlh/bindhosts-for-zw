@@ -1,7 +1,7 @@
 id=bindhosts
 name=bindhosts
-version=v1.9.0
-versionCode=190
+version=v1.9.1
+versionCode=191
 author=xx, KOWX712
 updateJson=https://raw.githubusercontent.com/bindhosts/bindhosts/master/update.json
 description=Systemless hosts for APatch, KernelSU and Magisk 
