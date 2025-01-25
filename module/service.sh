@@ -126,7 +126,7 @@ esac
 # on $PATH, heres how we abuse it
 if [ -z "$KSU" ] && [ -z "$APATCH" ]; then
 	find_rwdir
-	ln -sf $MODDIR/bindhosts.sh $rwdir/bindhosts
+	ln -sf $MODDIR/bindhosts.sh "$rwdir/bindhosts"
 fi
 
 ##################

@@ -36,9 +36,7 @@ if [ "$KSU_NEXT" = "true" ] && [ "$KSU_KERNEL_VER_CODE" -ge 12183 ]; then
 fi
 
 # ksu+susfs operating_mode
-# due to susfs4ksu policy change, theres a lot of fuckups that will
-# happen if I still try to keep bind mount for them
-# with this I'll be forcing ALL legacy susfs users pre 153 onto overlayfs mode.
+# handle probing for both modern and legacy susfs
 if [ "$KSU" = true ] && [ -f ${SUSFS_BIN} ] ; then
 	if [ "$( ${SUSFS_BIN} show version | head -n1 | sed 's/v//; s/\.//g' )" -ge 153 ]; then
 		echo "bindhosts: post-fs-data.sh - susfs 153+ found" >> /dev/kmsg

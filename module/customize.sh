@@ -5,7 +5,7 @@ SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 PERSISTENT_DIR=/data/adb/bindhosts
 
 # grab own info (version)
-versionCode=$(grep versionCode $MODPATH/module.prop | sed 's/versionCode=//g' )
+versionCode=$(grep versionCode "$MODPATH/module.prop" | sed 's/versionCode=//g' )
 
 echo "[+] bindhosts v$versionCode "
 echo "[%] customize.sh "
@@ -18,7 +18,7 @@ detect_key_press() {
     read -r -t $timeout_seconds line < <(getevent -ql)
 
     # Check if input was read or timed out
-    if [[ $? -eq 142 ]]; then  # Timeout exit code
+    if [ $? -eq 142 ]; then  # Timeout exit code
         echo "[!] No key pressed within $timeout_seconds seconds. Skipping installation..."
         return 1
     fi
@@ -41,14 +41,14 @@ pm path me.itejo443.bindhosts > /dev/null 2>&1 || {
     echo "[?] VOL [-]: NO"
     if detect_key_press; then
         echo "[+] Installing BindHosts-app..."
-        sh $MODPATH/bindhosts-app.sh
+        sh "$MODPATH/bindhosts-app.sh"
     fi
 }
 
 # persistence
 [ ! -d $PERSISTENT_DIR ] && mkdir -p $PERSISTENT_DIR
 # make our hosts file dir
-mkdir -p $MODPATH/system/etc
+mkdir -p "$MODPATH/system/etc"
 
 # set permissions to bindhosts.sh
 susfs_clone_perm "$MODPATH/bindhosts.sh" /bin/sh
@@ -58,9 +58,9 @@ susfs_clone_perm "$MODPATH/bindhosts-app.sh" /bin/sh
 # for ez termux usage
 manager_paths="/data/adb/ap/bin /data/adb/ksu/bin"
 for i in $manager_paths; do
-	if [ -d $i ] && [ ! -f $i/bindhosts ]; then
+	if [ -d "$i" ]; then
 		echo "[+] creating symlink in $i"
-		ln -sf /data/adb/modules/bindhosts/bindhosts.sh $i/bindhosts
+		ln -sf /data/adb/modules/bindhosts/bindhosts.sh "$i/bindhosts"
 	fi
 done
 
@@ -68,10 +68,10 @@ done
 # sorry I had to do this.
 modulenames="hosts systemless-hosts-KernelSU-module systemless-hosts Malwack Re-Malwack cubic-adblock StevenBlock systemless_adblocker"
 for i in $modulenames; do
-	if [ -d /data/adb/modules/$i ] ; then
+	if [ -d "/data/adb/modules/$i" ] ; then
 		echo "[!] confliciting module found!"
 		echo "[-] disabling $i"
-		touch /data/adb/modules/$i/disable
+		touch "/data/adb/modules/$i/disable"
 	fi
 done
 
@@ -81,7 +81,7 @@ done
 # lets make the user wait for say 5 seconds
 bad_module="HideMyRoot"
 for i in $bad_module; do
-	if [ -d /data/adb/modules/$i ] ; then
+	if [ -d "/data/adb/modules/$i" ] ; then
 		echo "[!] 🚨 possible confliciting module found!"
 		echo "[!] ⚠️ $i "
 		echo "[!] 📢 uninstall for a flawless operation"
@@ -93,25 +93,25 @@ done
 # copy our old hosts file
 if [ -f /data/adb/modules/bindhosts/system/etc/hosts ] ; then
 	echo "[+] migrating hosts file "
-	cat /data/adb/modules/bindhosts/system/etc/hosts > $MODPATH/system/etc/hosts
+	cat /data/adb/modules/bindhosts/system/etc/hosts > "$MODPATH/system/etc/hosts"
 fi
 
 # normal flow for persistence
 # move over our files, remove after
 files="blacklist.txt custom.txt sources.txt whitelist.txt"
 for i in $files ; do
-	if [ ! -f /data/adb/bindhosts/$i ] ; then
-		cat $MODPATH/$i > $PERSISTENT_DIR/$i
+	if [ ! -f "/data/adb/bindhosts/$i" ] ; then
+		cat "$MODPATH/$i" > "$PERSISTENT_DIR/$i"
 	fi
-	rm $MODPATH/$i
+	rm "$MODPATH/$i"
 done
 
 # if hosts file empty or just comments
 # just copy real hosts file over
-grep -qv "#" $MODPATH/system/etc/hosts > /dev/null 2>&1 || {
+grep -qv "#" "$MODPATH/system/etc/hosts" > /dev/null 2>&1 || {
 	echo "[+] creating hosts file"
-	cat /system/etc/hosts > $MODPATH/system/etc/hosts
-	printf "127.0.0.1 localhost\n::1 localhost\n" >> $MODPATH/system/etc/hosts
+	cat /system/etc/hosts > "$MODPATH/system/etc/hosts"
+	printf "127.0.0.1 localhost\n::1 localhost\n" >> "$MODPATH/system/etc/hosts"
 	}
 
 # set permissions always
