@@ -91,6 +91,9 @@ skip_mount=1
 [ $skip_mount = 0 ] && ( [ -f $MODDIR/skip_mount ] && rm $MODDIR/skip_mount )
 [ $skip_mount = 1 ] && ( [ ! -f $MODDIR/skip_mount ] && touch $MODDIR/skip_mount )
 
+# disable all other hosts module
+disable_hosts_modules
+
 # debugging
 echo "bindhosts: post-fs-data.sh - probing done" >> /dev/kmsg
 
