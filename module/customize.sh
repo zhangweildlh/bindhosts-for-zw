@@ -65,15 +65,8 @@ for i in $manager_paths; do
 done
 
 # check for other systemless hosts modules and disable them
-# sorry I had to do this.
-modulenames="hosts systemless-hosts-KernelSU-module systemless-hosts Malwack Re-Malwack cubic-adblock StevenBlock systemless_adblocker"
-for i in $modulenames; do
-	if [ -d "/data/adb/modules/$i" ] ; then
-		echo "[!] confliciting module found!"
-		echo "[-] disabling $i"
-		touch "/data/adb/modules/$i/disable"
-	fi
-done
+disable_hosts_modules_verbose=1
+disable_hosts_modules
 
 # warn about highly breaking modules
 # just warn and tell user to uninstall it
