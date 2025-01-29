@@ -21,4 +21,17 @@ find_rwdir() {
 	[ -w /debug_ramdisk ] && rwdir=/debug_ramdisk
 }
 
+disable_hosts_modules() {
+	for module in /data/adb/modules/*; do
+	id=$(basename "$module")
+		if [ "$id" != "bindhosts" ] && [ -f "$module/system/etc/hosts" ] && [ ! -f "$module/disable" ]; then
+			[ "$disable_hosts_modules_verbose" = 1 ]  && { 
+				echo "[!] Conflicting module found!"
+				echo "[-] Disabling $id"
+			}
+			touch "$module/disable"
+		fi
+	done
+}
+
 # EOF
