@@ -362,7 +362,7 @@ adblock() {
 	for i in $(sed '/#/d' $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done >> "$rwdir/tempwhitelist"
 	# sed strip out everything with #, double space to single space, replace all 127.0.0.1 to 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
-	sed -i '/#/d; s/  */ /g; /^$/d; s/\r$//; s/127.0.0.1/0.0.0.0/g' "$rwdir/temphosts"
+	sed -i '/#/d; /!/d; s/  */ /g; /^$/d; s/\r$//; s/127.0.0.1/0.0.0.0/g' "$rwdir/temphosts"
 	sort -u "$rwdir/temphosts" | grep -Fxvf "$rwdir/tempwhitelist" >> $target_hostsfile
 	# mark it, will be read by service.sh to deduce
 	echo "# bindhosts v$versionCode" >> $target_hostsfile
