@@ -496,9 +496,11 @@ hosts_query () {
 	shift
 	if [ -z "$1" ]; then 
 		echo "[!] empty query"
+		echo "[!] example usage: bindhosts --query doubleclick.net"
 		return
 	fi
-	grep "$1" "$target_hostsfile"
+	printf "Hosts \tDoamin\n"
+	grep "$1" "$target_hostsfile" || echo "[!] no match found"
 }
 
 show_help () {
@@ -506,8 +508,8 @@ show_help () {
 	echo "usage:"
 	printf " --action \t\tsimulate action.sh\n"
 	printf " --tcpdump \t\tsniff dns requests via tcpdump\n"
-	printf " --query \t\tcheck hosts file for pattern\n"
-	printf " --force-update \t\tforce an update\n" 
+	printf " --query <URL> \t\tcheck hosts file for pattern\n"
+	printf " --force-update \tforce an update\n" 
 	printf " --force-reset \t\tforce a reset\n"
 	printf " --custom-cron \t\tcustom update schedule\n"
 	printf "\t\t\tif you do NOT know this, use --enable-cron\n"
