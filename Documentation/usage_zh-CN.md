@@ -3,9 +3,21 @@
 ## 通过终端使用
 ![terminal_usage](screenshots/terminal_usage.png)
 
-为了在使用 Magisk/KernelSU/APatch 时均能访问如图所示的多个选项，您必须在拥有 su 权限的前提下，通过 Termux (或者其他类似的终端 app) 或者 adb shell 输入: bindhosts 并跟随您所需的参数 (选项)。
+为了在使用 Magisk/KernelSU/APatch 时均能访问如图所示的多个选项，您可以
+- 通过 Termux (或者其他类似的终端 app)
+    ```shell
+    > su
+    > bindhosts
+    ```
 
-例如: 
+- 通过 SDK Platform Tools (root shell)
+    ```shell
+    > adb shell
+    > su
+    > bindhosts
+    ```
+
+### 例如
 ```
     bindhosts --action          模拟 bindhosts 的 action 操作应用规则或重置 hosts 文件，这取决于 bindhosts 当前正处于何种运行模式
     bindhosts --tcpdump         通过您当前的网络模式 (WiFi 或数据，确保没有使用像 CloudFlare 之类的 DNS 服务) 嗅探当前活动的IP地址
@@ -17,12 +29,12 @@
     bindhosts --help            显示帮助信息 (上述图像和文本展示的内容)
 ```
 
-## action
+## Action
  点击 action 以在更新和重置的状态间切换
  
  ![manager_action](screenshots/manager_action.gif)
 
-## webui
+## WebUI
   添加您的自定义规则、规则（源）、白名单或黑名单。
  
  ![manager_action](screenshots/manager_webui.gif)

@@ -3,9 +3,21 @@
 ## Usage via Terminal
 ![terminal_usage](screenshots/terminal_usage.png)
 
-In order to access the various options as shown in the image for bindhosts magisk/KSU/Apatch, you must first have su access via command line either through termux (or other various common terminal apps) or adb shell and type: bindhosts followed by the option you want.
+You can access the various options as shown in the image for bindhosts Magisk/KernelSU/APatch
+- via Termux (or other various common terminal apps)
+    ```shell
+    > su
+    > bindhosts
+    ```
 
-EXAMPLE: 
+- via SDK Platform Tools (root shell)
+    ```shell
+    > adb shell
+    > su
+    > bindhosts
+    ```
+
+### Example
 ```
     bindhosts --action          This will simulate bindhosts action to grab ips or reset the hosts file, depending on which state bindhosts is in
     bindhosts --tcpdump         Will sniff current active ip addresses on your network mode (wifi or data, make sure no DNS services are being used like cloudflare, etc.)
@@ -17,12 +29,12 @@ EXAMPLE:
     bindhosts --help            This will show everything as shown above in image and text
 ```
 
-## action
+## Action
  press action to toggle update and reset
  
  ![manager_action](screenshots/manager_action.gif)
 
-## webui
+## WebUI
   add your custom rules, sources, whitelist or blacklist
  
  ![manager_action](screenshots/manager_webui.gif)
