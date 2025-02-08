@@ -29,11 +29,8 @@ normal_mount() {
 }
 
 ksu_susfs_bind() { 
-	${SUSFS_BIN} add_sus_kstat '/system/etc/hosts'
 	mount_bind
-	${SUSFS_BIN} update_sus_kstat '/system/etc/hosts'
 	${SUSFS_BIN} add_try_umount '/system/etc/hosts' 1
-	${SUSFS_BIN} add_try_umount '/system/etc/hosts' > /dev/null 2>&1 #legacy susfs
 	echo "bindhosts: service.sh - mode ksu_susfs_bind" >> /dev/kmsg
 }
 
@@ -88,6 +85,15 @@ ksu_susfs_overlay() {
 	echo "bindhosts: service.sh - mode ksu_susfs_overlay" >> /dev/kmsg
 }
 
+ksu_susfs_bind_kstat() { 
+	${SUSFS_BIN} add_sus_kstat '/system/etc/hosts'
+	mount_bind
+	${SUSFS_BIN} update_sus_kstat '/system/etc/hosts'
+	${SUSFS_BIN} add_try_umount '/system/etc/hosts' 1
+	${SUSFS_BIN} add_try_umount '/system/etc/hosts' > /dev/null 2>&1 #legacy susfs
+	echo "bindhosts: service.sh - mode ksu_susfs_bind_kstat" >> /dev/kmsg
+}
+
 ##
 # check opmodes and then do something
 case $operating_mode in
@@ -100,6 +106,7 @@ case $operating_mode in
 	6) ksu_source_mod ;;
 	7) generic_overlay ;;
 	8) ksu_susfs_overlay ;;
+	9) ksu_susfs_bind_kstat ;;
 	*) normal_mount ;; # catch invalid modes
 esac
 
