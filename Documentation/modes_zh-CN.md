@@ -27,7 +27,7 @@
 
 ## mode=1
 ### ksu_susfs_bind
-- susfs assisted mount --bind
+- susfs 协助的 mount --bind
 - 仅 KernelSU 可用  
 - 需要被susfs修补过的内核以及对应的用户空间工具  
 - 兼容 Adaway  
@@ -118,4 +118,13 @@
 - 隐藏: 不错的办法，但是 ksu_susfs_bind 更简单
 
 ---
+
+## mode=9
+### ksu_susfs_bind_kstat
+- susfs 协助的 mount --bind + kstat 伪装
+- 仅 KernelSU 可用
+- 需要被susfs修补过的内核以及对应的用户空间工具  
+- **仅在特定情况下使用**，因为其为小众需求
+- 兼容 Adaway
+- 隐藏: **最佳，因为 SuSFS 处理取消挂载**
 
