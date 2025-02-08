@@ -118,3 +118,13 @@
 - Hiding: good method but ksu_susfs_bind is easier
 
 ---
+
+## mode=9
+### ksu_susfs_bind_kstat
+- susfs assisted mount --bind + kstat spoofing
+- KernelSU only  
+- Requires susfs-patched kernel and userspace tool  
+- **OPT-IN** only due to it being niche
+- Adaway compatible  
+- Hiding: **best in its class as SuSFS handles the unmount**
+
