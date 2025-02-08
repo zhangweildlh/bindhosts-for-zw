@@ -26,7 +26,7 @@
  - For KernelSU-NEXT, hiding will just work (via mode 6)
  
 ### SuSFS
- For SuSFS, it should just work
+ - For SuSFS, it should just work
 
 ## Magisk
  Hiding in Magisk (and clones, Alpha, Kitsune) should just work as is.
