@@ -1,8 +1,8 @@
 # 隐藏指南
 
 ## APatch
- 由于以下原因，在APatch隐藏是一件颇有挑战性的事情:
-  1. 其使用 OverlayFS 但缺少自己内置的取消挂载的方法
+ 由于以下原因，在 APatch 上隐藏对 hosts 文件的修改是一件颇有挑战性的事情:
+  1. 其使用 OverlayFS 但自身缺少对 hosts 文件取消挂载的方法
   2. bind mount 并未被广泛应用
 
  建议: 
@@ -18,7 +18,7 @@
   2. 不存在冲突模块 (即 Magical Overlayfs)
 
  建议:
-  - 若为非gki内核且内核不包含 path_umount，请咨询内核开发者 [backport 该功能特性](https://github.com/tiann/KernelSU/pull/1464)
+  - 若为非 gki 内核且内核不包含 path_umount，请咨询内核开发者 [backport 该功能特性](https://github.com/tiann/KernelSU/pull/1464)
   - 还有一个替代方案, 只需安装 [ZN-hostsredirect](https://github.com/aviraxp/ZN-hostsredirect/releases)
 
 ### 其他分支 (MKSU, KernelSU-NEXT)
@@ -29,13 +29,13 @@
  - 对于 SuSFS, 应正常工作
 
 ## Magisk
- 在 Magisk (和其分支) 应该也能正常工作。
- - 添加想要隐藏root的app至排除列表内。
+ 在 Magisk (和其分支) 应正常工作。
+ - 将需要对其隐藏 root 的应用添加至排除列表。
  - (可选) 安装 [Shamiko](https://github.com/LSPosed/LSPosed.github.io/releases/)
 
-# FAQ
- - 为什么需要隐藏root?
-   - 一些root检测手段会检测hosts文件是否被修改。
+# 常见问题
+ - 为什么要隐藏对 hosts 文件的修改?
+   - 一些 root 检测手段会检测 hosts 文件是否被修改。
  - 我该如何检查该检测点?
    - 阅读 [如何检查检测点](https://github.com/bindhosts/bindhosts/issues/4)
  - 我该如何迁移 APatch 至 bind mount?

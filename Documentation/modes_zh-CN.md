@@ -29,7 +29,7 @@
 ### ksu_susfs_bind
 - susfs 协助的 mount --bind
 - 仅 KernelSU 可用  
-- 需要被susfs修补过的内核以及对应的用户空间工具  
+- 需要被 susfs 修补过的内核以及对应的用户空间工具  
 - 兼容 Adaway  
 - 隐藏: **最佳，因为 SuSFS 处理卸载/取消挂载**
 
@@ -40,7 +40,7 @@
 - mount --bind
 - **兼容性最好**
 - 实际上在所有的管理器均能工作，但并未真正可用
-- 会泄露bind mount, 泄露全局修改的 hosts 文件  
+- 会泄露 bind mount, 泄露全局修改的 hosts 文件  
 - 当 APatch 处于 OverlayFS (默认模式) 时选择，因为其提供更好的兼容性。
 - 兼容 Adaway
 - 隐藏: 基本上没有隐藏, 需要辅助手段
