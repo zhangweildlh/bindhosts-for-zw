@@ -214,7 +214,7 @@ async function updateStatusFromModuleProp() {
     } catch (error) {
         console.error("Failed to read description from module.prop:", error);
         if (typeof ksu !== 'undefined' && ksu.mmrl) {
-            updateStatus("Please enable JavaScript API in MMRL settings:\n1. Settings\n2. Security\n3. Allow JavaScript API\n4. Bindhosts\n5. Enable both option");
+            updateStatus("Please enable JavaScript API in MMRL settings:\n1. Settings\n2. Security\n3. Allow JavaScript API\n4. Bindhosts\n5. Enable Allow Advanced KernelSU API");
         } else {
             updateStatus("Error reading description from module.prop");
         }
@@ -742,7 +742,6 @@ function checkMMRL() {
         // Request API permission
         try {
             $bindhosts.requestAdvancedKernelSUAPI();
-            $bindhosts.requestFileSystemAPI();
         } catch (error) {
             console.log("Error requesting API:", error);
         }
