@@ -127,8 +127,9 @@ esac
 # nicely enough magisk adds /debug_ramdisk and /sbin 
 # on $PATH, heres how we abuse it
 if [ -z "$KSU" ] && [ -z "$APATCH" ]; then
-	find_rwdir
-	ln -sf $MODDIR/bindhosts.sh "$rwdir/bindhosts"
+	[ -w /sbin ] && magisktmp=/sbin
+	[ -w /debug_ramdisk ] && magisktmp=/debug_ramdisk
+	ln -sf $MODDIR/bindhosts.sh "$magisktmp/bindhosts"
 fi
 
 ##################
