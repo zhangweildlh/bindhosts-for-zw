@@ -565,6 +565,10 @@ function showPrompt(key, isSuccess = true, duration = 2000, preValue = "", postV
 inputs.forEach(input => {
     input.addEventListener('focus', event => {
         document.body.classList.add(focusClass);
+        const wrapper = event.target.closest('.input-box-wrapper');
+        wrapper.classList.add('focus');
+        const inputBox = wrapper.querySelector('.input-box');
+        inputBox.style.paddingLeft = '9px';
         setTimeout(() => {
             const offsetAdjustment = window.innerHeight * 0.1;
             const targetPosition = event.target.getBoundingClientRect().top + window.scrollY;
@@ -577,6 +581,10 @@ inputs.forEach(input => {
     });
     input.addEventListener('blur', () => {
         document.body.classList.remove(focusClass);
+        const wrapper = input.closest('.input-box-wrapper');
+        wrapper.classList.remove('focus');
+        const inputBox = wrapper.querySelector('.input-box');
+        inputBox.style.paddingLeft = '10px';
     });
 });
 
