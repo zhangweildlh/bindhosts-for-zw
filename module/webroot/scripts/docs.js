@@ -24,7 +24,7 @@ function getDocuments(link, fallbackLink, element) {
                         const text = token.text;
                         if (text === href) {
                             token.type = "html";
-                            token.text = `<span><p id="copy-link">${text}</p></span>`;
+                            token.text = `<span><p class="ripple-element" id="copy-link">${text}</p></span>`;
                         } else {
                             token.href = "javascript:void(0);";
                             token.type = "html";

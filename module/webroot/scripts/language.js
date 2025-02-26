@@ -10,8 +10,9 @@ let availableLanguages = ['en-US'];
 // Function to check for available language
 export async function initializeAvailableLanguages() {
     try {
-        const multiLang = await execCommand("find /data/adb/modules/bindhosts/webroot/locales -type f -name '*.json' ! -name 'A-template.json' -exec basename -s .json {} \\;");
-        availableLanguages = multiLang.trim().split('\n');
+        const response = await fetch('locales/available-lang.json');
+        const config = await response.json();
+        availableLanguages = config.languages;
         generateLanguageMenu();
     } catch (error) {
         console.error('Failed to fetch available languages:', error);
@@ -35,7 +36,7 @@ export function detectUserLanguage() {
 // Load translations dynamically based on the selected language
 export async function loadTranslations(lang) {
     try {
-        const response = await fetch(`/locales/${lang}.json`);
+        const response = await fetch(`locales/${lang}.json`);
         translations = await response.json();
         setupDocsMenu(lang);
         applyTranslations();
@@ -74,7 +75,7 @@ async function generateLanguageMenu() {
     languageMenu.innerHTML = '';
     const languagePromises = availableLanguages.map(async (lang) => {
         try {
-            const response = await fetch(`/locales/${lang}.json`);
+            const response = await fetch(`locales/${lang}.json`);
             const data = await response.json();
             return { lang, name: data.language || lang };
         } catch (error) {
@@ -86,7 +87,7 @@ async function generateLanguageMenu() {
     const sortedLanguages = languageData.sort((a, b) => a.name.localeCompare(b.name));
     sortedLanguages.forEach(({ lang, name }) => {
         const button = document.createElement('button');
-        button.classList.add('language-option');
+        button.classList.add('language-option', 'ripple-element');
         button.setAttribute('data-lang', lang);
         button.textContent = name;
         languageMenu.appendChild(button);

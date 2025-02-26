@@ -29,7 +29,7 @@
 }
 
 .documents ul li {
-    align-item: center;
+    align-items: center;
     margin-left: 20px;
     margin-bottom: 5px;
     list-style-type: disc;

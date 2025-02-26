@@ -10,8 +10,8 @@ const filePaths = {
 };
 
 const cover = document.querySelector('.cover');
-const headerBlock = document.querySelector('.header-block');
 const header = document.querySelector('.header');
+const actionContainer = document.querySelector('.float');
 const actionButton = document.querySelector('.action-button');
 const inputs = document.querySelectorAll('textarea');
 const focusClass = 'input-focused';
@@ -22,78 +22,73 @@ const actionRedirectContainer = document.getElementById('action-redirect-contain
 const actionRedirectStatus = document.getElementById('action-redirect');
 const cronContainer = document.getElementById('cron-toggle-container');
 const cronToggle = document.getElementById('toggle-cron');
-const rippleClasses = ['#mode-btn', '.action-button', '#status-box', '.input-box-wrapper', '.add-btn', '.toggle-list', '.prompt.reboot', '#reset-mode', '.language-option', '.docs-btn', '#copy-link'];
+const rippleClasses = [];
 
 let clickCount = 0;
-let timeout;
 let clickTimeout;
-let disableTimeout;
 export let developerOption = false;
 export let learnMore = false;
 
 // Function to add material design style ripple effect
 export function applyRippleEffect() {
-    rippleClasses.forEach(selector => {
-        document.querySelectorAll(selector).forEach(element => {
-            if (element.dataset.rippleListener !== "true") {
-                element.addEventListener("pointerdown", function (event) {
-                    if (isScrolling) return;
-                    const ripple = document.createElement("span");
-                    ripple.classList.add("ripple");
-    
-                    // Calculate ripple size and position
-                    const rect = element.getBoundingClientRect();
-                    const width = rect.width;
-                    const size = Math.max(rect.width, rect.height);
-                    const x = event.clientX - rect.left - size / 2;
-                    const y = event.clientY - rect.top - size / 2;
-    
-                    // Determine animation duration
-                    let duration = 0.2 + (width / 800) * 0.4;
-                    duration = Math.min(0.8, Math.max(0.2, duration));
-    
-                    // Set ripple styles
-                    ripple.style.width = ripple.style.height = `${size}px`;
-                    ripple.style.left = `${x}px`;
-                    ripple.style.top = `${y}px`;
-                    ripple.style.animationDuration = `${duration}s`;
-                    ripple.style.transition = `opacity ${duration}s ease`;
-    
-                    // Adaptive color
-                    const computedStyle = window.getComputedStyle(element);
-                    const bgColor = computedStyle.backgroundColor || "rgba(0, 0, 0, 0)";
-                    const textColor = computedStyle.color;
-                    const isDarkColor = (color) => {
-                        const rgb = color.match(/\d+/g);
-                        if (!rgb) return false;
-                        const [r, g, b] = rgb.map(Number);
-                        return (r * 0.299 + g * 0.587 + b * 0.114) < 96; // Luma formula
-                    };
-                    ripple.style.backgroundColor = isDarkColor(bgColor) ? "rgba(255, 255, 255, 0.2)" : "";
-    
-                    // Append ripple and handle cleanup
-                    element.appendChild(ripple);
-                    const handlePointerUp = () => {
-                        ripple.classList.add("end");
-                        setTimeout(() => {
-                            ripple.classList.remove("end");
-                            ripple.remove();
-                        }, duration * 1000);
-                        element.removeEventListener("pointerup", handlePointerUp);
-                        element.removeEventListener("pointercancel", handlePointerUp);
-                    };
-                    element.addEventListener("pointerup", handlePointerUp);
-                    element.addEventListener("pointercancel", handlePointerUp);
-                });
-                element.dataset.rippleListener = "true";
-            }
-        });
+    document.querySelectorAll('.ripple-element, .reboot').forEach(element => {
+        if (element.dataset.rippleListener !== "true") {
+            element.addEventListener("pointerdown", function (event) {
+                if (isScrolling) return;
+                const ripple = document.createElement("span");
+                ripple.classList.add("ripple");
+
+                // Calculate ripple size and position
+                const rect = element.getBoundingClientRect();
+                const width = rect.width;
+                const size = Math.max(rect.width, rect.height);
+                const x = event.clientX - rect.left - size / 2;
+                const y = event.clientY - rect.top - size / 2;
+
+                // Determine animation duration
+                let duration = 0.2 + (width / 800) * 0.4;
+                duration = Math.min(0.8, Math.max(0.2, duration));
+
+                // Set ripple styles
+                ripple.style.width = ripple.style.height = `${size}px`;
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                ripple.style.animationDuration = `${duration}s`;
+                ripple.style.transition = `opacity ${duration}s ease`;
+
+                // Adaptive color
+                const computedStyle = window.getComputedStyle(element);
+                const bgColor = computedStyle.backgroundColor || "rgba(0, 0, 0, 0)";
+                const textColor = computedStyle.color;
+                const isDarkColor = (color) => {
+                    const rgb = color.match(/\d+/g);
+                    if (!rgb) return false;
+                    const [r, g, b] = rgb.map(Number);
+                    return (r * 0.299 + g * 0.587 + b * 0.114) < 96; // Luma formula
+                };
+                ripple.style.backgroundColor = isDarkColor(bgColor) ? "rgba(255, 255, 255, 0.2)" : "";
+
+                // Append ripple and handle cleanup
+                element.appendChild(ripple);
+                const handlePointerUp = () => {
+                    ripple.classList.add("end");
+                    setTimeout(() => {
+                        ripple.classList.remove("end");
+                        ripple.remove();
+                    }, duration * 1000);
+                    element.removeEventListener("pointerup", handlePointerUp);
+                    element.removeEventListener("pointercancel", handlePointerUp);
+                };
+                element.addEventListener("pointerup", handlePointerUp);
+                element.addEventListener("pointercancel", handlePointerUp);
+            });
+            element.dataset.rippleListener = "true";
+        }
     });
 }
 
 // Function to read a file and display its content in the UI
 async function loadFile(fileType) {
-    checkMagisk();
     try {
         const content = await execCommand(`cat ${filePaths[fileType]}`);
         const lines = content
@@ -107,7 +102,7 @@ async function loadFile(fileType) {
             listItem.innerHTML = `
                 <span>${line}</span>
                 <button class="delete-btn">
-                    <i class="fa fa-trash"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#ffffff"><path d="M277.37-111.87q-37.78 0-64.39-26.61t-26.61-64.39v-514.5h-45.5v-91H354.5v-45.5h250.52v45.5h214.11v91h-45.5v514.5q0 37.78-26.61 64.39t-64.39 26.61H277.37Zm78.33-168.37h85.5v-360h-85.5v360Zm163.1 0h85.5v-360h-85.5v360Z"/></svg>
                 </button>
             `;
             listElement.appendChild(listItem);
@@ -121,8 +116,8 @@ async function loadFile(fileType) {
 // Function to check if running in Magisk
 async function checkMagisk() {
     try {
-        const magiskEnv = await execCommand(`[ -f /data/adb/magisk/magisk ] && echo "OK"`);
-        if (magiskEnv.trim() === "OK") {
+        const magiskEnv = await execCommand(`command -v magisk >/dev/null 2>&1 && echo "true" || echo "false"`);
+        if (magiskEnv.trim() === "true") {
             console.log("Running under magisk environment, displaying element.");
             actionRedirectContainer.style.display = "flex";
         } else {
@@ -135,38 +130,28 @@ async function checkMagisk() {
 
 // Function to load current mode
 async function getCurrentMode() {
+    const modeElement = document.getElementById('mode-text');
     try {
         const command = "grep '^operating_mode=' /data/adb/modules/bindhosts/mode.sh | cut -d'=' -f2";
         const mode = await execCommand(command);
-        updateMode(mode.trim());
+        modeElement.textContent = mode.trim();
     } catch (error) {
         console.error("Failed to read current mode from mode.sh:", error);
-        updateMode("Error");
+        modeElement.textContent = "Error";
     }
-}
-
-// Function to load the version text dynamically in the WebUI
-function updateMode(modeText) {
-    const modeElement = document.getElementById('mode-text');
-    modeElement.textContent = modeText;
 }
 
 // Function to load the version from module.prop and load the version in the WebUI
 async function loadVersionFromModuleProp() {
+    const versionElement = document.getElementById('version-text');
     try {
         const command = "grep '^version=' /data/adb/modules/bindhosts/module.prop | cut -d'=' -f2";
         const version = await execCommand(command);
-        updateVersion(version.trim());
+        versionElement.textContent = version.trim();
     } catch (error) {
         console.error("Failed to read version from module.prop:", error);
-        updateVersion("Error");
+        versionElement.textContent = "Error";
     }
-}
-
-// Function to load the version text dynamically in the WebUI
-function updateVersion(versionText) {
-    const versionElement = document.getElementById('version-text');
-    versionElement.textContent = versionText;
 }
 
 // Function to check module update status
@@ -183,7 +168,7 @@ async function checkUpdateStatus() {
 // Function to check action redirect WebUI status
 async function checkRedirectStatus() {
     try {
-        const result = await execCommand("sh -c '[ ! -f /data/adb/bindhosts/webui_setting.sh ] || grep -q '^magisk_webui_redirect=1' /data/adb/bindhosts/webui_setting.sh' ");
+        const result = await execCommand(`[ ! -f ${basePath}/webui_setting.sh ] || grep -q '^magisk_webui_redirect=1' ${basePath}/webui_setting.sh`);
         actionRedirectStatus.checked = !result;
     } catch (error) {
         actionRedirectStatus.checked = false;
@@ -230,8 +215,8 @@ function updateStatus(statusText) {
 // function to check the if user has installed bindhosts app
 async function checkBindhostsApp() {
     try {
-        const appInstalled = await execCommand(`pm path me.itejo443.bindhosts >/dev/null 2>&1 || echo "NO"`);
-        if (appInstalled.trim() === "NO") {
+        const appInstalled = await execCommand(`pm path me.itejo443.bindhosts >/dev/null 2>&1 || echo "false"`);
+        if (appInstalled.trim() === "false") {
             tilesContainer.style.display = "flex";
         }
     } catch (error) {
@@ -241,7 +226,7 @@ async function checkBindhostsApp() {
         try {
             showPrompt("control_panel.installing", true, undefined, "[+]");
             await new Promise(resolve => setTimeout(resolve, 200));
-            const output = await execCommand("sh -c 'sh /data/adb/modules/bindhosts/bindhosts-app.sh'");
+            const output = await execCommand("sh /data/adb/modules/bindhosts/bindhosts-app.sh");
             const lines = output.split("\n");
             lines.forEach(line => {
                 if (line.includes("[+]")) {
@@ -368,7 +353,7 @@ async function executeActionScript() {
     try {
         showPrompt("global.executing", true, 50000);
         await new Promise(resolve => setTimeout(resolve, 200));
-            const command = "sh -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --action'";
+            const command = "sh /data/adb/modules/bindhosts/bindhosts.sh --action";
             const output = await execCommand(command);
             const lines = output.split("\n");
             lines.forEach(line => {
@@ -397,11 +382,13 @@ async function executeActionScript() {
 
 // Funtion to determine state of developer option
 async function checkDevOption() {
-    const filePath = "/data/adb/bindhosts/mode_override.sh";
-    const fileExists = await execCommand(`[ -f ${filePath} ] && echo 'exists' || echo 'not-exists'`);
-
-    if (fileExists.trim() === "exists") {
-        developerOption = true;
+    try {
+        const fileExists = await execCommand(`[ -f ${basePath}/mode_override.sh ] && echo 'true' || echo 'false'`);
+        if (fileExists.trim() === "true") {
+            developerOption = true;
+        }
+    } catch (error) {
+        console.error("Error checking developer option:", error);
     }
 }
 
@@ -451,11 +438,11 @@ document.getElementById("status-box").addEventListener("click", async (event) =>
 async function saveModeSelection(mode) {
     try {
         if (mode === "reset") {
-            await execCommand("rm -f /data/adb/bindhosts/mode_override.sh");
+            await execCommand(`rm -f ${basePath}/mode_override.sh`);
             closeOverlay("mode-menu");
             learnMore = false;
         } else {
-            await execCommand(`echo "mode=${mode}" > /data/adb/bindhosts/mode_override.sh`);
+            await execCommand(`echo "mode=${mode}" > ${basePath}/mode_override.sh`);
         }
         showPrompt("global.reboot", true, 4000);
         await updateModeSelection();
@@ -467,14 +454,14 @@ async function saveModeSelection(mode) {
 // Update radio button state based on current mode
 async function updateModeSelection() {
     try {
-        const fileExists = await execCommand("[ -f /data/adb/bindhosts/mode_override.sh ] && echo 'exists' || echo 'not-exists'");
-        if (fileExists.trim() === "not-exists") {
+        const fileExists = await execCommand(`[ -f ${basePath}/mode_override.sh ] && echo 'true' || echo 'false'`);
+        if (fileExists.trim() === "false") {
             document.querySelectorAll("#mode-options input").forEach((input) => {
                 input.checked = false;
             });
             return;
         }
-        const content = await execCommand("cat /data/adb/bindhosts/mode_override.sh");
+        const content = await execCommand(`cat ${basePath}/mode_override.sh`);
         const currentMode = content.trim().match(/mode=(\d+)/)?.[1] || null;
         document.querySelectorAll("#mode-options input").forEach((input) => {
             input.checked = input.value === currentMode;
@@ -501,9 +488,9 @@ async function closeOverlay(id) {
     document.body.style.overflow = "";
     if (id === "mode-menu") {
         try {
-            const content = await execCommand("cat /data/adb/bindhosts/mode_override.sh || echo ''");
+            const content = await execCommand(`cat ${basePath}/mode_override.sh || echo ''`);
             if (content.trim() === "") {
-                await execCommand("rm -f /data/adb/bindhosts/mode_override.sh");
+                await execCommand(`rm -f ${basePath}/mode_override.sh`);
                 console.log("Removed empty mode_override.sh file");
             }
         } catch (error) {
@@ -546,7 +533,7 @@ function showPrompt(key, isSuccess = true, duration = 2000, preValue = "", postV
             }, 1000);
         };
     } else {
-        prompt.classList.remove('reboot');
+        prompt.classList.remove('reboot', 'ripple-element');
     }
 
     setTimeout(() => {
@@ -600,18 +587,26 @@ window.addEventListener('scroll', () => {
         isScrolling = false;
     }, 200);
     if (window.scrollY > lastScrollY && window.scrollY > scrollThreshold) {
-        headerBlock.style.transform = 'translateY(-80px)';
-        header.style.transform = 'translateY(-80px)';
         if (typeof ksu !== 'undefined' && ksu.mmrl) {
-            actionButton.style.transform = 'translateY(calc(var(--window-inset-bottom) + 90px))';
+            actionContainer.style.transform = 'translateY(calc(var(--window-inset-bottom) + 110px))';
         } else {
-            actionButton.style.transform = 'translateY(90px)';
+            actionContainer.style.transform = 'translateY(110px)';
         }
     } else if (window.scrollY < lastScrollY) {
-        headerBlock.style.transform = 'translateY(0)';
-        header.style.transform = 'translateY(0)';
-        actionButton.style.transform = 'translateY(0)';
+        actionContainer.style.transform = 'translateY(0)';
     }
+    
+    // header opacity
+    const scrollRange = 30;
+    const scrollPosition = Math.min(Math.max(window.scrollY, 0), scrollRange);
+    const opacity = 1 - (scrollPosition / scrollRange);
+    header.style.opacity = opacity.toString();
+    if (opacity == 0) {
+        header.style.pointerEvents = 'none';
+    } else {
+        header.style.pointerEvents = 'auto';
+    }
+
     lastScrollY = window.scrollY;
 });
 
@@ -654,7 +649,7 @@ document.getElementById("reset-mode").addEventListener("click", () => {
 // Event listener for the update toggle switch
 toggleContainer.addEventListener('click', async function () {
     try {
-        const result = await execCommand("sh -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --toggle-updatejson'");
+        const result = await execCommand("sh /data/adb/modules/bindhosts/bindhosts.sh --toggle-updatejson");
         const lines = result.split("\n");
         lines.forEach(line => {
             if (line.includes("[+]")) {
@@ -672,7 +667,7 @@ toggleContainer.addEventListener('click', async function () {
 // Event listener for the action redirect switch
 actionRedirectContainer.addEventListener('click', async function () {
     try {
-        await execCommand(`sh -c 'echo "magisk_webui_redirect=${actionRedirectStatus.checked ? 0 : 1}" > /data/adb/bindhosts/webui_setting.sh'`);
+        await execCommand(`echo "magisk_webui_redirect=${actionRedirectStatus.checked ? 0 : 1}" > ${basePath}/webui_setting.sh`);
         if (actionRedirectStatus.checked) {
             showPrompt("control_panel.action_prompt_false", false, undefined, "[×]");
         } else {
@@ -689,9 +684,9 @@ cronContainer.addEventListener('click', async function () {
     try {
         let command;
         if (cronToggle.checked) {
-            command = "sh -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --disable-cron'";
+            command = "sh /data/adb/modules/bindhosts/bindhosts.sh --disable-cron";
         } else {
-            command = "sh -c 'sh /data/adb/modules/bindhosts/bindhosts.sh --enable-cron'";
+            command = "sh /data/adb/modules/bindhosts/bindhosts.sh --enable-cron";
         }
         const result = await execCommand(command);
         const lines = result.split("\n");
@@ -725,6 +720,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await updateStatusFromModuleProp();
     await loadVersionFromModuleProp();
     await checkDevOption();
+    checkMagisk();
     checkBindhostsApp();
     applyRippleEffect();
     checkUpdateStatus();
@@ -737,8 +733,7 @@ function checkMMRL() {
     if (typeof ksu !== 'undefined' && ksu.mmrl) {
         // Adjust inset
         header.style.top = 'var(--window-inset-top)';
-        actionButton.style.bottom = 'calc(var(--window-inset-bottom) + 25px)';
-        headerBlock.style.display = 'block';
+        actionContainer.style.bottom = 'calc(var(--window-inset-bottom) + 25px)';
 
         // Set status bars theme based on device theme
         try {
