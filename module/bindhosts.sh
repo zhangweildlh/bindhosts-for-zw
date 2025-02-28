@@ -265,7 +265,7 @@ custom_cron() {
 	# run crond
 	run_crond
 	# add entry
-	echo "$1 sh $MODDIR/bindhosts.sh --force-update > $rwdir/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
+	echo "$1 sh $MODDIR/bindhosts.sh --force-update > $PERSISTENT_DIR/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
 	echo "[>] $(head -n1 $PERSISTENT_DIR/crontabs/root) " 
 	echo "[!] make sure entry is correct!"
 	echo "[+] crontab entry added!"
@@ -275,7 +275,7 @@ enable_cron() {
 	# run crond
 	run_crond
 	# add entry
-	echo "0 10 * * * sh $MODDIR/bindhosts.sh --force-update > $rwdir/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
+	echo "0 10 * * * sh $MODDIR/bindhosts.sh --force-update > $PERSISTENT_DIR/bindhosts_cron.log 2>&1 &" | busybox crontab -c $PERSISTENT_DIR/crontabs -
 	echo "[>] $(head -n1 $PERSISTENT_DIR/crontabs/root) " 
 	echo "[+] crontab entry added!"
 }
