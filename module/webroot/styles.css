@@ -3,6 +3,7 @@ body {
     padding-top: var(--window-inset-top);
     padding-bottom: var(--window-inset-bottom);
     transition: padding-bottom 0.2s ease;
+    margin: 0;
 }
 
 body.input-focused {

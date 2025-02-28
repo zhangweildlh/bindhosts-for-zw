@@ -733,7 +733,7 @@ function checkMMRL() {
     if (typeof ksu !== 'undefined' && ksu.mmrl) {
         // Adjust inset
         header.style.top = 'var(--window-inset-top)';
-        actionContainer.style.bottom = 'calc(var(--window-inset-bottom) + 25px)';
+        actionContainer.style.bottom = 'calc(var(--window-inset-bottom) + 40px)';
 
         // Set status bars theme based on device theme
         try {
