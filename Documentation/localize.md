@@ -12,7 +12,8 @@
 1. Make a copy of `/module/webroot/locales/A-template.json`
 2. Rename it to `language_code-COUNTRY_CODE.json`, e.g., `en-US.json`.
 3. Translate the string value inside.
-4. [Create a Pull Request](https://github.com/bindhosts/bindhosts/pulls).
+4. Add the language code to `/module/webroot/locales/available-lang.json`, this step is necessary for displaying the language in the WebUI.
+5. [Create a Pull Request](https://github.com/bindhosts/bindhosts/pulls).
 
 ---
 
