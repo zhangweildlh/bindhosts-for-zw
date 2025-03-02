@@ -63,6 +63,13 @@
         "example": "Contoh:",
         "prompt_fail": "sudah ada di daftar putih"
     },
+    "sources_whitelist": {
+        "title": "Sumber Daftar Putih",
+        "guide1": "Tambahkan sumber daftar putih disini",
+        "format": "Format:",
+        "example": "Contoh:",
+        "prompt_fail": "sudah ada di sumber daftar putih"
+    },
     "mode": {
         "button": "Mode",
         "title": "Mode Operasi",

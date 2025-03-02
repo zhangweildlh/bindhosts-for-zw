@@ -60,8 +60,15 @@
     "whitelist": {
         "title": "Lista Blanca",
         "guide1": "Todo lo que agregues aquí no será bloqueado",
+        "format": "Formato:",
         "example": "Ejemplo:",
         "prompt_fail": "ya está en la lista blanca"
+    },
+    "sources_whitelist": {
+        "title": "Fuentes de Lista Blanca",
+        "guide1": "Añade fuentes de lista blanca aquí",
+        "example": "Ejemplo:",
+        "prompt_fail": "ya está en la fuente de lista blanca"
     },
     "mode": {
         "button": "Modo",
