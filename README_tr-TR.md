@@ -32,6 +32,7 @@ Tamamen bağımsız ve kendi kendine güncellenir.
 
 ## Bağlantılar
 
+- [FAQ](Documentation/faq.md)
 - İndir [buradan](https://github.com/bindhosts/bindhosts/releases)
 - Daha fazla kaynak mı arıyorsunuz? [burada](Documentation/sources.md)
 - Yerelleştirme [Kılavuzu](Documentation/localize.md)
