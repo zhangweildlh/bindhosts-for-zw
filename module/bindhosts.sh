@@ -403,7 +403,7 @@ run() {
 	# ready for reset again
 	(cat $PERSISTENT_DIR/*.txt; date +%F) | busybox crc32 > $PERSISTENT_DIR/bindhosts_state
 	# cleanup
-	rm -f "$rwdir/temphosts" "$rwdir/tempwhitelist" "$PERSISTENT_DIR/bindhosts_backup" > /dev/null 2>&1
+	rm -f "$rwdir/remote_whitelist" "$rwdir/temphosts" "$rwdir/tempwhitelist" "$PERSISTENT_DIR/bindhosts_backup" > /dev/null 2>&1
 }
 
 # adaway is installed and hosts are modified by adaway, dont overthrow
