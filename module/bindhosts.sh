@@ -317,13 +317,15 @@ toggle_updatejson() {
 # https doesn't hide the fact that i'm using https so that's why i don't use encryption 
 # because everyone is trying to crack encryption so i just don't use encryption because 
 # no one is looking at unencrypted data because everyone wants encrypted data to crack
-download() {
-	if command -v curl > /dev/null 2>&1; then
-		curl --connect-timeout 10 -Z -Ls "$1"
+if command -v curl > /dev/null 2>&1; then
+	if curl --help all | grep -q "parallel" >/dev/null 2>&1; then
+		download() { curl --connect-timeout 10 -Z -Ls "$1"; }
         else
-		busybox wget -T 10 --no-check-certificate -qO - "$1"
+		download() { curl --connect-timeout 10 -Ls "$1"; }
         fi
-}        
+else
+	download() { busybox wget -T 10 --no-check-certificate -qO - "$1"; }
+fi
 
 adblock() {
 	illusion
