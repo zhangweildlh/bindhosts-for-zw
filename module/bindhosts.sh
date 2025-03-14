@@ -11,9 +11,14 @@ PERSISTENT_DIR="/data/adb/bindhosts"
 # grab own info (version)
 versionCode=$(grep versionCode $MODDIR/module.prop | sed 's/versionCode=//g' )
 
+# look for writable dir
+rwdir=$MODDIR
+[ -w /dev ] && rwdir=/dev
+
 echo "[+] bindhosts v$versionCode"
 echo "[%] bindhosts.sh"
 echo "[%] standalone hosts-based-adblocking implementation"
+echo "[%] mode: $operating_mode | rwdir: $rwdir "
 
 [ -f $MODDIR/disable ] && {
 	echo "[*] not running since module has been disabled"
@@ -55,9 +60,6 @@ case $operating_mode in
 	9) true ;;
 	*) true ;; # catch invalid modes
 esac
-
-find_rwdir
-echo "[%] mode: $operating_mode | rwdir: $rwdir "
 
 # check hosts file if writable, if not, warn and exit
 if [ ! -w $target_hostsfile ] ; then
