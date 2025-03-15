@@ -22,6 +22,7 @@
     bindhosts --action          模拟 bindhosts 的 action 操作应用规则或重置 hosts 文件，这取决于 bindhosts 当前正处于何种运行模式
     bindhosts --tcpdump         通过您当前的网络模式 (WiFi 或数据，确保没有使用像 CloudFlare 之类的 DNS 服务) 嗅探当前活动的IP地址
     bindhosts --query <URL>     从 hosts 文件查询网址
+    bindhosts --force-update    强制更新 hosts
     bindhosts --force-reset     强制重置 bindhosts，这意味着重置 hosts 文件为初始状态
     bindhosts --custom-cron     为 bindhosts 设定一天中运行定时任务的时刻
     bindhosts --enable-cron     为 bindhosts 启用定时任务以更新您当前使用的列表中的 (默认情况下是早上十点)
