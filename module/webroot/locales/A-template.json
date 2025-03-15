@@ -12,7 +12,6 @@
         "adaway": "Reset hosts in Adaway before continuing",
         "dev_opt": "Developer option enabled",
         "dev_opt_true": "Developer option already enabled",
-        "dev_opt_fail": "Error enabling developer option",
         "reboot": "Reboot to take effect, tap to reboot"
     },
     "control_panel": {

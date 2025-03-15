@@ -12,7 +12,6 @@
         "adaway": "Atur ulang hosts di Adaway sebelum melanjutkan",
         "dev_opt": "Opsi pengembang diaktifkan",
         "dev_opt_true": "Opsi pengembang telah di diaktifkan",
-        "dev_opt_fail": "Gagal mengaktifkan opsi pengembang",
         "reboot": "Reboot untuk menerapkan, tap untuk reboot"
     },
     "control_panel": {

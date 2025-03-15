@@ -12,7 +12,6 @@
         "adaway": "Devam etmeden önce Adaway'deki hosts'u sıfırlayın",
         "dev_opt": "Geliştirici seçeneği etkinleştirildi",
         "dev_opt_true": "Geliştirici seçeneği zaten etkin",
-        "dev_opt_fail": "Geliştirici seçeneği etkinleştirilirken hata oluştu",
         "reboot": "Etkili olması için yeniden başlatın, yeniden başlatmak için dokunun"
     },
     "control_panel": {

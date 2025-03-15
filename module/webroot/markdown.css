@@ -46,19 +46,19 @@
 }
 
 .documents pre {
-	background-color: #f4f4f4;
-	padding: 15px;
-	border-radius: 5px;
-	overflow-x: auto;
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
 }
 
 .documents code {
-	font-family: monospace;
-	color: #333;
-	background-color: #f4f4f4;
-	border-radius: 5px;
-	padding: 1px;
-	user-select: auto;
+    font-family: monospace;
+    color: #333;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    padding: 1px;
+    user-select: auto;
 }
 
 @media (prefers-color-scheme: dark) {

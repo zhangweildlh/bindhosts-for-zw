@@ -1,4 +1,4 @@
-import { linkRedirect, applyRippleEffect, toast, developerOption, learnMore } from './index.js';
+import { linkRedirect, applyRippleEffect, toast, developerOption, learnMore } from './util.js';
 
 // Function to fetch documents
 function getDocuments(link, fallbackLink, element) {
@@ -33,8 +33,15 @@ function getDocuments(link, fallbackLink, element) {
                     }
                 }
             });
+            // For overlay content
             const docsContent = document.getElementById(element);
             docsContent.innerHTML = marked.parse(data);
+
+            // For about content
+            const aboutContent = document.getElementById('about-content');
+            if (aboutContent) {
+                aboutContent.innerHTML = marked.parse(data);
+            }
             addCopyToClipboardListeners();
             applyRippleEffect();
         })
@@ -83,8 +90,19 @@ export async function setupDocsMenu(docsLang) {
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes.md`,
             element: 'modes-content',
         },
+        usage: {
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage${originalDocsLang}.md`,
+            fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage.md`,
+            element: 'usage-content',
+        },
+        faq: {
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq${originalDocsLang}.md`,
+            fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq.md`,
+            element: 'faq-content',
+        },
     };
 
+    // For document overlay
     const docsButtons = document.querySelectorAll(".docs-btn");
     const docsOverlay = document.querySelectorAll(".docs");
 
@@ -112,17 +130,98 @@ export async function setupDocsMenu(docsLang) {
             }
         });
     });
+
+    // For about content
+    const aboutContent = document.getElementById('about-content');
+    const documentCover = document.querySelector('.document-cover');
+    if (aboutContent) {
+        const header = document.getElementById('title');
+        const originalHeader = header.textContent;
+        const backButton = document.querySelector('.back-button');
+
+        let startX = 0, currentX = 0, isDragging = false;
+
+        // Start recognizing hold
+        aboutContent.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            aboutContent.style.transition = 'none';
+            documentCover.style.transition = 'none';
+            e.stopPropagation();
+        });
+
+        // Dragging
+        aboutContent.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            currentX = e.clientX - startX;
+            if (currentX < 0) return;
+            aboutContent.style.transform = `translateX(${Math.max(currentX, -window.innerWidth)}px)`;
+            // Calculate opacity based on position
+            const opacity = 1 - (currentX / window.innerWidth);
+            documentCover.style.opacity = Math.max(0, Math.min(1, opacity));
+            e.stopPropagation();
+        });
+
+        // Release, close about docs if dragged more than 40% of the screen
+        const handlePointerUp = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            aboutContent.style.transition = 'transform 0.2s ease';
+            documentCover.style.transition = 'opacity 0.2s ease';
+
+            const threshold = window.innerWidth * 0.2;
+            if (Math.abs(currentX) > threshold) {
+                backButton.click();
+            } else {
+                aboutContent.style.transform = 'translateX(0)';
+                documentCover.style.opacity = '1';
+            }
+            startX = 0;
+            currentX = 0;
+        };
+
+        aboutContent.addEventListener('pointerup', handlePointerUp);
+
+        // Attach click event to all about docs buttons
+        document.querySelectorAll('.about-docs').forEach(element => {
+            element.addEventListener('click', () => {
+                aboutContent.innerHTML = '';
+                const { link, fallbackLink } = docsData[element.dataset.type] || {};
+                getDocuments(link, fallbackLink, 'about-content');
+                aboutContent.style.transform = 'translateX(0)';
+                documentCover.style.opacity = '1';
+                header.style.marginLeft = '31px';
+                backButton.style.transform = 'translateX(0)';
+                header.textContent = element.querySelector('.document-title').textContent;
+            });
+
+            // Alternative way to close about docs with back button
+            backButton.addEventListener('click', () => {
+                aboutContent.style.transform = 'translateX(100%)';
+                documentCover.style.opacity = '0';
+                backButton.style.transform = 'translateX(-100%)';
+                header.style.marginLeft = '0';
+                header.textContent = originalHeader;
+            });
+        });
+    } // End of about docs
 }
 
 function openOverlay(overlay) {
     if (activeDocs) closeOverlay(activeDocs);
-    overlay.classList.add("active");
-    document.body.style.overflow = "hidden";
     activeDocs = overlay;
+    document.body.style.overflow = "hidden";
+    overlay.style.display = "flex";
+    setTimeout(() => {
+        overlay.style.opacity = "1";
+    }, 10);
 }
 
 function closeOverlay(overlay) {
-    overlay.classList.remove("active");
-    document.body.style.overflow = "";
     activeDocs = null;
+    document.body.style.overflow = "";
+    overlay.style.opacity = "0";
+    setTimeout(() => {
+        overlay.style.display = "none";
+    }, 200);
 }

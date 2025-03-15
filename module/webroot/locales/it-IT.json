@@ -12,7 +12,6 @@
         "adaway": "Resetta hosts in Adaway prima di continuare",
         "dev_opt": "Opzione sviluppatore abilitata",
         "dev_opt_true": "Opzione sviluppatore già abilitata",
-        "dev_opt_fail": "Errore durante l'abilitazione dell'opzione sviluppatore",
         "reboot": "Riavvia per rendere effettivo, tocca per riavviare"
     },
     "control_panel": {
