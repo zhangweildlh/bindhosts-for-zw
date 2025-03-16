@@ -525,6 +525,22 @@ hosts_query () {
 	grep "$1" "$target_hostsfile" || echo "[!] no match found"
 }
 
+instant_whitelist() {
+    # Backend for WebUI: whitelist domain instantly without re-run action
+    shift
+    [ -n "$1" ] || return
+    cp $target_hostsfile $rwdir/temphosts
+    sed "/0.0.0.0 $1/d" $rwdir/temphosts > $target_hostsfile
+    grep -qx "$1" "$PERSISTENT_DIR/whitelist.txt" || echo "$1" >> "$PERSISTENT_DIR/whitelist.txt"
+    rm $rwdir/temphosts
+}
+
+link_hosts() {
+    # Backend for WebUI: locate target hosts file for query
+    # Just a backup if user remove it manually, WebUI still can link it again
+    ln -s "$target_hostsfile" "$MODDIR/webroot/hosts.txt"
+}
+
 show_help () {
 	echo "[%] $( grep '^description=' $MODDIR/module.prop | sed 's/description=//' )"
 	echo "usage:"
@@ -552,6 +568,8 @@ case "$1" in
 	--disable-cron) disable_cron; exit ;;
 	--toggle-updatejson) toggle_updatejson; exit ;;
 	--hosts-lastmod) hosts_lastmod; exit ;;
+	--whitelist) instant_whitelist "$@"; exit ;;
+	--link-hosts) link_hosts; exit;;
 	--help|*) show_help; exit ;;
 esac
 
