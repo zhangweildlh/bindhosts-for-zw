@@ -1,5 +1,5 @@
-import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath } from './util.js';
-import { initializeAvailableLanguages, detectUserLanguage, loadTranslations } from './language.js';
+import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition } from './util.js';
+import { loadTranslations } from './language.js';
 
 const filePaths = {
     custom: `${basePath}/custom.txt`,
@@ -228,10 +228,9 @@ document.getElementById("actionButton").addEventListener("click", async () => {
 
 // Initial load
 document.addEventListener('DOMContentLoaded', async () => {
+    initialTransition();
+    loadTranslations();
     checkMMRL();
-    await initializeAvailableLanguages();
-    const userLang = await detectUserLanguage();
-    await loadTranslations(userLang);
     ["custom", "sources", "blacklist", "whitelist", "sources_whitelist"].forEach(loadFile);
     attachAddButtonListeners();
     setupHelpMenu();

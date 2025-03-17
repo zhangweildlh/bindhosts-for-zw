@@ -14,6 +14,13 @@
         "dev_opt_true": "Geliştirici seçeneği zaten etkin",
         "reboot": "Etkili olması için yeniden başlatın, yeniden başlatmak için dokunun"
     },
+    "query": {
+        "title": "Host Sorgulama",
+        "host_ip": "IP",
+        "host_domain": "Domain",
+        "remove_prompt": "Beyaz Liste",
+        "remove_error": "Beyaz listeye ekleme başarısız"
+    },
     "control_panel": {
         "title": "Kontrol Paneli",
         "language": "Dil",
@@ -74,5 +81,12 @@
         "title": "Çalışma Modu",
         "detail": "Daha fazla bilgi edin",
         "reset": "Sıfırla (otomatik)"
+    },
+    "more": {
+        "title": "Daha Fazla",
+        "documents": "Belgeler",
+        "sources": "Kaynaklar",
+        "usage": "Kullanım",
+        "faq": "SSS"
     }
 }

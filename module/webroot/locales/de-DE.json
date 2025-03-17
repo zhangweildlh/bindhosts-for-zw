@@ -14,6 +14,13 @@
         "dev_opt_true": "Entwickler-Option bereits aktiviert",
         "reboot": "Betätigen Sie die Taste zum Neustart, damit die Änderungen wirksam werden."
     },
+    "query": {
+        "title": "Host-Abfrage",
+        "host_ip": "IP",
+        "host_domain": "Domain",
+        "remove_prompt": "Whitelist",
+        "remove_error": "Fehler beim Hinzufügen zur Whitelist"
+    },
     "control_panel": {
         "title": "Kontrollzentrum",
         "language": "Sprache",
@@ -74,5 +81,12 @@
         "title": "Betriebsmodus",
         "detail": "Erfahren Sie mehr",
         "reset": "Zurücksetzen (Auto)"
+    },
+    "more": {
+        "title": "Mehr",
+        "documents": "Dokumente",
+        "sources": "Quellen",
+        "usage": "Verwendung",
+        "faq": "FAQ"
     }
 }

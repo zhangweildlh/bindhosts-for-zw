@@ -1,66 +1,50 @@
 import { setupDocsMenu } from './docs.js';
-import { execCommand, basePath } from './util.js';
+import { execCommand, basePath, applyRippleEffect } from './util.js';
 
 const languageMenu = document.querySelector('.language-menu');
 
 export let translations = {};
 let availableLanguages = ['en-US'];
 
-// Function to check for available language
-export async function initializeAvailableLanguages() {
-    try {
-        const response = await fetch('locales/available-lang.json');
-        const config = await response.json();
-        availableLanguages = config.languages;
-        generateLanguageMenu();
-    } catch (error) {
-        console.error('Failed to fetch available languages:', error);
-        availableLanguages = ['en-US'];
-    }
-}
-
 // Function to detect user's default language
 export async function detectUserLanguage() {
     const userLang = navigator.language || navigator.userLanguage;
     const langCode = userLang.split('-')[0];
 
-    // Fetch preferred language
-    let prefered_language_code = 'default';
     try {
-        const response = await fetch('locales/prefered_language.txt');
-        if (response.ok) {
-            prefered_language_code = (await response.text()).trim();
+        // Fetch available languages
+        const availableResponse = await fetch('locales/available-lang.json');
+        const availableData = await availableResponse.json();
+        availableLanguages = availableData.languages;
+        generateLanguageMenu();
+
+        // Fetch preferred language
+        const preferredResponse = await fetch('locales/prefered_language.txt');
+        const prefered_language_code = (await preferredResponse.text()).trim();
+
+        // Check if preferred language is valid
+        if (prefered_language_code !== 'default' && availableLanguages.includes(prefered_language_code)) {
+            return prefered_language_code;
+        } else if (availableLanguages.includes(userLang)) {
+            return userLang;
+        } else if (availableLanguages.includes(langCode)) {
+            return langCode;
+        } else {
+            return 'en-US';
         }
     } catch (error) {
-        console.error("Error fetching preferred language:", error);
-    }
-
-    // Check if preferred language is valid
-    if (prefered_language_code !== 'default' && availableLanguages.includes(prefered_language_code)) {
-        return prefered_language_code;
-    } else if (availableLanguages.includes(userLang)) {
-        return userLang;
-    } else if (availableLanguages.includes(langCode)) {
-        return langCode;
-    } else {
+        console.error('Error detecting user language:', error);
         return 'en-US';
     }
 }
 
 // Load translations dynamically based on the selected language
-export async function loadTranslations(lang) {
-    try {
-        const response = await fetch(`locales/${lang}.json`);
-        translations = await response.json();
-        setupDocsMenu(lang);
-        applyTranslations();
-    } catch (error) {
-        console.error(`Error loading translations for ${lang}:`, error);
-        if (lang !== 'en-US') {
-            console.log("Falling back to English.");
-            loadTranslations('en-US');
-        }
-    }
+export async function loadTranslations() {
+    const lang = await detectUserLanguage();
+    const response = await fetch(`locales/${lang}.json`);
+    translations = await response.json();
+    applyTranslations();
+    setupDocsMenu(lang);
 }
 
 // Function to apply translations to all elements with data-i18n attributes
@@ -117,6 +101,7 @@ async function generateLanguageMenu() {
             languageMenu.appendChild(button);
         }
     });
+    applyRippleEffect();
 }
 
 /**
@@ -127,27 +112,15 @@ if (languageMenu) {
     languageMenu.addEventListener("click", (e) => {
         if (e.target.classList.contains("language-option")) {
             const lang = e.target.getAttribute("data-lang");
-            if (lang !== 'default') loadTranslations(lang);
             try {
                 execCommand(`
                     echo "${lang}" > ${basePath}/prefered_language.txt
                     [ -L /data/adb/modules/bindhosts/webroot/locales/prefered_language.txt ] || ln -s ${basePath}/prefered_language.txt /data/adb/modules/bindhosts/webroot/locales/prefered_language.txt
                 `);
-                if (lang === 'default') {
-                    detectUserLanguage().then((detectedLang) => {
-                        loadTranslations(detectedLang);
-                    });
-                }
             } catch (error) {
                 console.error("Error setting default language:", error);
             }
-            const languageOverlay = document.getElementById('language-overlay');
-            languageOverlay.style.opacity = "0";
-            setTimeout(() => {
-                languageOverlay.style.display = "none";
-            }, 200);
-            document.body.style.overflow = "";
-            activeOverlay = null;
+            location.reload();
         }
     });
 }

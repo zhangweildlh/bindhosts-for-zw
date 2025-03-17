@@ -16,7 +16,9 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <div id="title">bindhosts <span id="version-text"></span></div>
+        <div class="title-container">
+            <span id="title">bindhosts <span id="version-text"></span></span>
+        </div>
         <button class="docs-btn ripple-element" id="mode-btn" data-type="modes">
             <span data-i18n="mode.button"></span><span id="mode-text">X</span>
         </button>
@@ -44,8 +46,8 @@
             </div>
             <div class="host-list">
                 <div class="host-list-header">
-                    <div class="host-list-header-ip">Host</div>
-                    <div class="host-list-header-domain">Domain</div>
+                    <div class="host-list-header-ip" data-i18n="query.host_ip"></div>
+                    <div class="host-list-header-domain" data-i18n="query.host_domain"></div>
                 </div>
                 <div class="host-list-item">
                     <!-- Host list will display here -->
@@ -74,7 +76,8 @@
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="0">
                     <span class="radio-circle"></span>
-                    <span class="radio-label"><span data-i18n="mode.button"></span> 0<br><small>Default</small></span>
+                    <span class="radio-label"><span data-i18n="mode.button"></span> 0<br>
+                    <small>Default</small></span>
                 </label>
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="1">
@@ -85,50 +88,50 @@
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="2">
                     <span class="radio-circle"></span>
-                    <span class="radio-label"><span data-i18n="mode.button"></span> 2<br><small>plain
-                            bindhosts</small></span>
+                    <span class="radio-label"><span data-i18n="mode.button"></span> 2<br>
+                    <small>plain bindhosts</small></span>
                 </label>
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="3">
                     <span class="radio-circle"></span>
-                    <span class="radio-label"><span data-i18n="mode.button"></span> 3<br><small>apatch_hfr,
-                            hosts_file_redirect</small></span>
+                    <span class="radio-label"><span data-i18n="mode.button"></span> 3<br>
+                    <small>apatch_hfr, hosts_file_redirect</small></span>
                 </label>
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="4">
                     <span class="radio-circle"></span>
-                    <span class="radio-label"><span data-i18n="mode.button"></span>
-                        4<br><small>zn_hostsredirect</small></span>
+                    <span class="radio-label"><span data-i18n="mode.button"></span> 4<br>
+                    <small>zn_hostsredirect</small></span>
                 </label>
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="5">
                     <span class="radio-circle"></span>
-                    <span class="radio-label"><span data-i18n="mode.button"></span>
-                        5<br><small>ksu_susfs_open_redirect</small></span>
+                    <span class="radio-label"><span data-i18n="mode.button"></span> 5<br>
+                    <small>ksu_susfs_open_redirect</small></span>
                 </label>
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="6">
                     <span class="radio-circle"></span>
-                    <span class="radio-label"><span data-i18n="mode.button"></span>
-                        6<br><small>ksu_source_mod</small></span>
+                    <span class="radio-label"><span data-i18n="mode.button"></span> 6<br>
+                    <small>ksu_source_mod</small></span>
                 </label>
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="7">
                     <span class="radio-circle"></span>
-                    <span class="radio-label"><span data-i18n="mode.button"></span>
-                        7<br><small>generic_overlay</small></span>
+                    <span class="radio-label"><span data-i18n="mode.button"></span> 7<br>
+                    <small>generic_overlay</small></span>
                 </label>
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="8">
                     <span class="radio-circle"></span>
-                    <span class="radio-label"><span data-i18n="mode.button"></span>
-                        8<br><small>ksu_susfs_overlay</small></span>
+                    <span class="radio-label"><span data-i18n="mode.button"></span> 8<br>
+                    <small>ksu_susfs_overlay</small></span>
                 </label>
                 <label class="custom-radio">
                     <input type="radio" name="mode" value="9">
                     <span class="radio-circle"></span>
-                    <span class="radio-label"><span data-i18n="mode.button"></span>
-                        9<br><small>ksu_susfs_bind_kstat</small></span>
+                    <span class="radio-label"><span data-i18n="mode.button"></span> 9<br>
+                    <small>ksu_susfs_bind_kstat</small></span>
                 </label>
             </form>
             <div class="reference-reset">

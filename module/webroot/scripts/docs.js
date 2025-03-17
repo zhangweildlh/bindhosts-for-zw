@@ -1,4 +1,5 @@
 import { linkRedirect, applyRippleEffect, toast, developerOption, learnMore } from './util.js';
+import { translations } from './language.js';
 
 // Function to fetch documents
 function getDocuments(link, fallbackLink, element) {
@@ -67,36 +68,30 @@ function addCopyToClipboardListeners() {
 
 // Setup documents menu
 let activeDocs = null;
-let docsButtonListeners = [];
 export async function setupDocsMenu(docsLang) {
-    docsButtonListeners.forEach(({ button, listener }) => {
-        button.removeEventListener("click", listener);
-    });
-    docsButtonListeners = [];
-    const originalDocsLang = `_${docsLang}`;
     const docsData = {
         source: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources${originalDocsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources.md`,
             element: 'source-content',
         },
         translate: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize${originalDocsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize.md`,
             element: 'translate-content',
         },
         modes: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes${originalDocsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes.md`,
             element: 'modes-content',
         },
         usage: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage${originalDocsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage.md`,
             element: 'usage-content',
         },
         faq: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq${originalDocsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq.md`,
             element: 'faq-content',
         },
@@ -107,16 +102,14 @@ export async function setupDocsMenu(docsLang) {
     const docsOverlay = document.querySelectorAll(".docs");
 
     docsButtons.forEach(button => {
-        const listener = () => {
+        button.addEventListener("click", () => {
             const type = button.dataset.type;
             const overlay = document.getElementById(`${type}-docs`);
             if (type === 'modes' && developerOption && !learnMore) return;
             openOverlay(overlay);
             const { link, fallbackLink, element } = docsData[type] || {};
             getDocuments(link, fallbackLink, element);
-        };
-        button.addEventListener("click", listener);
-        docsButtonListeners.push({ button, listener });
+        });
     });
 
     docsOverlay.forEach(overlay => {
@@ -135,9 +128,9 @@ export async function setupDocsMenu(docsLang) {
     const aboutContent = document.getElementById('about-content');
     const documentCover = document.querySelector('.document-cover');
     if (aboutContent) {
-        const header = document.getElementById('title');
-        const originalHeader = header.textContent;
-        const backButton = document.querySelector('.back-button');
+        const header = document.querySelector('.title-container');
+        const title = document.getElementById('title');
+        const backButton = document.getElementById('docs-back-btn');
 
         let startX = 0, currentX = 0, isDragging = false;
 
@@ -190,9 +183,10 @@ export async function setupDocsMenu(docsLang) {
                 getDocuments(link, fallbackLink, 'about-content');
                 aboutContent.style.transform = 'translateX(0)';
                 documentCover.style.opacity = '1';
-                header.style.marginLeft = '31px';
+                header.classList.add('back');
                 backButton.style.transform = 'translateX(0)';
-                header.textContent = element.querySelector('.document-title').textContent;
+                const titleText = element.querySelector('.document-title').textContent;
+                title.textContent = titleText;
             });
 
             // Alternative way to close about docs with back button
@@ -200,8 +194,8 @@ export async function setupDocsMenu(docsLang) {
                 aboutContent.style.transform = 'translateX(100%)';
                 documentCover.style.opacity = '0';
                 backButton.style.transform = 'translateX(-100%)';
-                header.style.marginLeft = '0';
-                header.textContent = originalHeader;
+                header.classList.remove('back');
+                title.textContent = translations.more.title;
             });
         });
     } // End of about docs

@@ -14,6 +14,13 @@
         "dev_opt_true": "Opsi pengembang telah di diaktifkan",
         "reboot": "Reboot untuk menerapkan, tap untuk reboot"
     },
+    "query": {
+        "title": "Kueri Host",
+        "host_ip": "IP",
+        "host_domain": "Domain",
+        "remove_prompt": "Whitelist",
+        "remove_error": "Gagal menambahkan ke whitelist"
+    },
     "control_panel": {
         "title": "Panel Kontrol",
         "language": "Bahasa",
@@ -74,5 +81,12 @@
         "title": "Mode Operasi",
         "detail": "Pelajari lebih lanjut",
         "reset": "Atur ulang (auto)"
+    },
+    "more": {
+        "title": "Lainnya",
+        "documents": "Dokumen",
+        "sources": "Sumber",
+        "usage": "Penggunaan",
+        "faq": "FAQ"
     }
 }

@@ -1,5 +1,5 @@
-import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, developerOption, setDeveloperOption, setLearnMore } from './util.js';
-import { initializeAvailableLanguages, detectUserLanguage, loadTranslations } from './language.js';
+import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, developerOption, setDeveloperOption, setLearnMore, initialTransition } from './util.js';
+import { loadTranslations } from './language.js';
 
 let clickCount = 0;
 let clickTimeout;
@@ -233,24 +233,28 @@ function loadMoreHosts(callback) {
     for (let i = 0; i < batchSize && currentIndex < hostLines.length; i++, currentIndex++) {
         const [hostIp, ...domains] = hostLines[currentIndex];
         const dataType = hostIp === "0.0.0.0" ? "block" : "custom";
-
         const hostItem = document.createElement('div');
         hostItem.classList.add('host-list-row');
         hostItem.setAttribute('data-type', dataType);
-        
+
+        // Add remove button if dataType is not 'custom'
         hostItem.innerHTML = `
             <div class="host-ip">${hostIp}</div>
             <div class="host-domain">${domains.join(' ')}</div>
+            ${dataType !== 'custom' ? `
             <button class="remove-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#ffffff"><path d="M277.37-111.87q-37.78 0-64.39-26.61t-26.61-64.39v-514.5h-45.5v-91H354.5v-45.5h250.52v45.5h214.11v91h-45.5v514.5q0 37.78-26.61 64.39t-64.39 26.61H277.37Zm78.33-168.37h85.5v-360h-85.5v360Zm163.1 0h85.5v-360h-85.5v360Z"/></svg>
             </button>
+            ` : ''}
         `;
-        hostItem.querySelector('.remove-btn').addEventListener('click', (event) => handleRemove(event, dataType, domains));
+
+        // Add event listener to remove button if it exists
+        if (dataType !== 'custom') {
+            hostItem.querySelector('.remove-btn').addEventListener('click', (event) => handleRemove(event, domains));
+        }
         hostItem.addEventListener('click', () => {
             hostItem.scrollTo({ left: hostItem.scrollWidth, behavior: 'smooth' });
         });
-        
-        // Directly append to hostList instead of using fragment
         hostList.appendChild(hostItem);
     }
 
@@ -258,8 +262,7 @@ function loadMoreHosts(callback) {
 }
 
 // Handle remove host
-async function handleRemove(event, dataType, domains) {
-    if (dataType === "custom") return;
+async function handleRemove(event, domains) {
     try {
         await execCommand(`sh /data/adb/modules/bindhosts/bindhosts.sh --whitelist ${domains.join(' ')}`);
         // Find and remove the element directly
@@ -267,8 +270,10 @@ async function handleRemove(event, dataType, domains) {
         if (hostItem) {
             hostList.removeChild(hostItem);
         }
+        showPrompt("query.remove_prompt", true, 2000, undefined, domains.join(' '));
     } catch (error) {
         console.error("Error removing host:", error);
+        showPrompt("query.remove_error", false, 2000, undefined, domains.join(' '));
     }
 }
 
@@ -317,10 +322,9 @@ function setupQueryInput() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    initialTransition();
+    loadTranslations();
     checkMMRL();
-    await initializeAvailableLanguages();
-    const userLang = await detectUserLanguage();
-    await loadTranslations(userLang);
     await getCurrentMode();
     await updateStatusFromModuleProp();
     await loadVersionFromModuleProp();

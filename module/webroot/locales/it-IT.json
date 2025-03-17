@@ -14,6 +14,13 @@
         "dev_opt_true": "Opzione sviluppatore già abilitata",
         "reboot": "Riavvia per rendere effettivo, tocca per riavviare"
     },
+    "query": {
+        "title": "Query Host",
+        "host_ip": "IP",
+        "host_domain": "Dominio",
+        "remove_prompt": "Whitelist",
+        "remove_error": "Errore nell'aggiunta alla whitelist"
+    },
     "control_panel": {
         "title": "Panello di Controllo",
         "language": "Lingua",
@@ -74,5 +81,12 @@
         "title": "Modalità di funzionamento",
         "detail": "Saperne di più",
         "reset": "Reset (auto)"
+    },
+    "more": {
+        "title": "Altro",
+        "documents": "Documenti",
+        "sources": "Fonti",
+        "usage": "Utilizzo",
+        "faq": "FAQ"
     }
 }

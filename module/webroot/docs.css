@@ -1,6 +1,6 @@
 .document-content {
     background-color: #fff;
-    height: 100%;
+    height: calc(100% - 40px);
     max-height: 100%;
     width: calc(100% - 40px);
     padding: 20px;
@@ -23,12 +23,10 @@
     transition: opacity 0.2s ease;
 }
 
-#title {
-    margin-right: auto;
-    transition: margin-left 0.2s ease;
-}
-
 .back-button {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,7 +34,7 @@
     user-select: none;
     position: absolute;
     left: 0;
-    padding-left: 10px;
+    background-color: #F5F5F5;
     transform: translateX(-100%);
     transition: transform 0.2s ease;
 }
@@ -44,5 +42,9 @@
 @media (prefers-color-scheme: dark) {
     .document-content {
         background-color: #343434;
+    }
+
+    .back-button {
+        background-color: #151515;
     }
 }

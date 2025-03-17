@@ -14,6 +14,13 @@
         "dev_opt_true": "Developer option already enabled",
         "reboot": "Reboot to take effect, tap to reboot"
     },
+    "query": {
+        "title": "Host Query",
+        "host_ip": "IP",
+        "host_domain": "Domain",
+        "remove_prompt": "Whitelisted",
+        "remove_error": "Failed to whitelist"
+    },
     "control_panel": {
         "title": "Control Panel",
         "language": "Language",
@@ -74,5 +81,12 @@
         "title": "Operation Mode",
         "detail": "Learn More",
         "reset": "Reset (auto)"
+    },
+    "more": {
+        "title": "More",
+        "documents": "Documents",
+        "sources": "Sources",
+        "usage": "Usage",
+        "faq": "FAQ"
     }
 }

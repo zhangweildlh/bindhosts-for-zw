@@ -1,5 +1,5 @@
-import { execCommand, toast, showPrompt, applyRippleEffect, checkMMRL, basePath } from './util.js';
-import { initializeAvailableLanguages, detectUserLanguage, loadTranslations } from './language.js';
+import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition } from './util.js';
+import { loadTranslations } from './language.js';
 
 /**
  * Function to check the if user has installed bindhosts app
@@ -162,10 +162,9 @@ document.getElementById('language-container').addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
+    initialTransition();
+    loadTranslations();
     checkMMRL();
-    await initializeAvailableLanguages();
-    const userLang = await detectUserLanguage();
-    await loadTranslations(userLang);
     checkUpdateStatus();
     checkBindhostsApp();
     checkMagisk();

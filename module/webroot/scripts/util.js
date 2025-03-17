@@ -185,6 +185,40 @@ export function checkMMRL() {
     }
 }
 
+// Function to add loaded class and transition for links
+export function initialTransition() {
+    const content = document.querySelector('.content');
+    const title = document.querySelector('.title-container');
+    const modeBtn = document.getElementById('mode-btn');
+    const actionBtn = document.querySelector('.float');
+    const backBtn = document.querySelector('.back-button');
+    
+    // Add loaded class after a short delay to trigger the animation
+    setTimeout(() => {
+        content.classList.add('loaded');
+        title.classList.add('loaded');
+        if (modeBtn) modeBtn.classList.add('loaded');
+        if (actionBtn) actionBtn.style.transform = 'translateY(0)';
+    }, 100);
+
+    // Add transition for links
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            if (link.href && link.href.startsWith(window.location.origin)) {
+                e.preventDefault();
+                content.classList.add('exiting');
+                title.classList.remove('loaded');
+                if (actionBtn) actionBtn.style.transform = 'translateY(110px)';
+                if (modeBtn) modeBtn.classList.remove('loaded');
+                if (backBtn) backBtn.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                    window.location.href = link.href;
+                }, 200);
+            }
+        });
+    });
+}
+
 // Scroll event
 let lastScrollY = content.scrollTop;
 let isScrolling = false;

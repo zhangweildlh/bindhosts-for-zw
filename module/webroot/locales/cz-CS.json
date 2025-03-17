@@ -14,6 +14,13 @@
         "dev_opt_true": "Možnost vývojáře je již povolena",
         "reboot": "Restartujte zařízení, aby se změny projevily, klepněte pro restart"
     },
+    "query": {
+        "title": "Dotaz na hostitele",
+        "host_ip": "IP",
+        "host_domain": "Doména",
+        "remove_prompt": "Povoleno",
+        "remove_error": "Nepodařilo se přidat do povolených"
+    },
     "control_panel": {
         "title": "Ovládací panel",
         "language": "Jazyk",
@@ -74,5 +81,12 @@
         "title": "Provozní režim",
         "detail": "Zjistit více",
         "reset": "Reset (automatický)"
+    },
+    "more": {
+        "title": "Více",
+        "documents": "Dokumenty",
+        "sources": "Zdroje",
+        "usage": "Použití",
+        "faq": "FAQ"
     }
 }

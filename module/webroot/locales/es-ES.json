@@ -14,6 +14,13 @@
         "dev_opt_true": "La opción de desarrollador ya estaba activada",
         "reboot": "Reinicia para aplicar los cambios, toca para reiniciar"
     },
+    "query": {
+        "title": "Consulta de Host",
+        "host_ip": "IP",
+        "host_domain": "Dominio",
+        "remove_prompt": "Lista Blanca",
+        "remove_error": "Error al añadir a la lista blanca"
+    },
     "control_panel": {
         "title": "Panel de Control",
         "language": "Idioma",
@@ -74,5 +81,12 @@
         "title": "Modo de Operación",
         "detail": "Más información",
         "reset": "Restablecer (automático)"
+    },
+    "more": {
+        "title": "Más",
+        "documents": "Documentos",
+        "sources": "Fuentes",
+        "usage": "Uso",
+        "faq": "FAQ"
     }
 }
