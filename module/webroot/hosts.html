@@ -7,6 +7,7 @@
     <title>Hosts</title>
     <link rel="stylesheet" href="styles.css" type="text/css">
     <link rel="stylesheet" href="markdown.css" type="text/css">
+    <link rel="stylesheet" href="docs.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="/mmrl/insets.css" />
     <script type="module" crossorigin src="scripts/hosts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -15,13 +16,24 @@
 <body>
     <!-- Header -->
     <div class="header">
+        <div class="back-button ripple-element" id="edit-back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="currentColor"><path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>
+        </div>
         <div class="title-container">
             <span id="title">Hosts</span>
+            <div class="file-name-editor">
+                <span>custom</span>
+                <input type="text" id="file-name-input">
+                <span>.txt</span>
+            </div>
         </div>
+        <button id="edit-save-btn" class="ripple-element">
+            <span data-i18n="edit.save">Save</span>
+        </button>
     </div>
 
     <!-- Content -->
-    <div class="content">
+    <div class="content constant-height">
         <!-- Source box -->
         <div class="box">
             <div>
@@ -126,10 +138,22 @@
                 </button>
             </div>
             <ul id="import_custom-list">working in progress</ul>
+            <div class="import-button-container">
+                <button class="import-button ripple-element" id="import-custom-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#ffffff"><path d="M417-417H166v-126h251v-251h126v251h251v126H543v251H417v-251Z"/></svg>
+                </button>
+            </div>
         </div>
 
-        <!-- Safe insset -->
+        <!-- Safe inset -->
         <div class="placeholder"></div>
+    </div>
+
+    <!-- Edit workspace -->
+    <div class="document-cover constant-height"></div>
+    <div class="constant-height" id="edit-content">
+        <div class="line-numbers"></div>
+        <textarea id="edit-input"></textarea>
     </div>
 
     <!-- Help overlay -->
@@ -222,7 +246,7 @@
             </div>
         </a>
         <a class="footer-btn">
-            <div class="footer-btn-icon">
+            <div class="footer-btn-icon focused-footer-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M160-120q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h200q33 0 56.5 23.5T440-760v560q0 33-23.5 56.5T360-120H160Zm440 0q-33 0-56.5-23.5T520-200v-560q0-33 23.5-56.5T600-840h200q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H600ZM200-360h120v-80H200v80Zm440 0h120v-80H640v80ZM200-480h120v-80H200v80Zm440 0h120v-80H640v80ZM200-600h120v-80H200v80Zm440 0h120v-80H640v80Z"/></svg>
             </div>
             <div class="footer-btn-text">

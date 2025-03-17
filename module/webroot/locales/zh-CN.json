@@ -12,7 +12,10 @@
         "adaway": "请先在 Adaway 内重置 hosts",
         "dev_opt": "开发者模式已启用",
         "dev_opt_true": "您已处于开发者模式",
-        "reboot": "重启生效，点击重启"
+        "reboot": "重启生效，点击重启",
+        "save": "文件已保存至",
+        "save_fail": "文件保存失败",
+        "file_too_large": "文件过大，最大 128KB"
     },
     "query": {
         "title": "Host 查询",

@@ -12,7 +12,10 @@
         "adaway": "Resetta hosts in Adaway prima di continuare",
         "dev_opt": "Opzione sviluppatore abilitata",
         "dev_opt_true": "Opzione sviluppatore già abilitata",
-        "reboot": "Riavvia per rendere effettivo, tocca per riavviare"
+        "reboot": "Riavvia per rendere effettivo, tocca per riavviare",
+        "save": "File salvato in",
+        "save_fail": "Errore nel salvataggio del file",
+        "file_too_large": "Dimensione del file troppo grande, massimo 128KB"
     },
     "query": {
         "title": "Query Host",

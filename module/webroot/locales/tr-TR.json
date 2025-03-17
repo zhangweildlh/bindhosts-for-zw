@@ -12,7 +12,10 @@
         "adaway": "Devam etmeden önce Adaway'deki hosts'u sıfırlayın",
         "dev_opt": "Geliştirici seçeneği etkinleştirildi",
         "dev_opt_true": "Geliştirici seçeneği zaten etkin",
-        "reboot": "Etkili olması için yeniden başlatın, yeniden başlatmak için dokunun"
+        "reboot": "Etkili olması için yeniden başlatın, yeniden başlatmak için dokunun",
+        "save": "Dosya kaydedildi",
+        "save_fail": "Dosya kaydedilemedi",
+        "file_too_large": "Dosya boyutu çok büyük, maksimum 128KB"
     },
     "query": {
         "title": "Host Sorgulama",

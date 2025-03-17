@@ -12,7 +12,10 @@
         "adaway": "Restablece los hosts en Adaway antes de continuar",
         "dev_opt": "Opción de desarrollador activada",
         "dev_opt_true": "La opción de desarrollador ya estaba activada",
-        "reboot": "Reinicia para aplicar los cambios, toca para reiniciar"
+        "reboot": "Reinicia para aplicar los cambios, toca para reiniciar",
+        "save": "Archivo guardado en",
+        "save_fail": "Error al guardar el archivo",
+        "file_too_large": "El archivo es demasiado grande, máximo 128KB"
     },
     "query": {
         "title": "Consulta de Host",

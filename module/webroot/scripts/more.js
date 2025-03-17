@@ -74,6 +74,7 @@ document.getElementById('update-toggle-container').addEventListener('click', asy
  * Action redirect WebUI toggle
  */
 const actionRedirectContainer = document.getElementById('action-redirect-container');
+const actionRedirectStatus = document.getElementById('action-redirect');
 async function checkMagisk() {
     try {
         const magiskEnv = await execCommand(`command -v magisk >/dev/null 2>&1 && echo "true" || echo "false"`);
@@ -87,18 +88,18 @@ async function checkMagisk() {
                     } else {
                         showPrompt("control_panel.action_prompt_true", true, undefined, "[+]");
                     }
-                    checkRedirectStatus();
+                    await checkRedirectStatus();
                 } catch (error) {
                     console.error("Failed to execute change status", error);
                 }
             });
+            await checkRedirectStatus();
         }
     } catch (error) {
         console.error("Error while checking magisk", error);
     }
 }
 async function checkRedirectStatus() {
-    const actionRedirectStatus = document.getElementById('action-redirect');
     try {
         const result = await execCommand(`[ ! -f ${basePath}/webui_setting.sh ] || grep -q '^magisk_webui_redirect=1' ${basePath}/webui_setting.sh`);
         actionRedirectStatus.checked = true;

@@ -1,4 +1,4 @@
-import { linkRedirect, applyRippleEffect, toast, developerOption, learnMore } from './util.js';
+import { linkRedirect, applyRippleEffect, toast, developerOption, learnMore, setupSwipeToClose } from './util.js';
 import { translations } from './language.js';
 
 // Function to fetch documents
@@ -37,12 +37,10 @@ function getDocuments(link, fallbackLink, element) {
             // For overlay content
             const docsContent = document.getElementById(element);
             docsContent.innerHTML = marked.parse(data);
+            
+            const aboutContent = document.getElementById('about-document-content');
+            if (aboutContent) aboutContent.innerHTML = marked.parse(data);
 
-            // For about content
-            const aboutContent = document.getElementById('about-content');
-            if (aboutContent) {
-                aboutContent.innerHTML = marked.parse(data);
-            }
             addCopyToClipboardListeners();
             applyRippleEffect();
         })
@@ -125,62 +123,21 @@ export async function setupDocsMenu(docsLang) {
     });
 
     // For about content
-    const aboutContent = document.getElementById('about-content');
+    const aboutContent = document.querySelector('.document-content');
     const documentCover = document.querySelector('.document-cover');
     if (aboutContent) {
         const header = document.querySelector('.title-container');
         const title = document.getElementById('title');
         const backButton = document.getElementById('docs-back-btn');
 
-        let startX = 0, currentX = 0, isDragging = false;
-
-        // Start recognizing hold
-        aboutContent.addEventListener('pointerdown', (e) => {
-            isDragging = true;
-            startX = e.clientX;
-            aboutContent.style.transition = 'none';
-            documentCover.style.transition = 'none';
-            e.stopPropagation();
-        });
-
-        // Dragging
-        aboutContent.addEventListener('pointermove', (e) => {
-            if (!isDragging) return;
-            currentX = e.clientX - startX;
-            if (currentX < 0) return;
-            aboutContent.style.transform = `translateX(${Math.max(currentX, -window.innerWidth)}px)`;
-            // Calculate opacity based on position
-            const opacity = 1 - (currentX / window.innerWidth);
-            documentCover.style.opacity = Math.max(0, Math.min(1, opacity));
-            e.stopPropagation();
-        });
-
-        // Release, close about docs if dragged more than 40% of the screen
-        const handlePointerUp = () => {
-            if (!isDragging) return;
-            isDragging = false;
-            aboutContent.style.transition = 'transform 0.2s ease';
-            documentCover.style.transition = 'opacity 0.2s ease';
-
-            const threshold = window.innerWidth * 0.2;
-            if (Math.abs(currentX) > threshold) {
-                backButton.click();
-            } else {
-                aboutContent.style.transform = 'translateX(0)';
-                documentCover.style.opacity = '1';
-            }
-            startX = 0;
-            currentX = 0;
-        };
-
-        aboutContent.addEventListener('pointerup', handlePointerUp);
+        setupSwipeToClose(aboutContent, documentCover, backButton);
 
         // Attach click event to all about docs buttons
         document.querySelectorAll('.about-docs').forEach(element => {
             element.addEventListener('click', () => {
-                aboutContent.innerHTML = '';
+                document.getElementById('about-document-content').innerHTML = '';
                 const { link, fallbackLink } = docsData[element.dataset.type] || {};
-                getDocuments(link, fallbackLink, 'about-content');
+                getDocuments(link, fallbackLink, 'about-document-content');
                 aboutContent.style.transform = 'translateX(0)';
                 documentCover.style.opacity = '1';
                 header.classList.add('back');

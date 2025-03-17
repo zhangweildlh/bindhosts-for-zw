@@ -12,7 +12,10 @@
         "adaway": "Setzen Sie die Hosts in Adaway zurück, bevor Sie fortfahren.",
         "dev_opt": "Entwickler-Option aktiviert",
         "dev_opt_true": "Entwickler-Option bereits aktiviert",
-        "reboot": "Betätigen Sie die Taste zum Neustart, damit die Änderungen wirksam werden."
+        "reboot": "Betätigen Sie die Taste zum Neustart, damit die Änderungen wirksam werden.",
+        "save": "Datei gespeichert in",
+        "save_fail": "Fehler beim Speichern der Datei",
+        "file_too_large": "Datei ist zu groß, maximal 128KB"
     },
     "query": {
         "title": "Host-Abfrage",

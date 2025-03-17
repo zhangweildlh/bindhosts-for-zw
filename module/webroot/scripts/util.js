@@ -187,13 +187,16 @@ export function checkMMRL() {
 
 // Function to add loaded class and transition for links
 export function initialTransition() {
-    const content = document.querySelector('.content');
+    const content = document.querySelector('.constant-height');
     const title = document.querySelector('.title-container');
     const modeBtn = document.getElementById('mode-btn');
+    const saveBtn = document.getElementById('edit-save-btn');
     const actionBtn = document.querySelector('.float');
     const backBtn = document.querySelector('.back-button');
+    const focusedFooterBtn = document.querySelector('.focused-footer-btn');
     
     // Add loaded class after a short delay to trigger the animation
+    focusedFooterBtn.classList.add('loaded');
     setTimeout(() => {
         content.classList.add('loaded');
         title.classList.add('loaded');
@@ -208,14 +211,79 @@ export function initialTransition() {
                 e.preventDefault();
                 content.classList.add('exiting');
                 title.classList.remove('loaded');
+                focusedFooterBtn.classList.remove('loaded');
                 if (actionBtn) actionBtn.style.transform = 'translateY(110px)';
                 if (modeBtn) modeBtn.classList.remove('loaded');
+                if (saveBtn) saveBtn.style.transform = 'translateX(calc(105% + 15px))';
                 if (backBtn) backBtn.style.transform = 'translateX(-100%)';
                 setTimeout(() => {
                     window.location.href = link.href;
                 }, 200);
             }
         });
+    });
+}
+
+// setup swipe to close
+export function setupSwipeToClose(element, cover, backButton) {
+    let startX = 0, currentX = 0, startY = 0, isDragging = false, isScrolling = false;
+
+    element.addEventListener('touchstart', (e) => {
+        const editInput = document.getElementById('edit-input');
+        if (editInput && (editInput.scrollLeft !== 0 || editInput.focus)) {
+            return;
+        }
+        
+        isDragging = true;
+        isScrolling = false;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        element.style.transition = 'none';
+        cover.style.transition = 'none';
+        e.stopPropagation();
+    });
+
+    element.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.touches[0].clientX - startX;
+        const deltaY = e.touches[0].clientY - startY;
+        
+        // Disable right-to-left swipe
+        if (deltaX < 0) {
+            isDragging = false;
+            return;
+        }
+        
+        // If vertical movement is greater than horizontal, assume scrolling
+        if (Math.abs(deltaY) > Math.abs(deltaX)) {
+            isScrolling = true;
+            return;
+        }
+        if (isScrolling) return;
+        currentX = e.touches[0].clientX - startX;
+        if (currentX < 0) currentX = deltaX * -1;
+        element.style.transform = `translateX(${Math.max(currentX, -window.innerWidth)}px)`;
+        // Calculate opacity based on position
+        const opacity = 1 - (currentX / window.innerWidth);
+        cover.style.opacity = Math.max(0, Math.min(1, opacity));
+        e.stopPropagation();
+    });
+
+    element.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        element.style.transition = 'transform 0.2s ease';
+        cover.style.transition = 'opacity 0.2s ease';
+
+        const threshold = window.innerWidth * 0.2;
+        if (Math.abs(currentX) > threshold) {
+            backButton.click();
+        } else {
+            element.style.transform = 'translateX(0)';
+            cover.style.opacity = '1';
+        }
+        startX = 0;
+        currentX = 0;
     });
 }
 

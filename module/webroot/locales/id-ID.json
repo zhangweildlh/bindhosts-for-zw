@@ -12,7 +12,10 @@
         "adaway": "Atur ulang hosts di Adaway sebelum melanjutkan",
         "dev_opt": "Opsi pengembang diaktifkan",
         "dev_opt_true": "Opsi pengembang telah di diaktifkan",
-        "reboot": "Reboot untuk menerapkan, tap untuk reboot"
+        "reboot": "Reboot untuk menerapkan, tap untuk reboot",
+        "save": "File disimpan ke",
+        "save_fail": "Gagal menyimpan file",
+        "file_too_large": "Ukuran file terlalu besar, maksimal 128KB"
     },
     "query": {
         "title": "Kueri Host",

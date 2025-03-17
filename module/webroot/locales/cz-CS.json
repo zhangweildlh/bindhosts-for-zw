@@ -12,7 +12,10 @@
         "adaway": "Resetujte hosts v Adaway před pokračováním",
         "dev_opt": "Možnost vývojáře povolena",
         "dev_opt_true": "Možnost vývojáře je již povolena",
-        "reboot": "Restartujte zařízení, aby se změny projevily, klepněte pro restart"
+        "reboot": "Restartujte zařízení, aby se změny projevily, klepněte pro restart",
+        "save": "Soubor uložen do",
+        "save_fail": "Nepodařilo se uložit soubor",
+        "file_too_large": "Soubor je příliš velký, maximálně 128KB"
     },
     "query": {
         "title": "Dotaz na hostitele",

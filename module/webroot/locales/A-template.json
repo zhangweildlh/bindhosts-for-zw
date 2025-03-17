@@ -12,7 +12,10 @@
         "adaway": "Reset hosts in Adaway before continuing",
         "dev_opt": "Developer option enabled",
         "dev_opt_true": "Developer option already enabled",
-        "reboot": "Reboot to take effect, tap to reboot"
+        "reboot": "Reboot to take effect, tap to reboot",
+        "save": "File saved to",
+        "save_fail": "Failed to save file",
+        "file_too_large": "File size is too large, max 128KB"
     },
     "query": {
         "title": "Host Query",
