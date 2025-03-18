@@ -13,9 +13,11 @@
         "dev_opt": "Možnost vývojáře povolena",
         "dev_opt_true": "Možnost vývojáře je již povolena",
         "reboot": "Restartujte zařízení, aby se změny projevily, klepněte pro restart",
-        "save": "Soubor uložen do",
+        "save": "Uložit",
+        "saved": "Soubor uložen do",
         "save_fail": "Nepodařilo se uložit soubor",
-        "file_too_large": "Soubor je příliš velký, maximálně 128KB"
+        "file_too_large": "Jen přejmenování je podporováno na velkých souborech",
+        "file_name_empty": "Název souboru nesmí být prázdný"
     },
     "query": {
         "title": "Dotaz na hostitele",
@@ -48,8 +50,12 @@
         "title": "Vlastní pravidla",
         "guide1": "Přidejte vlastní přesměrování zde",
         "example": "Příklad:",
+        "format": "Formát:",
         "warning": "UPOZORNĚNÍ: Vlastní pravidla se načítají při spuštění i resetu!",
         "prompt_fail": "již existuje ve vlastním pravidle"
+    },
+    "import_custom": {
+        "title": "Importovat vlastní pravidla"
     },
     "source": {
         "title": "Zdroje",

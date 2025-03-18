@@ -13,9 +13,11 @@
         "dev_opt": "Geliştirici seçeneği etkinleştirildi",
         "dev_opt_true": "Geliştirici seçeneği zaten etkin",
         "reboot": "Etkili olması için yeniden başlatın, yeniden başlatmak için dokunun",
-        "save": "Dosya kaydedildi",
+        "save": "Kaydet",
+        "saved": "Dosya kaydedildi",
         "save_fail": "Dosya kaydedilemedi",
-        "file_too_large": "Dosya boyutu çok büyük, maksimum 128KB"
+        "file_too_large": "Dosya düzenleme desteği yok",
+        "file_name_empty": "Dosya adı boş olamaz"
     },
     "query": {
         "title": "Host Sorgulama",
@@ -48,8 +50,12 @@
         "title": "Özel Kurallar",
         "guide1": "Buraya özel yönlendirmeler ekleyin",
         "example": "Örnek:",
+        "format": "Format:",
         "warning": "UYARI: Özel kurallar hem çalıştırmada hem de sıfırlamada yüklenir!",
         "prompt_fail": "Zaten özel kuralda mevcut"
+    },
+    "import_custom": {
+        "title": "Özel Kuralları İçe Aktar"
     },
     "source": {
         "title": "Kaynaklar",

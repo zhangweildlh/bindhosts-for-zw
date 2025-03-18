@@ -13,9 +13,11 @@
         "dev_opt": "Opción de desarrollador activada",
         "dev_opt_true": "La opción de desarrollador ya estaba activada",
         "reboot": "Reinicia para aplicar los cambios, toca para reiniciar",
-        "save": "Archivo guardado en",
+        "save": "Guardar",
+        "saved": "Archivo guardado en",
         "save_fail": "Error al guardar el archivo",
-        "file_too_large": "El archivo es demasiado grande, máximo 128KB"
+        "file_too_large": "Edición de archivos grandes no es soportada",
+        "file_name_empty": "El nombre del archivo no puede estar vacío"
     },
     "query": {
         "title": "Consulta de Host",
@@ -48,8 +50,12 @@
         "title": "Reglas Personalizadas",
         "guide1": "Añade redirecciones personalizadas aquí",
         "example": "Ejemplo:",
+        "format": "Formato:",
         "warning": "ADVERTENCIA: ¡Las reglas personalizadas se cargan tanto al ejecutarse como al restablecerse!",
         "prompt_fail": "ya está en la regla personalizada"
+    },
+    "import_custom": {
+        "title": "Importar Reglas Personalizadas"
     },
     "source": {
         "title": "Fuentes",

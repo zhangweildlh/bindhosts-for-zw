@@ -13,9 +13,11 @@
         "dev_opt": "开发者模式已启用",
         "dev_opt_true": "您已处于开发者模式",
         "reboot": "重启生效，点击重启",
-        "save": "文件已保存至",
+        "save": "保存",
+        "saved": "文件已保存至",
         "save_fail": "文件保存失败",
-        "file_too_large": "文件过大，最大 128KB"
+        "file_too_large": "文件编辑不支持大文件",
+        "file_name_empty": "文件名不能为空"
     },
     "query": {
         "title": "Host 查询",
@@ -48,8 +50,12 @@
         "title": "自定义规则",
         "guide1": "在此处添加自定义跳转规则",
         "example": "例如：",
+        "format": "格式",
         "warning": "警告：自定义规则在模块运行期间和重置后均会加载！",
         "prompt_fail": "已存在于自定义规则内"
+    },
+    "import_custom": {
+        "title": "导入自定义规则"
     },
     "source": {
         "title": "规则（源）",

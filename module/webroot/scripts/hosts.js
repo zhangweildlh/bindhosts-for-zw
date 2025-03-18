@@ -1,5 +1,6 @@
 import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, setupSwipeToClose } from './util.js';
 import { loadTranslations } from './language.js';
+import { openFileSelector } from './file_selector.js';
 
 const filePaths = {
     custom: `${basePath}/custom.txt`,
@@ -20,8 +21,6 @@ async function loadFile(fileType) {
             .split("\n")
             .map(line => line)
             .filter(line => line && !line.startsWith("#"));
-        const listElement = document.getElementById(`${fileType}-list`);
-        listElement.innerHTML = "";
         displayHostsList(lines, fileType);
     } catch (error) {
         console.error(`Failed to load ${fileType} file: ${error}`);
@@ -31,6 +30,7 @@ async function loadFile(fileType) {
 // Function to display hosts list in the UI
 function displayHostsList(lines, fileType) {
     const listElement = document.getElementById(`${fileType}-list`);
+    listElement.innerHTML = "";
     lines.forEach(line => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
@@ -60,7 +60,8 @@ function displayHostsList(lines, fileType) {
         // Remove file
         if (deleteFile) {
             deleteFile.addEventListener("click", async () => {
-                await execCommand(`rm -f ${filePaths[fileType]}`);
+                const fileName = listItem.querySelector("span").textContent;
+                await execCommand(`rm -f ${basePath}/${fileName}`);
                 listElement.removeChild(listItem);
             });
         }
@@ -247,10 +248,10 @@ document.getElementById("actionButton").addEventListener("click", async () => {
  */
 const editorInput = document.getElementById("edit-input");
 const fileNameInput = document.getElementById('file-name-input');
-// document.getElementById("import-custom-button").addEventListener("click", () => {
-//     // Open file selector overlay
-// });
-async function getCustomHostsList() {
+document.getElementById("import-custom-button").addEventListener("click", () => {
+    openFileSelector();
+});
+export async function getCustomHostsList() {
     try {
         const output = await execCommand(`ls ${basePath} | grep "^custom.*\.txt$" | grep -vx "custom.txt"`);
         const lines = output.split("\n");
@@ -260,6 +261,8 @@ async function getCustomHostsList() {
     }
 }
 async function fileNameEditor(fileName) {
+    const rawFileName = fileName.replace("custom", "").replace(".txt", "");
+    fileNameInput.value = rawFileName;
     try {
         await execCommand(`
             if [ $(wc -c < ${basePath}/${fileName}) -gt 131072 ]; then
@@ -269,15 +272,15 @@ async function fileNameEditor(fileName) {
         `);
         const response = await fetch(`${fileName}`);
         editorInput.value = await response.text();
-        const rawFileName = fileName.replace("custom", "").replace(".txt", "");
-        fileNameInput.value = rawFileName;
         openFileEditor(fileName);
     } catch (error) {
-        showPrompt("global.file_too_large", false);
+        // Only rename is supported when file is too large
+        openFileEditor(fileName, false);
+        showPrompt("global.file_too_large", true);
         console.error("Failed to get custom hosts list:", error);
     }
 }
-function openFileEditor(lastFileName) {
+function openFileEditor(lastFileName, openEditor = true) {
     const header = document.querySelector('.title-container');
     const title = document.getElementById('title');
     const fileName = document.querySelector('.file-name-editor');
@@ -288,17 +291,6 @@ function openFileEditor(lastFileName) {
     const editor = document.getElementById('edit-content');
     const lineNumbers = document.querySelector('.line-numbers');
     const content = document.querySelector('.content');
-
-    // Open file editor
-    editor.style.transform = 'translateX(0)';
-    editorCover.style.opacity = '1';
-    header.classList.add('back');
-    backButton.style.transform = 'translateX(0)';
-    saveButton.style.transform = 'translateX(0)';
-    actionButton.style.transform = 'translateY(110px)';
-    title.style.display = 'none';
-    fileName.style.display = 'flex';
-    content.style.overflowY = 'hidden';
 
     // Adjust width of fileName according to the length of text in input
     function adjustFileNameWidth() {
@@ -318,6 +310,20 @@ function openFileEditor(lastFileName) {
     }
     adjustFileNameWidth();
     fileNameInput.addEventListener('input', adjustFileNameWidth);
+
+    editorCover.style.opacity = '1';
+    editorCover.style.pointerEvents = 'auto';
+    header.classList.add('back');
+    backButton.style.transform = 'translateX(0)';
+    saveButton.style.transform = 'translateX(0)';
+    actionButton.style.transform = 'translateY(110px)';
+    title.style.display = 'none';
+    fileName.style.display = 'flex';
+    content.style.overflowY = 'hidden';
+
+    // Open file editor
+    if (openEditor) editor.style.transform = 'translateX(0)';
+    else fileNameInput.focus();
 
     // Set line numbers
     editorInput.addEventListener('input', () => {
@@ -375,9 +381,11 @@ function openFileEditor(lastFileName) {
 
     // Alternative way to close about docs with back button
     backButton.addEventListener('click', () => {
+        if (openEditor) { editor.style.transform = 'translateX(100%)'; }
         editorInput.removeEventListener('input', scrollSafeInset);
-        editor.style.transform = 'translateX(100%)';
+        saveButton.removeEventListener('click', saveFile);
         editorCover.style.opacity = '0';
+        editorCover.style.pointerEvents = 'none';
         backButton.style.transform = 'translateX(-100%)';
         header.classList.remove('back');
         title.style.display = 'block';
@@ -392,22 +400,39 @@ function openFileEditor(lastFileName) {
     });
 
     // Save file
-    saveButton.addEventListener('click', async () => {
+    async function saveFile() {
         const newFileName = fileNameInput.value;
         const content = editorInput.value;
+        if (newFileName === "") {
+            showPrompt("global.file_name_empty", false);
+            return;
+        }
         try {
-            await execCommand(`
-                [ ! -f ${basePath}/${lastFileName} ] || rm -f ${basePath}/${lastFileName}
-                echo "${content}" > ${basePath}/custom${newFileName}.txt
-                chmod 644 ${basePath}/custom${newFileName}.txt
-            `);
-            showPrompt("global.save", true, undefined, `${basePath}/custom${newFileName}.txt`);
+            if (openEditor) {
+                await execCommand(`
+                    [ ! -f ${basePath}/${lastFileName} ] || rm -f ${basePath}/${lastFileName}
+                    echo "${content}" > ${basePath}/custom${newFileName}.txt
+                    chmod 644 ${basePath}/custom${newFileName}.txt
+                `);
+                showPrompt("global.saved", true, undefined, `${basePath}/custom${newFileName}.txt`);
+            } else {
+                await execCommand(`mv -f ${basePath}/${lastFileName} ${basePath}/custom${newFileName}.txt`);
+            }
+            showPrompt("global.saved", true, undefined, `${basePath}/custom${newFileName}.txt`);
         } catch (error) {
             showPrompt("global.save_fail", false);
             console.error("Failed to save file:", error);
         }
+        getCustomHostsList();
         backButton.click();
-    });
+    }
+    saveButton.addEventListener('click', saveFile);
+}
+
+window.replaceSpaces = function(input) {
+    const cursorPosition = input.selectionStart;
+    input.value = input.value.replace(/ /g, '_');
+    input.setSelectionRange(cursorPosition, cursorPosition);
 }
 
 // Initial load

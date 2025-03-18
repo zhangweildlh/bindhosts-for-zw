@@ -13,9 +13,11 @@
         "dev_opt": "Opzione sviluppatore abilitata",
         "dev_opt_true": "Opzione sviluppatore già abilitata",
         "reboot": "Riavvia per rendere effettivo, tocca per riavviare",
-        "save": "File salvato in",
+        "save": "Salva",
+        "saved": "File salvato in",
         "save_fail": "Errore nel salvataggio del file",
-        "file_too_large": "Dimensione del file troppo grande, massimo 128KB"
+        "file_too_large": "Modifica file non supportata su file grandi",
+        "file_name_empty": "Il nome del file non può essere vuoto"
     },
     "query": {
         "title": "Query Host",
@@ -48,8 +50,12 @@
         "title": "Regole Personalizzate",
         "guide1": "Aggiungi qui i reindirizzamenti personalizzati",
         "example": "Esempio:",
+        "format": "Formato:",
         "warning": "ATTENZIONE: le regole personalizzate vengono caricate sia durante l'esecuzione che durante il reset!",
         "prompt_fail": "è già nella regola personalizzata"
+    },
+    "import_custom": {
+        "title": "Importa Regole Personalizzate"
     },
     "source": {
         "title": "Fonti",
