@@ -366,7 +366,7 @@ adblock() {
 	for url in $(sed '/#/d' $PERSISTENT_DIR/sources_whitelist.txt | grep http) ; do
 		echo "[>] fetching $url"
 		download "$url" >> "$rwdir/remote_whitelist" || echo "[x] failed downloading $url"
-		for i in $(sed '/#/d' $rwdir/remote_whitelist); do echo "0.0.0.0 $i" ; done >> "$rwdir/tempwhitelist"
+		for i in $(sed '/#/d; /!/d; s/  */ /g; /^$/d; s/\r$//' $rwdir/remote_whitelist); do echo "0.0.0.0 $i" ; done >> "$rwdir/tempwhitelist"
 	done
 	for i in $(sed '/#/d' $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done >> "$rwdir/tempwhitelist"
 	# sed strip out everything with # and !, double space to single space, delete empty lines, dos2unix (CRLF), replace all 127.0.0.1 to 0.0.0.0
