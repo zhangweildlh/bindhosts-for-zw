@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hosts</title>
-    <link rel="stylesheet" href="styles.css" type="text/css">
-    <link rel="stylesheet" href="markdown.css" type="text/css">
-    <link rel="stylesheet" href="docs.css" type="text/css">
-    <link rel="stylesheet" href="file_selector.css" type="text/css">
+    <link rel="stylesheet" href="styles/styles.css" type="text/css">
+    <link rel="stylesheet" href="styles/markdown.css" type="text/css">
+    <link rel="stylesheet" href="styles/docs.css" type="text/css">
+    <link rel="stylesheet" href="styles/file_selector.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="/mmrl/insets.css" />
     <script type="module" crossorigin src="scripts/hosts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -250,6 +250,21 @@
                 <button class="close-selector">&#x2715;</button>
             </div>
             <div class="file-list"></div>
+        </div>
+    </div>
+
+    <!-- Confirmation dialog overlay -->
+    <div class="overlay" id="confirmation-overlay">
+        <div class="overlay-content">
+            <h2 data-i18n="confirmation.title"></h2>
+            <p>
+                <span data-i18n="confirmation.message"></span>
+                <span id="confirmation-file-name"></span>
+            </p>
+            <div class="confirm-btn-container">
+                <button class="confirm-btn ripple-element" id="cancel-btn" data-i18n="confirmation.cancel"></button>
+                <button class="confirm-btn ripple-element" id="remove-btn" data-i18n="confirmation.remove"></button>
+            </div>
         </div>
     </div>
 

@@ -170,7 +170,7 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
  * Load 20 each time, and load more when scroll to the bottom
  */
 let hostLines = [], originalHostLines = [], currentIndex = 0, initialHeight = 0;
-const batchSize = 20;
+const batchSize = 50;
 const hostList = document.querySelector('.host-list-item');
 async function getHosts() {
     hostList.innerHTML = '';

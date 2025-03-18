@@ -53,7 +53,10 @@ function displayHostsList(lines, fileType) {
         // Remove line from file
         if (deleteLine) {
             deleteLine.addEventListener("click", async () => {
-                await execCommand(`sed -i '/^${line}$/d' ${filePaths[fileType]}`);
+                await execCommand(`
+                    filtered=$(grep -vxF '${line}' ${filePaths[fileType]})
+                    echo "$filtered" > ${filePaths[fileType]}
+                `);
                 listElement.removeChild(listItem);
             });
         }
@@ -61,8 +64,11 @@ function displayHostsList(lines, fileType) {
         if (deleteFile) {
             deleteFile.addEventListener("click", async () => {
                 const fileName = listItem.querySelector("span").textContent;
-                await execCommand(`rm -f ${basePath}/${fileName}`);
-                listElement.removeChild(listItem);
+                const remove = await removeCustomHostsFile(fileName);
+                if (remove) {
+                    await execCommand(`rm -f ${basePath}/${fileName}`);
+                    listElement.removeChild(listItem);
+                }
             });
         }
         // Edit file
@@ -106,6 +112,38 @@ async function handleAdd(fileType, prompt) {
     } catch (error) {
         console.error(`Failed to process input for ${fileType}: ${error}`);
     }
+}
+
+// Custom hosts file removal confirmation
+function removeCustomHostsFile(fileName) {
+    const confirmationOverlay = document.getElementById("confirmation-overlay");
+    const cancelButton = document.getElementById("cancel-btn");
+    const removeButton = document.getElementById("remove-btn");
+
+    document.getElementById("confirmation-file-name").textContent = fileName;
+
+    confirmationOverlay.style.display = "flex";
+    setTimeout(() => {
+        confirmationOverlay.style.opacity = "1";
+    }, 10);
+
+    const closeConfirmationOverlay = () => {
+        confirmationOverlay.style.opacity = "0";
+        setTimeout(() => {
+            confirmationOverlay.style.display = "none";
+        }, 200);
+    }
+
+    return new Promise((resolve) => {
+        cancelButton.addEventListener("click", () => {
+            closeConfirmationOverlay();
+            resolve(false);
+        });
+        removeButton.addEventListener("click", () => {
+            closeConfirmationOverlay();
+            resolve(true);
+        });
+    });
 }
 
 // Help event listener
@@ -245,6 +283,9 @@ document.getElementById("actionButton").addEventListener("click", async () => {
 
 /**
  * Import custom hosts
+ * File selector
+ * File name editor
+ * File editor (<128kB)
  */
 const editorInput = document.getElementById("edit-input");
 const fileNameInput = document.getElementById('file-name-input');
@@ -323,7 +364,7 @@ function openFileEditor(lastFileName, openEditor = true) {
 
     // Open file editor
     if (openEditor) editor.style.transform = 'translateX(0)';
-    else fileNameInput.focus();
+    else setTimeout(() => fileNameInput.focus(), 1000);
 
     // Set line numbers
     editorInput.addEventListener('input', () => {
@@ -414,11 +455,11 @@ function openFileEditor(lastFileName, openEditor = true) {
                     echo "${content}" > ${basePath}/custom${newFileName}.txt
                     chmod 644 ${basePath}/custom${newFileName}.txt
                 `);
-                showPrompt("global.saved", true, undefined, `${basePath}/custom${newFileName}.txt`);
+                showPrompt("global.saved", true, undefined, undefined, `${basePath}/custom${newFileName}.txt`);
             } else {
                 await execCommand(`mv -f ${basePath}/${lastFileName} ${basePath}/custom${newFileName}.txt`);
             }
-            showPrompt("global.saved", true, undefined, `${basePath}/custom${newFileName}.txt`);
+            showPrompt("global.saved", true, undefined, undefined, `${basePath}/custom${newFileName}.txt`);
         } catch (error) {
             showPrompt("global.save_fail", false);
             console.error("Failed to save file:", error);
@@ -431,7 +472,7 @@ function openFileEditor(lastFileName, openEditor = true) {
 
 window.replaceSpaces = function(input) {
     const cursorPosition = input.selectionStart;
-    input.value = input.value.replace(/ /g, '_');
+    input.value = input.value.replace(/ /g, '_').replace(/[\/\0*?[\]{}|&$`"'\\<>]/g, '');
     input.setSelectionRange(cursorPosition, cursorPosition);
 }
 

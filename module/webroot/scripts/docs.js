@@ -88,6 +88,11 @@ export async function setupDocsMenu(docsLang) {
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage.md`,
             element: 'usage-content',
         },
+        hiding: {
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/hiding_${docsLang}.md`,
+            fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/hiding.md`,
+            element: 'hiding-content',
+        },
         faq: {
             link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq.md`,

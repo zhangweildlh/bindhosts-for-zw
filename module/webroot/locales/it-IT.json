@@ -96,6 +96,13 @@
         "documents": "Documenti",
         "sources": "Fonti",
         "usage": "Utilizzo",
+        "hiding": "Nascondi",
         "faq": "FAQ"
+    },
+    "confirmation": {
+        "title": "Confermare eliminazione?",
+        "message": "Sei sicuro di voler eliminare",
+        "cancel": "Annulla",
+        "remove": "Elimina"
     }
 }

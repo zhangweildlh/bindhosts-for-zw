@@ -87,15 +87,13 @@ body {
     background-color: #007bff;
     border: none;
     border-radius: 15px;
-    color: white;
-    font-size: 22px;
     width: 55px;
     height: 55px;
     margin-right: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.6);
     pointer-events: auto;
 }
 
@@ -238,7 +236,7 @@ body {
 .host-list-header-ip,
 .host-ip {
     width: 7.5em;
-    font-size: 14px;
+    font-size: 15px;
     flex-shrink: 0;
     text-align: left;
     word-break: break-all;
@@ -248,7 +246,7 @@ body {
 .host-list-header-domain,
 .host-domain {
     flex-grow: 1;
-    font-size: 14px;
+    font-size: 15px;
     padding-left: 3px;
     word-break: break-all;
     word-wrap: break-word;
@@ -265,11 +263,11 @@ body {
     justify-content: center;
     align-items: center;
     right: 0;
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
     border: none;
     color: inherit;
-    border-radius: 6px;
+    border-radius: 7px;
     background-color: #FF4D4D;
     transform: translateX(105%);
 }
@@ -447,8 +445,8 @@ input:checked+.slider:before {
 
 .edit-btn,
 .delete-btn {
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
     position: absolute;
     right: 0;
     transform: translateX(105%);
@@ -456,7 +454,7 @@ input:checked+.slider:before {
     display: flex;
     flex-shrink: 0;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 16px;
     justify-content: center;
     align-items: center;
@@ -772,6 +770,23 @@ input:checked+.slider:before {
     font-size: 20px;
     color: #ccc;
     user-select: none;
+}
+
+.confirm-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 5px;
+    user-select: none;
+}
+
+.confirm-btn {
+    background-color: inherit;
+    color: currentColor;
+    font-size: 14px;
+    border: none;
+    border-radius: 30px;
+    padding: 12px;
 }
 
 .prompt {

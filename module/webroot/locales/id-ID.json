@@ -96,6 +96,13 @@
         "documents": "Dokumen",
         "sources": "Sumber",
         "usage": "Penggunaan",
+        "hiding": "Sembunyikan",
         "faq": "FAQ"
+    },
+    "confirmation": {
+        "title": "Hapus Konfirmasi?",
+        "message": "Apakah Anda yakin ingin menghapus",
+        "cancel": "Batal",
+        "remove": "Hapus"
     }
 }

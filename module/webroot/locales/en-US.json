@@ -96,6 +96,13 @@
         "documents": "Documents",
         "sources": "Sources",
         "usage": "Usage",
+        "hiding": "Hiding",
         "faq": "FAQ"
+    },
+    "confirmation": {
+        "title": "Confirm Remove?",
+        "message": "Are you sure you want to remove",
+        "cancel": "Cancel",
+        "remove": "Remove"
     }
 }

@@ -96,6 +96,13 @@
         "documents": "Dokumente",
         "sources": "Quellen",
         "usage": "Verwendung",
+        "hiding": "Verstecken",
         "faq": "FAQ"
+    },
+    "confirmation": {
+        "title": "Entfernen bestätigen?",
+        "message": "Sind Sie sicher, dass Sie entfernen möchten",
+        "cancel": "Abbrechen",
+        "remove": "Entfernen"
     }
 }

@@ -96,6 +96,13 @@
         "documents": "Belgeler",
         "sources": "Kaynaklar",
         "usage": "Kullanım",
+        "hiding": "Gizle",
         "faq": "SSS"
+    },
+    "confirmation": {
+        "title": "Silmek istediğinize emin misiniz?",
+        "message": "Bu işlem geri alınamaz",
+        "cancel": "İptal",
+        "remove": "Sil"
     }
 }

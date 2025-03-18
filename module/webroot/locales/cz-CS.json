@@ -96,6 +96,13 @@
         "documents": "Dokumenty",
         "sources": "Zdroje",
         "usage": "Použití",
+        "hiding": "Skrýt",
         "faq": "FAQ"
+    },
+    "confirmation": {
+        "title": "Potvrdit odstranění?",
+        "message": "Opravdu chcete odstranit",
+        "cancel": "Zrušit",
+        "remove": "Odstranit"
     }
 }
