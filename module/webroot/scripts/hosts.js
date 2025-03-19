@@ -66,7 +66,7 @@ function displayHostsList(lines, fileType) {
                 const fileName = listItem.querySelector("span").textContent;
                 const remove = await removeCustomHostsFile(fileName);
                 if (remove) {
-                    await execCommand(`rm -f ${basePath}/${fileName}`);
+                    await execCommand(`rm -f ${basePath}/${fileName} /data/adb/modules/bindhosts/webroot/${fileName}`);
                     listElement.removeChild(listItem);
                 }
             });
@@ -443,7 +443,7 @@ function openFileEditor(lastFileName, openEditor = true) {
     // Save file
     async function saveFile() {
         const newFileName = fileNameInput.value;
-        const content = editorInput.value;
+        const content = editorInput.value.trim();
         if (newFileName === "") {
             showPrompt("global.file_name_empty", false);
             return;
@@ -452,7 +452,9 @@ function openFileEditor(lastFileName, openEditor = true) {
             if (openEditor) {
                 await execCommand(`
                     [ ! -f ${basePath}/${lastFileName} ] || rm -f ${basePath}/${lastFileName}
-                    echo "${content}" > ${basePath}/custom${newFileName}.txt
+                    cat << 'AUniqueEOF' > ${basePath}/custom${newFileName}.txt
+${content}
+AUniqueEOF
                     chmod 644 ${basePath}/custom${newFileName}.txt
                 `);
                 showPrompt("global.saved", true, undefined, undefined, `${basePath}/custom${newFileName}.txt`);
