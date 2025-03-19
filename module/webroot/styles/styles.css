@@ -482,6 +482,22 @@ input:checked+.slider:before {
     border-bottom: 1px solid #ccc;
 }
 
+.ol-numbering {
+    padding-left: 10px;
+    counter-reset: item;
+}
+
+.ol-numbering li {
+    border: none;
+    display: block;
+}
+
+.ol-numbering li:before {
+    content: counter(item) ". ";
+    counter-increment: item;
+    padding-right: 0.5em;
+}
+
 .box li span,
 .overlay-content li span {
     font-size: 14px;

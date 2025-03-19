@@ -1,4 +1,4 @@
-import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, developerOption, setDeveloperOption, setLearnMore, initialTransition } from './util.js';
+import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, developerOption, setDeveloperOption, setLearnMore, initialTransition, isRunningOnMMRL } from './util.js';
 import { loadTranslations } from './language.js';
 
 let clickCount = 0;
@@ -41,10 +41,11 @@ async function updateStatusFromModuleProp() {
         updateStatus(description.trim());
     } catch (error) {
         console.error("Failed to read description from module.prop:", error);
+        updateStatus("Error reading description from module.prop");
         if (typeof ksu !== 'undefined' && ksu.mmrl) {
-            updateStatus("Please enable JavaScript API in MMRL settings:\n1. Settings\n2. Security\n3. Allow JavaScript API\n4. Bindhosts\n5. Enable Allow Advanced KernelSU API");
-        } else {
-            updateStatus("Error reading description from module.prop");
+            const permissionOverlay = document.getElementById("mmrl-permission-overlay");
+            permissionOverlay.style.display = 'flex';
+            permissionOverlay.style.opacity = 1;
         }
     }
 }
@@ -176,9 +177,14 @@ async function getHosts() {
     hostList.innerHTML = '';
 
     try {
-        const response = await fetch('hosts.txt');
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const hostsText = await response.text();
+        let hostsText
+        if (isRunningOnMMRL) {
+            hostsText = $BiFile.read("/data/adb/modules/bindhosts/webroot/hosts.txt");
+        } else {
+            const response = await fetch('hosts.txt');
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            hostsText = await response.text();
+        }
 
         hostLines = hostsText
             .trim()

@@ -2,6 +2,7 @@ import { translations } from './language.js';
 
 export let developerOption = false;
 export let learnMore = false;
+export let isRunningOnMMRL = false;
 
 export function setDeveloperOption(value) { developerOption = value; }
 export function setLearnMore(value) { learnMore = value; }
@@ -143,7 +144,7 @@ export function showPrompt(key, isSuccess = true, duration = 2000, preValue = ""
             }, 1000);
         };
     } else {
-        prompt.classList.remove('reboot', 'ripple-element');
+        prompt.classList.remove('reboot');
     }
 
     setTimeout(() => {
@@ -161,8 +162,10 @@ export function showPrompt(key, isSuccess = true, duration = 2000, preValue = ""
 // Function to check if running in MMRL
 export function checkMMRL() {
     if (typeof ksu !== 'undefined' && ksu.mmrl) {
+        isRunningOnMMRL = true;
+
         // Adjust inset
-        if (actionContainer) actionContainer.style.bottom = 'calc(var(--window-inset-bottom) + 80px)';
+        if (actionContainer) actionContainer.style.bottom = 'calc(var(--window-inset-bottom) + 110px)';
         header.style.top = 'var(--window-inset-top)';
         content.style.height = 'calc(100vh - var(--window-inset-top) - var(--window-inset-bottom) - 135px)';
         content.style.top = 'calc(var(--window-inset-top) + 55px)';
@@ -177,6 +180,7 @@ export function checkMMRL() {
         // Request API permission
         try {
             $bindhosts.requestAdvancedKernelSUAPI();
+            $bindhosts.requestFileSystemAPI();
         } catch (error) {
             console.log("Error requesting API:", error);
         }
