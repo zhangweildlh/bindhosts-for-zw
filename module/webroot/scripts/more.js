@@ -163,9 +163,9 @@ document.getElementById('language-container').addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
+    checkMMRL();
     initialTransition();
     loadTranslations();
-    checkMMRL();
     checkUpdateStatus();
     checkBindhostsApp();
     checkMagisk();

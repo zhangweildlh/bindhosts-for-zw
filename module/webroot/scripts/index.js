@@ -328,9 +328,9 @@ function setupQueryInput() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    checkMMRL();
     initialTransition();
     loadTranslations();
-    checkMMRL();
     await getCurrentMode();
     await updateStatusFromModuleProp();
     await loadVersionFromModuleProp();

@@ -165,10 +165,14 @@ export function checkMMRL() {
         isRunningOnMMRL = true;
 
         // Adjust inset
+        header.style.paddingTop = 'var(--window-inset-top)';
+        header.style.height = 'calc(var(--window-inset-top) + 55px)';
         if (actionContainer) actionContainer.style.bottom = 'calc(var(--window-inset-bottom) + 110px)';
-        header.style.top = 'var(--window-inset-top)';
-        content.style.height = 'calc(100vh - var(--window-inset-top) - var(--window-inset-bottom) - 135px)';
-        content.style.top = 'calc(var(--window-inset-top) + 55px)';
+        document.querySelectorAll('.constant-height').forEach(element => {
+            element.style.height = 'calc(100vh - var(--window-inset-top) - var(--window-inset-bottom) - 135px)';
+            element.style.top = 'calc(var(--window-inset-top) + 55px)';
+        });
+        document.querySelector('.footer').style.paddingBottom = 'var(--window-inset-bottom)';
 
         // Set status bars theme based on device theme
         try {
@@ -219,7 +223,7 @@ export function initialTransition() {
                 if (actionBtn) actionBtn.style.transform = 'translateY(110px)';
                 if (modeBtn) modeBtn.classList.remove('loaded');
                 if (saveBtn) saveBtn.style.transform = 'translateX(calc(105% + 15px))';
-                if (backBtn) backBtn.style.transform = 'translateX(-100%)';
+                if (backBtn) backBtn.click();
                 setTimeout(() => {
                     window.location.href = link.href;
                 }, 200);
