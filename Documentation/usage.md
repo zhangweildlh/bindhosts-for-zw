@@ -1,7 +1,7 @@
 # Usage
 
 ## Usage via Terminal
-![terminal_usage](screenshots/terminal_usage.png)
+<img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/terminal_usage.png?raw=true" width="100%">
 
 You can access the various options as shown in the image for bindhosts Magisk/KernelSU/APatch
 - via Termux (or other various common terminal apps)
@@ -33,10 +33,10 @@ You can access the various options as shown in the image for bindhosts Magisk/Ke
 ## Action
  press action to toggle update and reset
  
- ![manager_action](screenshots/manager_action.gif)
+ <img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/manager_action.gif?raw=true" width="100%">
 
 ## WebUI
   add your custom rules, sources, whitelist or blacklist
  
- ![manager_action](screenshots/manager_webui.gif)
+ <img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/manager_webui.gif?raw=true" width="100%">
 

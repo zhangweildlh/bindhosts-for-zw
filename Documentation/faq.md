@@ -6,7 +6,7 @@
   1. Superuser
   2. Chrome
   3. Custom
-  4. disable umount modules<br>![Image reference](screenshots/umount_chrome.png)
+  4. disable umount modules<br><img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/umount_chrome.png?raw=true" width="100%">
 - This also applies on other Chrome and Chromium-based web browsers.
 - Common issue with KernelSU defaults.
 

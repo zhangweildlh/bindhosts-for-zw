@@ -1,7 +1,7 @@
 # Kullanım Kılavuzu
 
 ## Terminal Üzerinden Kullanım
-![terminal_usage](screenshots/terminal_usage.png)
+<img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/terminal_usage.png?raw=true" width="100%">
 
 Magisk/KernelSU/APatch için bindhosts’un çeşitli seçeneklerine aşağıdaki yöntemlerle erişebilirsiniz:
 - Termux (veya diğer yaygın terminal uygulamaları) üzerinden:
@@ -33,9 +33,9 @@ Magisk/KernelSU/APatch için bindhosts’un çeşitli seçeneklerine aşağıdak
 ## Eylem
  Güncelleme ve sıfırlama arasında geçiş yapmak için eyleme basın
  
- ![manager_action](screenshots/manager_action.gif)
+ <img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/manager_action.gif?raw=true" width="100%">
 
 ## Web Arayüzü
   Özel kurallarınızı, kaynaklarınızı, beyaz listenizi veya kara listenizi ekleyin
  
- ![manager_action](screenshots/manager_webui.gif)
+ <img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/manager_webui.gif?raw=true" width="100%">
