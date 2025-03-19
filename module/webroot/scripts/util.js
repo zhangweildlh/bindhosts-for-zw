@@ -253,10 +253,7 @@ export function setupSwipeToClose(element, cover, backButton) {
         const deltaY = e.touches[0].clientY - startY;
         
         // Disable right-to-left swipe
-        if (deltaX < 0) {
-            isDragging = false;
-            return;
-        }
+        if (deltaX < 0) return;
         
         // If vertical movement is greater than horizontal, assume scrolling
         if (Math.abs(deltaY) > Math.abs(deltaX)) {
@@ -265,7 +262,7 @@ export function setupSwipeToClose(element, cover, backButton) {
         }
         if (isScrolling) return;
         currentX = e.touches[0].clientX - startX;
-        if (currentX < 0) currentX = deltaX * -1;
+        if (currentX < 0) return;
         element.style.transform = `translateX(${Math.max(currentX, -window.innerWidth)}px)`;
         // Calculate opacity based on position
         const opacity = 1 - (currentX / window.innerWidth);
