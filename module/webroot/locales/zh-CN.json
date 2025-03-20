@@ -17,7 +17,9 @@
         "saved": "文件已保存至",
         "save_fail": "文件保存失败",
         "file_too_large": "文件编辑不支持大文件",
-        "file_name_empty": "文件名不能为空"
+        "file_name_empty": "文件名不能为空",
+        "show_all": "显示剩余",
+        "more": "个"
     },
     "query": {
         "title": "Host 查询",

@@ -17,7 +17,9 @@
         "saved": "Soubor uložen do",
         "save_fail": "Nepodařilo se uložit soubor",
         "file_too_large": "Jen přejmenování je podporováno na velkých souborech",
-        "file_name_empty": "Název souboru nesmí být prázdný"
+        "file_name_empty": "Název souboru nesmí být prázdný",
+        "show_all": "Zobrazit vše",
+        "more": "více"
     },
     "query": {
         "title": "Dotaz na hostitele",

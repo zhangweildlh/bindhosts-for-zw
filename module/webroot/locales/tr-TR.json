@@ -17,7 +17,9 @@
         "saved": "Dosya kaydedildi",
         "save_fail": "Dosya kaydedilemedi",
         "file_too_large": "Dosya düzenleme desteği yok",
-        "file_name_empty": "Dosya adı boş olamaz"
+        "file_name_empty": "Dosya adı boş olamaz",
+        "show_all": "Tümünü göster",
+        "more": "daha"
     },
     "query": {
         "title": "Host Sorgulama",

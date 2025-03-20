@@ -1,5 +1,5 @@
 import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, setupSwipeToClose, moduleDirectory } from './util.js';
-import { loadTranslations } from './language.js';
+import { loadTranslations, translations } from './language.js';
 import { openFileSelector } from './file_selector.js';
 
 const filePaths = {
@@ -44,7 +44,15 @@ async function loadFile(fileType) {
 function displayHostsList(lines, fileType) {
     const listElement = document.getElementById(`${fileType}-list`);
     listElement.innerHTML = "";
-    lines.forEach(line => {
+    
+    // "show more" option
+    const showInitialLimit = 4;
+    const minItemsForShowMore = 6; // Only show "Show More" when there are at least 6 items
+    const hasMoreItems = lines.length >= minItemsForShowMore;
+    const initialLines = hasMoreItems ? lines.slice(0, showInitialLimit) : lines;
+    
+    // Function to create list items
+    const createListItem = (line) => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
             <span>${line}</span>
@@ -91,8 +99,25 @@ function displayHostsList(lines, fileType) {
                 fileNameEditor(line);
             });
         }
-    });
-    applyRippleEffect();
+        return listItem;
+    };
+
+    // Display initial items
+    initialLines.forEach(line => createListItem(line));
+    // Add "Show More" button
+    if (hasMoreItems) {
+        const showMoreItem = document.createElement("li");
+        showMoreItem.className = "show-more-item";
+        // Special styling to make it visually distinct
+        showMoreItem.innerHTML = `<span>${translations.global.show_all} ${lines.length - showInitialLimit} ${translations.global.more}</span>`;
+        listElement.appendChild(showMoreItem);
+        // Remove the "Show More" button and show remaining items
+        showMoreItem.addEventListener('click', () => {
+            listElement.removeChild(showMoreItem);
+            lines.slice(showInitialLimit).forEach(line => createListItem(line));
+        });
+    }
+-    applyRippleEffect();
 }
 
 /**
@@ -278,7 +303,6 @@ function attachAddButtonListeners() {
         }
     });
 }
-
 
 /**
  * Action button click event
@@ -541,8 +565,8 @@ window.replaceSpaces = function(input) {
  */
 document.addEventListener('DOMContentLoaded', async () => {
     checkMMRL();
+    await loadTranslations();
     initialTransition();
-    loadTranslations();
     ["custom", "sources", "blacklist", "whitelist", "sources_whitelist"].forEach(loadFile);
     getCustomHostsList();
     attachAddButtonListeners();

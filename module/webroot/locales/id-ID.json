@@ -17,7 +17,9 @@
         "saved": "File disimpan ke",
         "save_fail": "Gagal menyimpan file",
         "file_too_large": "Hanya edit file yang diizinkan pada file besar",
-        "file_name_empty": "Nama file tidak boleh kosong"
+        "file_name_empty": "Nama file tidak boleh kosong",
+        "show_all": "Tampilkan semua",
+        "more": "lagi"
     },
     "query": {
         "title": "Kueri Host",

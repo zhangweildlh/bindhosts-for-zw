@@ -511,6 +511,11 @@ input:checked+.slider:before {
     border-bottom: none;
 }
 
+.show-more-item span {
+    text-align: center;
+    width: 100%;
+}
+
 .help-btn {
     background-color: transparent;
     height: fit-content;

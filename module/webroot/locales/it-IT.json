@@ -17,7 +17,9 @@
         "saved": "File salvato in",
         "save_fail": "Errore nel salvataggio del file",
         "file_too_large": "Modifica file non supportata su file grandi",
-        "file_name_empty": "Il nome del file non può essere vuoto"
+        "file_name_empty": "Il nome del file non può essere vuoto",
+        "show_all": "Mostra tutti",
+        "more": "altro"
     },
     "query": {
         "title": "Query Host",

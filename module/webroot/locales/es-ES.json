@@ -17,7 +17,9 @@
         "saved": "Archivo guardado en",
         "save_fail": "Error al guardar el archivo",
         "file_too_large": "Edición de archivos grandes no es soportada",
-        "file_name_empty": "El nombre del archivo no puede estar vacío"
+        "file_name_empty": "El nombre del archivo no puede estar vacío",
+        "show_all": "Mostrar todos",
+        "more": "más"
     },
     "query": {
         "title": "Consulta de Host",

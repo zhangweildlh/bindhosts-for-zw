@@ -17,7 +17,9 @@
         "saved": "File saved to",
         "save_fail": "Failed to save file",
         "file_too_large": "File edit is not supported on large file",
-        "file_name_empty": "File name cannot be empty"
+        "file_name_empty": "File name cannot be empty",
+        "show_all": "Show All",
+        "more": "More"
     },
     "query": {
         "title": "Host Query",
