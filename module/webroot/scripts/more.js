@@ -1,4 +1,4 @@
-import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition } from './util.js';
+import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, moduleDirectory } from './util.js';
 import { loadTranslations } from './language.js';
 
 /**
@@ -21,7 +21,7 @@ async function checkBindhostsApp() {
         try {
             showPrompt("control_panel.installing", true, undefined, "[+]");
             await new Promise(resolve => setTimeout(resolve, 200));
-            const output = await execCommand("sh /data/adb/modules/bindhosts/bindhosts-app.sh");
+            const output = await execCommand(`sh ${moduleDirectory}/bindhosts-app.sh`);
             const lines = output.split("\n");
             lines.forEach(line => {
                 if (line.includes("[+]")) {
@@ -47,7 +47,7 @@ async function checkBindhostsApp() {
 async function checkUpdateStatus() {
     const toggleVersion = document.getElementById('toggle-version');
     try {
-        const result = await execCommand("grep -q '^updateJson' /data/adb/modules/bindhosts/module.prop");
+        const result = await execCommand(`grep -q '^updateJson' ${moduleDirectory}/module.prop`);
         toggleVersion.checked = true;
     } catch (error) {
         toggleVersion.checked = false;
@@ -58,7 +58,7 @@ async function checkUpdateStatus() {
 // Switch module update status and refreh toggle
 document.getElementById('update-toggle-container').addEventListener('click', async function () {
     try {
-        const result = await execCommand("sh /data/adb/modules/bindhosts/bindhosts.sh --toggle-updatejson");
+        const result = await execCommand(`sh ${moduleDirectory}/bindhosts.sh --toggle-updatejson`);
         const lines = result.split("\n");
         lines.forEach(line => {
             if (line.includes("[+]")) {
@@ -138,7 +138,7 @@ async function checkCronStatus() {
 
 document.getElementById('cron-toggle-container').addEventListener('click', async function () {
     try {
-        const result = await execCommand(`sh /data/adb/modules/bindhosts/bindhosts.sh --${cronToggle.checked ? "disable" : "enable"}-cron`);
+        const result = await execCommand(`sh ${moduleDirectory}/bindhosts.sh --${cronToggle.checked ? "disable" : "enable"}-cron`);
         const lines = result.split("\n");
         lines.forEach(line => {
             if (line.includes("[+]")) {

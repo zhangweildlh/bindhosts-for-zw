@@ -8,6 +8,7 @@ export function setDeveloperOption(value) { developerOption = value; }
 export function setLearnMore(value) { learnMore = value; }
 
 export const basePath = "/data/adb/bindhosts";
+export const moduleDirectory = "/data/adb/modules/bindhosts";
 const header = document.querySelector('.header');
 const actionContainer = document.querySelector('.float');
 const content = document.querySelector('.content');

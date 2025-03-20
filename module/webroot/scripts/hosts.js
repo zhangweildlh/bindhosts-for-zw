@@ -1,4 +1,4 @@
-import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, setupSwipeToClose } from './util.js';
+import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, setupSwipeToClose, moduleDirectory } from './util.js';
 import { loadTranslations } from './language.js';
 import { openFileSelector } from './file_selector.js';
 
@@ -79,7 +79,7 @@ function displayHostsList(lines, fileType) {
                 const fileName = listItem.querySelector("span").textContent;
                 const remove = await removeCustomHostsFile(fileName);
                 if (remove) {
-                    await execCommand(`rm -f ${basePath}/${fileName} /data/adb/modules/bindhosts/webroot/${fileName}`);
+                    await execCommand(`rm -f ${basePath}/${fileName} ${moduleDirectory}/webroot/${fileName}`);
                     listElement.removeChild(listItem);
                 }
             });
@@ -289,8 +289,7 @@ document.getElementById("actionButton").addEventListener("click", async () => {
     try {
         showPrompt("global.executing", true, 50000);
         await new Promise(resolve => setTimeout(resolve, 200));
-            const command = "sh /data/adb/modules/bindhosts/bindhosts.sh --action";
-            const output = await execCommand(command);
+            const output = await execCommand(`sh ${moduleDirectory}/bindhosts.sh --action`);
             const lines = output.split("\n");
             // Use translation key as much as possible
             lines.forEach(line => {
@@ -352,7 +351,7 @@ async function fileNameEditor(fileName) {
             if [ $(wc -c < ${basePath}/${fileName}) -gt 131072 ]; then
                 exit 1
             fi
-            ln -sf ${basePath}/${fileName} /data/adb/modules/bindhosts/webroot/${fileName}
+            ln -sf ${basePath}/${fileName} ${moduleDirectory}/webroot/${fileName}
         `);
         const response = await fetch(`${fileName}`);
         editorInput.value = await response.text();

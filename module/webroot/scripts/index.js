@@ -1,4 +1,4 @@
-import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, developerOption, setDeveloperOption, setLearnMore, initialTransition, isRunningOnMMRL } from './util.js';
+import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, developerOption, setDeveloperOption, setLearnMore, initialTransition, isRunningOnMMRL, moduleDirectory } from './util.js';
 import { loadTranslations } from './language.js';
 
 let clickCount = 0;
@@ -11,8 +11,7 @@ let clickTimeout;
 async function getCurrentMode() {
     const modeElement = document.getElementById('mode-text');
     try {
-        const command = "grep '^operating_mode=' /data/adb/modules/bindhosts/mode.sh | cut -d'=' -f2";
-        const mode = await execCommand(command);
+        const mode = await execCommand(`grep '^operating_mode=' ${moduleDirectory}/mode.sh | cut -d'=' -f2`);
         modeElement.textContent = mode.trim();
     } catch (error) {
         console.error("Failed to read current mode from mode.sh:", error);
@@ -27,8 +26,7 @@ async function getCurrentMode() {
 async function loadVersionFromModuleProp() {
     const versionElement = document.getElementById('version-text');
     try {
-        const command = "grep '^version=' /data/adb/modules/bindhosts/module.prop | cut -d'=' -f2";
-        const version = await execCommand(command);
+        const version = await execCommand(`grep '^version=' ${moduleDirectory}/module.prop | cut -d'=' -f2`);
         versionElement.textContent = version.trim();
     } catch (error) {
         console.error("Failed to read version from module.prop:", error);
@@ -42,8 +40,7 @@ async function loadVersionFromModuleProp() {
  */
 async function updateStatusFromModuleProp() {
     try {
-        const command = "grep '^description=' /data/adb/modules/bindhosts/module.prop | sed 's/description=status: //'";
-        const description = await execCommand(command);
+        const description = await execCommand(`grep '^description=' ${moduleDirectory}/module.prop | sed 's/description=status: //'`);
         if (!description.trim()) throw new Error("Description is empty");
         updateStatus(description.trim());
     } catch (error) {
@@ -211,7 +208,7 @@ async function getHosts() {
         if (isRunningOnMMRL) {
             // Use MMRL FileSystem API to read the file in MMRL, not working when file is large
             // Currently, fecth large files will crash MMRL
-            hostsText = $BiFile.read("/data/adb/modules/bindhosts/webroot/hosts.txt");
+            hostsText = $BiFile.read(`${moduleDirectory}/webroot/hosts.txt`);
         } else {
             const response = await fetch('hosts.txt');
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -262,7 +259,7 @@ async function getHosts() {
 async function linkHosts() {
     try {
         // backend required due to different target host file
-        await execCommand('sh /data/adb/modules/bindhosts/bindhosts.sh --link-hosts');
+        await execCommand(`sh ${moduleDirectory}/bindhosts.sh --link-hosts`);
         await getHosts();
     } catch (error) {
         console.error("Error linking hosts:", error);
@@ -314,7 +311,7 @@ function loadMoreHosts(callback) {
  */
 async function handleRemove(event, domains) {
     try {
-        await execCommand(`sh /data/adb/modules/bindhosts/bindhosts.sh --whitelist ${domains.join(' ')}`);
+        await execCommand(`sh ${moduleDirectory}/bindhosts.sh --whitelist ${domains.join(' ')}`);
         // Find and remove the element directly
         const hostItem = event.target.closest('.host-list-row');
         if (hostItem) {

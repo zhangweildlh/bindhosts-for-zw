@@ -1,5 +1,5 @@
 import { setupDocsMenu } from './docs.js';
-import { execCommand, basePath, applyRippleEffect } from './util.js';
+import { execCommand, basePath, applyRippleEffect, moduleDirectory } from './util.js';
 
 const languageMenu = document.querySelector('.language-menu');
 
@@ -129,7 +129,7 @@ if (languageMenu) {
             try {
                 execCommand(`
                     echo "${lang}" > ${basePath}/prefered_language.txt
-                    [ -L /data/adb/modules/bindhosts/webroot/locales/prefered_language.txt ] || ln -s ${basePath}/prefered_language.txt /data/adb/modules/bindhosts/webroot/locales/prefered_language.txt
+                    [ -L ${moduleDirectory}/webroot/locales/prefered_language.txt ] || ln -s ${basePath}/prefered_language.txt ${moduleDirectory}/webroot/locales/prefered_language.txt
                 `);
             } catch (error) {
                 console.error("Error setting default language:", error);
