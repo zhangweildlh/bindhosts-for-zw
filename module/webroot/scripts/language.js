@@ -6,7 +6,10 @@ const languageMenu = document.querySelector('.language-menu');
 export let translations = {};
 let availableLanguages = ['en-US'];
 
-// Function to detect user's default language
+/**
+ * Detect user's default language
+ * @returns {Promise<string>} - Detected language code
+ */
 export async function detectUserLanguage() {
     const userLang = navigator.language || navigator.userLanguage;
     const langCode = userLang.split('-')[0];
@@ -38,7 +41,10 @@ export async function detectUserLanguage() {
     }
 }
 
-// Load translations dynamically based on the selected language
+/**
+ * Load translations dynamically based on the selected language
+ * @returns {Promise<void>}
+ */
 export async function loadTranslations() {
     const lang = await detectUserLanguage();
     const response = await fetch(`locales/${lang}.json`);
@@ -47,7 +53,10 @@ export async function loadTranslations() {
     setupDocsMenu(lang);
 }
 
-// Function to apply translations to all elements with data-i18n attributes
+/**
+ * Apply translations to all elements with data-i18n attributes
+ * @returns {void}
+ */
 function applyTranslations() {
     document.querySelectorAll("[data-i18n]").forEach((el) => {
         const keyString = el.getAttribute("data-i18n");
@@ -68,7 +77,11 @@ function applyTranslations() {
     });
 }
 
-// Function to generate the language menu dynamically
+/**
+ * Generate the language menu dynamically
+ * Refer available-lang.json in ./locales for list of languages
+ * @returns {Promise<void>}
+ */
 async function generateLanguageMenu() {
     if (!languageMenu) return;
     languageMenu.innerHTML = '';
@@ -107,6 +120,7 @@ async function generateLanguageMenu() {
 /**
  * Add memory to the language menu
  * Restore user language if default language is selected
+ * @returns {void}
  */
 if (languageMenu) {
     languageMenu.addEventListener("click", (e) => {

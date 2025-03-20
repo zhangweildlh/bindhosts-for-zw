@@ -2,9 +2,10 @@ import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initia
 import { loadTranslations } from './language.js';
 
 /**
- * Function to check the if user has installed bindhosts app
+ * Check if user has installed bindhosts app
  * Show QS tile option when user has not installed bindhosts app
  * Click to install bindhosts app
+ * @returns {Promise<void>}
  */
 async function checkBindhostsApp() {
     const tilesContainer = document.getElementById('tiles-container');
@@ -39,8 +40,9 @@ async function checkBindhostsApp() {
 }
 
 /**
- * Function to check module update status
+ * Check module update status
  * Event listener for module update toggle
+ * @returns {Promise<void>}
  */
 async function checkUpdateStatus() {
     const toggleVersion = document.getElementById('toggle-version');
@@ -52,6 +54,8 @@ async function checkUpdateStatus() {
         console.error('Error checking update status:', error);
     }
 }
+
+// Switch module update status and refreh toggle
 document.getElementById('update-toggle-container').addEventListener('click', async function () {
     try {
         const result = await execCommand("sh /data/adb/modules/bindhosts/bindhosts.sh --toggle-updatejson");
@@ -69,12 +73,14 @@ document.getElementById('update-toggle-container').addEventListener('click', asy
     }
 });
 
+
+const actionRedirectContainer = document.getElementById('action-redirect-container');
+const actionRedirectStatus = document.getElementById('action-redirect');
 /**
  * Display action redirect switch when running in Magisk
  * Action redirect WebUI toggle
+ * @returns {Promise<void>}
  */
-const actionRedirectContainer = document.getElementById('action-redirect-container');
-const actionRedirectStatus = document.getElementById('action-redirect');
 async function checkMagisk() {
     try {
         const magiskEnv = await execCommand(`command -v magisk >/dev/null 2>&1 && echo "true" || echo "false"`);
@@ -99,6 +105,11 @@ async function checkMagisk() {
         console.error("Error while checking magisk", error);
     }
 }
+
+/**
+ * Check action redirect status
+ * @returns {Promise<void>}
+ */
 async function checkRedirectStatus() {
     try {
         const result = await execCommand(`[ ! -f ${basePath}/webui_setting.sh ] || grep -q '^magisk_webui_redirect=1' ${basePath}/webui_setting.sh`);
@@ -110,8 +121,9 @@ async function checkRedirectStatus() {
 }
 
 /**
- * Function to check cron status
+ * Check cron status
  * Event listener for cron toggle
+ * @returns {Promise<void>}
  */
 const cronToggle = document.getElementById('toggle-cron');
 async function checkCronStatus() {
@@ -123,6 +135,7 @@ async function checkCronStatus() {
         console.error('Error checking cron status:', error);
     }
 }
+
 document.getElementById('cron-toggle-container').addEventListener('click', async function () {
     try {
         const result = await execCommand(`sh /data/adb/modules/bindhosts/bindhosts.sh --${cronToggle.checked ? "disable" : "enable"}-cron`);
@@ -162,6 +175,10 @@ document.getElementById('language-container').addEventListener('click', () => {
     });
 });
 
+/**
+ * Initial load event listener
+ * @returns {void}
+ */
 document.addEventListener('DOMContentLoaded', async () => {
     checkMMRL();
     initialTransition();

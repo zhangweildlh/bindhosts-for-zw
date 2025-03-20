@@ -5,7 +5,10 @@ import { getCustomHostsList } from './hosts.js';
 const fileSelector = document.querySelector('.file-selector-overlay');
 let currentPath = '/storage/emulated/0/Download';
 
-// Function to display file in current path
+/**
+ * Display the current path in the headeer of file selector
+ * @returns {void}
+ */
 function updateCurrentPath() {
     const currentPathElement = document.querySelector('.current-path');
     const segments = currentPath.split('/').filter(Boolean);
@@ -23,7 +26,12 @@ function updateCurrentPath() {
     });
 }
 
-// Function to list files in directory
+/**
+ * List files in the specified directory
+ * @param {string} path - Directory path to list files from
+ * @param {boolean} skipAnimation - Whether to skip the animation
+ * @returns {Promise<void>}
+ */
 async function listFiles(path, skipAnimation = false) {
     const fileList = document.querySelector('.file-list');
     if (!skipAnimation) {
@@ -31,6 +39,7 @@ async function listFiles(path, skipAnimation = false) {
         await new Promise(resolve => setTimeout(resolve, 150));
     }
     try {
+        // Limit to .txt files and directories only, theoretically symlinks supported
         const result = await execCommand(`
             cd "${path}"
             find . -maxdepth 1 -type f -name "*.txt" -o -type d ! -name ".*" -o -type l | sort
@@ -57,6 +66,7 @@ async function listFiles(path, skipAnimation = false) {
             });
             fileList.appendChild(backItem);
         }
+        // Add folder and file file selector
         items.forEach(item => {
             if (item.path === path) return;
             const itemElement = document.createElement('div');
@@ -69,8 +79,10 @@ async function listFiles(path, skipAnimation = false) {
                 </svg>
                 <span>${item.name}</span>
             `;
+            // Attach click event
             itemElement.addEventListener('click', async () => {
                 if (item.isDirectory) {
+                    // Go into directory
                     currentPath = item.path;
                     const currentPathElement = document.querySelector('.current-path');
                     currentPathElement.innerHTML = currentPath.split('/').filter(Boolean).join('<span class="separator">›</span>');
@@ -80,6 +92,7 @@ async function listFiles(path, skipAnimation = false) {
                     });
                     await listFiles(item.path);
                 } else {
+                    // Select file
                     try {
                         const fileName = item.name.replace(/ /g, '_');
                         await execCommand(`
@@ -110,7 +123,11 @@ async function listFiles(path, skipAnimation = false) {
     updateCurrentPath();
 }
 
-// Update click handler to use data-path attribute
+/**
+ * Update click handler to use data-path attribute
+ * By clicking on a path segment, the user can navigate to that directory
+ * @returns {void}
+ */
 document.querySelector('.current-path').addEventListener('click', async (event) => {
     const segment = event.target.closest('.path-segment');
     if (!segment) return;
@@ -135,7 +152,10 @@ document.querySelector('.current-path').addEventListener('click', async (event) 
     await listFiles(currentPath);
 });
 
-// Back button handler
+/**
+ * Back button handler to navigate up one directory
+ * @returns {void}
+ */
 document.querySelector('.file-selector-back-button').addEventListener('click', async () => {
     if (currentPath === '/storage/emulated/0') return;
     currentPath = currentPath.split('/').slice(0, -1).join('/');
@@ -149,17 +169,19 @@ document.querySelector('.file-selector-back-button').addEventListener('click', a
     await listFiles(currentPath);
 });
 
-// Close file selector
+
+// Close file selector overlay
 document.querySelector('.close-selector').addEventListener('click', () => {
     closeFileSelector();
 });
 fileSelector.addEventListener('click', (event) => {
-    if (event.target === fileSelector) {
-        closeFileSelector();
-    }
+    if (event.target === fileSelector) closeFileSelector();
 });
 
-// Function to close file selector
+/**
+ * Function to close file selector
+ * @returns {void}
+ */
 function closeFileSelector() {
     fileSelector.style.opacity = '0';
     document.body.classList.remove("no-scroll");
@@ -168,7 +190,10 @@ function closeFileSelector() {
     }, 300);
 }
 
-// Open file selector
+/**
+ * Open file selector overlay
+ * @returns {Promise<void>}
+ */
 export async function openFileSelector() {
     fileSelector.style.display = 'flex';
     document.body.classList.add("no-scroll");

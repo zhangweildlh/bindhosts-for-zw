@@ -12,7 +12,12 @@ const header = document.querySelector('.header');
 const actionContainer = document.querySelector('.float');
 const content = document.querySelector('.content');
 
-// Execute shell commands
+/**
+ * Execute shell commands
+ * suppress stderr and return stdout only
+ * @param {string} command - Command to execute
+ * @returns {Promise<string>} - Command output
+ */
 export async function execCommand(command) {
     return new Promise((resolve, reject) => {
         const callbackName = `exec_callback_${Date.now()}`;
@@ -34,7 +39,11 @@ export async function execCommand(command) {
     });
 }
 
-// Show toast with ksu
+/**
+ * Show toast with ksu
+ * @param {string} message - Message to display
+ * @returns {void}
+ */
 export function toast(message) {
     try {
         ksu.toast(message);
@@ -43,7 +52,11 @@ export function toast(message) {
     }
 }
 
-// Function to redirect link on external browser
+/**
+ * Redirect link on external browser
+ * @param {string} link - URL to redirect
+ * @returns {Promise<void>}
+ */
 export async function linkRedirect(link) {
     try {
         await execCommand(`am start -a android.intent.action.VIEW -d ${link}`);
@@ -52,7 +65,10 @@ export async function linkRedirect(link) {
     }
 }
 
-// Function to add material design style ripple effect
+/**
+ * Add material design style ripple effect
+ * @returns {void}
+ */
 export function applyRippleEffect() {
     document.querySelectorAll('.ripple-element, .reboot').forEach(element => {
         if (element.dataset.rippleListener !== "true") {
@@ -110,7 +126,15 @@ export function applyRippleEffect() {
     });
 }
 
-// Function to show the prompt with a success or error message
+/**
+ * Show the prompt with a success or error message
+ * @param {string} key - Translation key for the message
+ * @param {boolean} isSuccess - Whether the message indicates success
+ * @param {number} [duration=2000] - Duration to display the message
+ * @param {string} [preValue=""] - Text to prepend to the message
+ * @param {string} [postValue=""] - Text to append to the message
+ * @returns {void}
+ */
 export function showPrompt(key, isSuccess = true, duration = 2000, preValue = "", postValue = "") {
     const prompt = document.getElementById('prompt');
     const message = key.split('.').reduce((acc, k) => acc && acc[k], translations) || key;
@@ -159,7 +183,10 @@ export function showPrompt(key, isSuccess = true, duration = 2000, preValue = ""
     }, 100);
 }
 
-// Function to check if running in MMRL
+/**
+ * Check if running in MMRL
+ * @returns {void}
+ */
 export function checkMMRL() {
     if (typeof ksu !== 'undefined' && ksu.mmrl) {
         isRunningOnMMRL = true;
@@ -193,7 +220,10 @@ export function checkMMRL() {
     }
 }
 
-// Function to add loaded class and transition for links
+/**
+ * Add loaded class and transition for links
+ * @returns {void}
+ */
 export function initialTransition() {
     const content = document.querySelector('.constant-height');
     const title = document.querySelector('.title-container');
@@ -212,7 +242,7 @@ export function initialTransition() {
         if (actionBtn) actionBtn.style.transform = 'translateY(0)';
     }, 100);
 
-    // Add transition for links
+    // Quit transition on switching page
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', (e) => {
             if (link.href && link.href.startsWith(window.location.origin)) {
@@ -220,7 +250,7 @@ export function initialTransition() {
                 content.classList.add('exiting');
                 title.classList.remove('loaded');
                 focusedFooterBtn.classList.remove('loaded');
-                if (actionBtn) actionBtn.style.transform = 'translateY(110px)';
+                if (actionBtn) setTimeout(() => actionBtn.style.transform = 'translateY(110px)', 10);
                 if (modeBtn) modeBtn.classList.remove('loaded');
                 if (saveBtn) saveBtn.style.transform = 'translateX(calc(105% + 15px))';
                 if (backBtn) backBtn.click();
@@ -232,7 +262,13 @@ export function initialTransition() {
     });
 }
 
-// setup swipe to close
+/**
+ * Setup swipe to close for slide-in panels
+ * @param {HTMLElement} element - Element to swipe
+ * @param {HTMLElement} cover - Cover element
+ * @param {HTMLElement} backButton - Back button element
+ * @returns {void}
+ */
 export function setupSwipeToClose(element, cover, backButton) {
     let startX = 0, currentX = 0, startY = 0, isDragging = false, isScrolling = false;
 

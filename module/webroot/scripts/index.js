@@ -4,7 +4,10 @@ import { loadTranslations } from './language.js';
 let clickCount = 0;
 let clickTimeout;
 
-// Function to load current mode
+/**
+ * Load the current mode from mode.sh
+ * @returns {Promise<void>}
+ */
 async function getCurrentMode() {
     const modeElement = document.getElementById('mode-text');
     try {
@@ -17,7 +20,10 @@ async function getCurrentMode() {
     }
 }
 
-// Function to load the version from module.prop and load the version in the WebUI
+/**
+ * Load the version from module.prop
+ * @returns {Promise<void>}
+ */
 async function loadVersionFromModuleProp() {
     const versionElement = document.getElementById('version-text');
     try {
@@ -30,14 +36,15 @@ async function loadVersionFromModuleProp() {
     }
 }
 
-// Function to get the status from module.prop and update the status in the WebUI
+/**
+ * Get the status from module.prop
+ * @returns {Promise<void>}
+ */
 async function updateStatusFromModuleProp() {
     try {
         const command = "grep '^description=' /data/adb/modules/bindhosts/module.prop | sed 's/description=status: //'";
         const description = await execCommand(command);
-        if (!description.trim()) {
-            throw new Error("Description is empty");
-        }
+        if (!description.trim()) throw new Error("Description is empty");
         updateStatus(description.trim());
     } catch (error) {
         console.error("Failed to read description from module.prop:", error);
@@ -50,7 +57,11 @@ async function updateStatusFromModuleProp() {
     }
 }
 
-// Function to update the status text dynamically in the WebUI
+/**
+ * Update the status text dynamically in the UI
+ * @param {string} statusText - Status text to display
+ * @returns {void}
+ */
 function updateStatus(statusText) {
     const statusElement = document.getElementById('status-text');
     statusElement.innerHTML = statusText.replace(/\n/g, '<br>');
@@ -81,6 +92,7 @@ document.getElementById("status-box").addEventListener("click", async (event) =>
 /**
  * Check if developer option is enabled
  * Allow open mode menu if developer option is enabled
+ * @returns {Promise<void>}
  */
 async function checkDevOption() {
     try {
@@ -92,6 +104,9 @@ async function checkDevOption() {
         console.error("Error checking developer option:", error);
     }
 }
+
+
+// Open mode menu if developer option is enabled
 document.getElementById("mode-btn").addEventListener("click", async () => {
     await checkDevOption();
     const modeMenu = document.getElementById("mode-menu");
@@ -109,7 +124,10 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
         });
     }
 
-    // Close overlay
+    /**
+     * Close overlay
+     * @returns {void}
+     */
     function closeOverlay() {
         modeMenu.style.opacity = "0";
         setTimeout(() => {
@@ -118,7 +136,11 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
         setLearnMore(false);
     }
 
-    // Save mode option
+    /**
+     * Save mode option
+     * @param {string} mode - Mode to save
+     * @returns {Promise<void>}
+     */
     async function saveModeSelection(mode) {
         try {
             if (mode === "reset") {
@@ -135,7 +157,10 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
         }
     }
 
-    // Update radio button state based on current mode
+    /**
+     * Update radio button state based on current mode
+     * @returns {Promise<void>}
+     */
     async function updateModeSelection() {
         try {
             const fileExists = await execCommand(`[ -f ${basePath}/mode_override.sh ] && echo 'true' || echo 'false'`);
@@ -168,17 +193,24 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
 /**
  * Query box
  * Load hosts dynamically to avoid long loading time due to big hosts file
- * Load 20 each time, and load more when scroll to the bottom
+ * Load 50 each time, and load more when scroll to the bottom
  */
 let hostLines = [], originalHostLines = [], currentIndex = 0, initialHeight = 0;
 const batchSize = 50;
 const hostList = document.querySelector('.host-list-item');
+
+/**
+ * Get hosts from hosts.txt and display them in the UI
+ * @returns {Promise<void>}
+ */
 async function getHosts() {
     hostList.innerHTML = '';
 
     try {
         let hostsText
         if (isRunningOnMMRL) {
+            // Use MMRL FileSystem API to read the file in MMRL, not working when file is large
+            // Currently, fecth large files will crash MMRL
             hostsText = $BiFile.read("/data/adb/modules/bindhosts/webroot/hosts.txt");
         } else {
             const response = await fetch('hosts.txt');
@@ -223,7 +255,10 @@ async function getHosts() {
     }
 }
 
-// Link hosts to the webroot if not found
+/**
+ * Link hosts to the webroot if not found
+ * @returns {Promise<void>}
+ */
 async function linkHosts() {
     try {
         // backend required due to different target host file
@@ -234,7 +269,11 @@ async function linkHosts() {
     }
 }
 
-// Load more hosts on scroll to the bottom
+/**
+ * Load more hosts on scroll to the bottom
+ * @param {Function} [callback] - Optional callback function to execute after loading more hosts
+ * @returns {void}
+ */
 function loadMoreHosts(callback) {
     for (let i = 0; i < batchSize && currentIndex < hostLines.length; i++, currentIndex++) {
         const [hostIp, ...domains] = hostLines[currentIndex];
@@ -267,7 +306,12 @@ function loadMoreHosts(callback) {
     if (callback) requestAnimationFrame(callback);
 }
 
-// Handle remove host
+/**
+ * Handle remove host
+ * @param {Event} event - Click event
+ * @param {string[]} domains - Domains to remove
+ * @returns {Promise<void>}
+ */
 async function handleRemove(event, domains) {
     try {
         await execCommand(`sh /data/adb/modules/bindhosts/bindhosts.sh --whitelist ${domains.join(' ')}`);
@@ -283,7 +327,10 @@ async function handleRemove(event, domains) {
     }
 }
 
-// Setup search functionality
+/**
+ * Setup search functionality
+ * @returns {void}
+ */
 function setupQueryInput() {
     const inputBox = document.getElementById('query-input');
     const searchBtn = document.querySelector('.search-btn');
@@ -327,6 +374,10 @@ function setupQueryInput() {
     });
 }
 
+/**
+ * Initial load event listener
+ * @returns {void}
+ */
 document.addEventListener('DOMContentLoaded', async () => {
     checkMMRL();
     initialTransition();

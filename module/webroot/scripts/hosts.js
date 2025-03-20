@@ -10,7 +10,13 @@ const filePaths = {
     sources_whitelist: `${basePath}/sources_whitelist.txt`,
 };
 
-// Function to read a file and display its content in the UI
+/**
+ * Read a file and display its content in the UI
+ * Exclude # pattern
+ * Create empty file if file not found
+ * @param {string} fileType - Type of hosts file ('custom', 'sources', 'blacklist', etc.)
+ * @returns {Promise<void>}
+ */
 async function loadFile(fileType) {
     try {
         const content = await execCommand(`
@@ -27,7 +33,14 @@ async function loadFile(fileType) {
     }
 }
 
-// Function to display hosts list in the UI
+/**
+ * Display hosts list in the UI
+ * Create list item with remove button, edit button on custom file
+ * @param {string[]} lines - Array of host entries to display
+ * @param {string} fileType - Type of hosts file ('custom', 'sources', 'blacklist', etc.)
+ * @throws {Error} When DOM elements are not found
+ * @returns {void}
+ */
 function displayHostsList(lines, fileType) {
     const listElement = document.getElementById(`${fileType}-list`);
     listElement.innerHTML = "";
@@ -82,15 +95,17 @@ function displayHostsList(lines, fileType) {
     applyRippleEffect();
 }
 
-// Function to handle adding input to the file
+/**
+ * Handle adding input to the file
+ * @param {string} fileType - Type of hosts file ('custom', 'sources', 'blacklist', etc.)
+ * @param {string} prompt - Prompt message to display
+ * @returns {Promise<void>}
+ */
 async function handleAdd(fileType, prompt) {
     const inputElement = document.getElementById(`${fileType}-input`);
     const inputValue = inputElement.value.trim();
     console.log(`Input value for ${fileType}: "${inputValue}"`);
-    if (inputValue === "") {
-        console.error("Input is empty. Skipping add operation.");
-        return;
-    }
+    if (inputValue === "") return;
     const inputLines = inputValue.split('\n').map(line => line.trim()).filter(line => line !== "");
     try {
         const fileContent = await execCommand(`cat ${filePaths[fileType]}`);
@@ -98,23 +113,23 @@ async function handleAdd(fileType, prompt) {
 
         for (const line of inputLines) {
             if (existingLines.includes(line)) {
-                console.log(`"${line}" is already in ${fileType}. Skipping add operation.`);
                 showPrompt(prompt, false, 2000, `${line}`);
                 continue;
             }
             await execCommand(`echo "${line}" >> ${filePaths[fileType]}`);
-            console.log(`Added "${line}" to ${fileType} successfully.`);
         }
-
-        inputElement.value = "";
-        console.log(`Input box for ${fileType} cleared.`);
+        inputElement.value = ""; // Clear input if add successful
         loadFile(fileType);
     } catch (error) {
         console.error(`Failed to process input for ${fileType}: ${error}`);
     }
 }
 
-// Custom hosts file removal confirmation
+/**
+ * Remove custom hosts file with confirmation
+ * @param {string} fileName - Name of the file to remove
+ * @returns {Promise<boolean>}
+ */
 function removeCustomHostsFile(fileName) {
     const confirmationOverlay = document.getElementById("confirmation-overlay");
     const cancelButton = document.getElementById("cancel-btn");
@@ -122,6 +137,7 @@ function removeCustomHostsFile(fileName) {
 
     document.getElementById("confirmation-file-name").textContent = fileName;
 
+    // Open confirmation dialog
     confirmationOverlay.style.display = "flex";
     setTimeout(() => {
         confirmationOverlay.style.opacity = "1";
@@ -139,6 +155,10 @@ function removeCustomHostsFile(fileName) {
             closeConfirmationOverlay();
             resolve(false);
         });
+        confirmationOverlay.addEventListener("click", (e) => {
+            if (e.target === confirmationOverlay) cancelButton.click();
+        });
+        // Confirm file removal
         removeButton.addEventListener("click", () => {
             closeConfirmationOverlay();
             resolve(true);
@@ -148,6 +168,10 @@ function removeCustomHostsFile(fileName) {
 
 // Help event listener
 export let activeOverlay = null;
+/**
+ * Setup help menu event listeners to open and close help overlays
+ * @returns {void}
+ */
 function setupHelpMenu() {
     const helpButtons = document.querySelectorAll(".help-btn");
     const overlays = document.querySelectorAll(".overlay");
@@ -192,7 +216,11 @@ function setupHelpMenu() {
     }
 }
 
-// Prevent input box blocked by keyboard
+/**
+ * Attach event listeners to input boxes to prevent them from being blocked by the keyboard
+ * Scoll up when focused input is at the bottom of the screen (60%)
+ * @returns {void}
+ */
 document.querySelectorAll('.input-box').forEach(input => {
     input.addEventListener('focus', event => {
         document.querySelector('.placeholder').classList.add('focused');
@@ -223,8 +251,12 @@ document.querySelectorAll('.input-box').forEach(input => {
     });
 });
 
-// Attach event listeners to the add buttons
+/**
+ * Attach event listeners to the add buttons
+ * @returns {void}
+ */
 function attachAddButtonListeners() {
+    // id - input id, type - file type, fail - prompt message
     const elements = [
         { id: "custom-input", type: "custom", fail: "custom.prompt_fail" },
         { id: "sources-input", type: "sources", fail: "source.prompt_fail" },
@@ -238,6 +270,7 @@ function attachAddButtonListeners() {
         if (inputElement) {
             inputElement.addEventListener("keypress", (e) => {
                 if (e.key === "Enter") handleAdd(type, fail);
+                inputElement.blur();
             });
         }
         if (buttonElement) {
@@ -250,6 +283,7 @@ function attachAddButtonListeners() {
 /**
  * Action button click event
  * Run bindhosts.sh --action on click
+ * @returns {Promise<void>}
  */
 document.getElementById("actionButton").addEventListener("click", async () => {
     try {
@@ -258,6 +292,7 @@ document.getElementById("actionButton").addEventListener("click", async () => {
             const command = "sh /data/adb/modules/bindhosts/bindhosts.sh --action";
             const output = await execCommand(command);
             const lines = output.split("\n");
+            // Use translation key as much as possible
             lines.forEach(line => {
                 if (line.includes("[+] hosts file reset!")) {
                     showPrompt("global.reset", true, undefined, "[+]");
@@ -272,7 +307,7 @@ document.getElementById("actionButton").addEventListener("click", async () => {
                 } else if (line.includes("[*] please reset")) {
                     showPrompt("global.adaway", false, undefined, "[*]");
                 } else if (line.includes("[*]")) {
-                    showPrompt(line, false);
+                    showPrompt(line, false); // Final fallback if no translation key available
                 }
             });
     } catch (error) {
@@ -282,16 +317,9 @@ document.getElementById("actionButton").addEventListener("click", async () => {
 });
 
 /**
- * Import custom hosts
- * File selector
- * File name editor
- * File editor (<128kB)
+ * Find out custom hosts list and display it
+ * @returns {Promise<void>}
  */
-const editorInput = document.getElementById("edit-input");
-const fileNameInput = document.getElementById('file-name-input');
-document.getElementById("import-custom-button").addEventListener("click", () => {
-    openFileSelector();
-});
 export async function getCustomHostsList() {
     try {
         const output = await execCommand(`ls ${basePath} | grep "^custom.*\.txt$" | grep -vx "custom.txt"`);
@@ -301,10 +329,25 @@ export async function getCustomHostsList() {
         console.error("Failed to get custom hosts list:", error);
     }
 }
+
+// Open file selector to import custom hosts file
+document.getElementById("import-custom-button").addEventListener("click", () => {
+    openFileSelector();
+});
+
+const editorInput = document.getElementById("edit-input");
+const fileNameInput = document.getElementById('file-name-input');
+
+/**
+ * Open file name editor
+ * @param {string} fileName - Current file name
+ * @returns {Promise<void>}
+ */
 async function fileNameEditor(fileName) {
     const rawFileName = fileName.replace("custom", "").replace(".txt", "");
     fileNameInput.value = rawFileName;
     try {
+        // go to error if file is larger than 128KB
         await execCommand(`
             if [ $(wc -c < ${basePath}/${fileName}) -gt 131072 ]; then
                 exit 1
@@ -315,12 +358,19 @@ async function fileNameEditor(fileName) {
         editorInput.value = await response.text();
         openFileEditor(fileName);
     } catch (error) {
-        // Only rename is supported when file is too large
+        // Only rename is supported for large files
         openFileEditor(fileName, false);
         showPrompt("global.file_too_large", true);
         console.error("Failed to get custom hosts list:", error);
     }
 }
+
+/**
+ * Open file editor
+ * @param {string} lastFileName - Name of the last file edited
+ * @param {boolean} openEditor - Whether to open the file editor, false goes to file name editor only
+ * @returns {void}
+ */
 function openFileEditor(lastFileName, openEditor = true) {
     const header = document.querySelector('.title-container');
     const title = document.getElementById('title');
@@ -352,6 +402,7 @@ function openFileEditor(lastFileName, openEditor = true) {
     adjustFileNameWidth();
     fileNameInput.addEventListener('input', adjustFileNameWidth);
 
+    // Show editor
     editorCover.style.opacity = '1';
     editorCover.style.pointerEvents = 'auto';
     header.classList.add('back');
@@ -450,6 +501,7 @@ function openFileEditor(lastFileName, openEditor = true) {
         }
         try {
             if (openEditor) {
+                // Save file
                 await execCommand(`
                     [ ! -f ${basePath}/${lastFileName} ] || rm -f ${basePath}/${lastFileName}
                     cat << 'AUniqueEOF' > ${basePath}/custom${newFileName}.txt
@@ -459,6 +511,7 @@ AUniqueEOF
                 `);
                 showPrompt("global.saved", true, undefined, undefined, `${basePath}/custom${newFileName}.txt`);
             } else {
+                // Rename file
                 await execCommand(`mv -f ${basePath}/${lastFileName} ${basePath}/custom${newFileName}.txt`);
             }
             showPrompt("global.saved", true, undefined, undefined, `${basePath}/custom${newFileName}.txt`);
@@ -472,13 +525,21 @@ AUniqueEOF
     saveButton.addEventListener('click', saveFile);
 }
 
+/**
+ * Prevents invalid characters in file names
+ * @param {HTMLInputElement} input - Input element to process
+ * @returns {void}
+ */
 window.replaceSpaces = function(input) {
     const cursorPosition = input.selectionStart;
     input.value = input.value.replace(/ /g, '_').replace(/[\/\0*?[\]{}|&$`"'\\<>]/g, '');
     input.setSelectionRange(cursorPosition, cursorPosition);
 }
 
-// Initial load
+/**
+ * Initial load event listener
+ * @returns {void}
+ */
 document.addEventListener('DOMContentLoaded', async () => {
     checkMMRL();
     initialTransition();

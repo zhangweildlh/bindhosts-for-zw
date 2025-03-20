@@ -1,7 +1,13 @@
 import { linkRedirect, applyRippleEffect, toast, developerOption, learnMore, setupSwipeToClose } from './util.js';
 import { translations } from './language.js';
 
-// Function to fetch documents
+/**
+ * Fetch documents from a link and display them in the specified element
+ * @param {string} link - Primary link to fetch the document
+ * @param {string} fallbackLink - Fallback link if the primary link fails
+ * @param {string} element - ID of the element to display the document content
+ * @returns {void}
+ */
 function getDocuments(link, fallbackLink, element) {
     fetch(link)
         .then(response => {
@@ -50,7 +56,10 @@ function getDocuments(link, fallbackLink, element) {
         });
 }
 
-// Make link tap to copy
+/**
+ * Add event listeners to copy link text to clipboard
+ * @returns {void}
+ */
 function addCopyToClipboardListeners() {
     const sourceLinks = document.querySelectorAll("#copy-link");
     sourceLinks.forEach((element) => {
@@ -66,6 +75,12 @@ function addCopyToClipboardListeners() {
 
 // Setup documents menu
 let activeDocs = null;
+
+/**
+ * Setup documents menu event listeners to open and close document overlays
+ * @param {string} docsLang - Language code for the documents
+ * @returns {Promise<void>}
+ */
 export async function setupDocsMenu(docsLang) {
     const docsData = {
         source: {
@@ -163,6 +178,11 @@ export async function setupDocsMenu(docsLang) {
     } // End of about docs
 }
 
+/**
+ * Open a document overlay
+ * @param {HTMLElement} overlay - Overlay element to open
+ * @returns {void}
+ */
 function openOverlay(overlay) {
     if (activeDocs) closeOverlay(activeDocs);
     activeDocs = overlay;
@@ -173,6 +193,11 @@ function openOverlay(overlay) {
     }, 10);
 }
 
+/**
+ * Close a document overlay
+ * @param {HTMLElement} overlay - Overlay element to close
+ * @returns {void}
+ */
 function closeOverlay(overlay) {
     activeDocs = null;
     document.body.style.overflow = "";
