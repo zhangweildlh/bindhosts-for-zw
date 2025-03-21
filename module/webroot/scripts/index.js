@@ -372,6 +372,83 @@ function setupQueryInput() {
 }
 
 /**
+ * Setup the Rick Roll overlay to appear on April 1st with a 70% chance.
+ * Consecutive trigger protection for user experience.
+ * Countdown end or clicking on close button or image will redirect to rick roll
+ * Double click on black space to exit early
+ * @returns {void}
+ */
+function setupRickRoll() {
+    const today = new Date();
+    if (today.getMonth() !== 3 || today.getDate() !== 1) return;
+
+    const rickRollOverlay = document.getElementById('rick-roll');
+    const rickRollImage = document.querySelector('.rr-image-box');
+    const countDown = document.getElementById('rr-coundown');
+    const closeRrButton = document.querySelector('.close-rr-btn');
+    let redirect = true;
+    
+    const lastRickRoll = localStorage.getItem('lastRickRoll');
+    const shouldRickRoll = Math.random() < 0.7;
+
+    // Make sure this won't be triggered in a row for user experience
+    if (shouldRickRoll && lastRickRoll !== '1') {
+        openOverlay();
+        let countdownValue = 5;
+        countDown.textContent = countdownValue;
+        const countdownInterval = setInterval(() => {
+            countdownValue--;
+            countDown.textContent = countdownValue;
+            if (countdownValue === 0 && redirect) {
+                clearInterval(countdownInterval);
+                redirectRr();
+            }
+        }, 1000);
+
+        // Set flag in localStorage to prevent it from happening next time
+        localStorage.setItem('lastRickRoll', '1');
+    } else {
+        localStorage.setItem('lastRickRoll', '0');
+    }
+
+    rickRollImage.addEventListener('click', () => redirectRr());
+    closeRrButton.addEventListener('click', () => redirectRr());
+
+    rickRollOverlay.addEventListener('dblclick', (e) => {
+        if (e.target === rickRollOverlay) {
+            closeOverlay();
+            redirect = false;
+        }
+    });
+
+    async function redirectRr() {
+        closeOverlay();
+        try {
+            // bilibili (China) or YouTube
+            await execCommand(`
+                if pm path tv.danmaku.bili > /dev/null 2>&1; then
+                    am start -a android.intent.action.VIEW -d "https://b23.tv/Qhk2xvo"
+                else
+                    am start -a android.intent.action.VIEW -d "https://youtu.be/dQw4w9WgXcQ"
+                fi
+            `);
+        } catch (error) {
+            console.error("Error redirect link:", error);
+        }
+    }
+
+    function openOverlay() {
+        rickRollOverlay.style.display = 'flex';
+        setTimeout(() => rickRollOverlay.style.opacity = '1', 10);
+    }
+
+    function closeOverlay() {
+        rickRollOverlay.style.opacity = '0';
+        setTimeout(() => rickRollOverlay.style.display = 'none', 200);
+    }
+}
+
+/**
  * Initial load event listener
  * @returns {void}
  */
@@ -386,4 +463,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     await getHosts();
     setupQueryInput();
     applyRippleEffect();
+    setupRickRoll();
 });
