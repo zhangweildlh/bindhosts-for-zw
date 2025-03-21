@@ -275,7 +275,15 @@ export function setupSwipeToClose(element, cover, backButton) {
 
     element.addEventListener('touchstart', (e) => {
         const editInput = document.getElementById('edit-input');
-        if (editInput && (editInput.scrollLeft !== 0 || editInput.focus)) {
+        const preElements = document.querySelectorAll('.documents *');
+
+        // Check if the touch event is within a scrolled sub element
+        // Prevent setupSwipeToClose when browsing within sub-element
+        const isTouchInScrolledPre = Array.from(preElements).some(pre => {
+            return pre.contains(e.target) && pre.scrollLeft > 0;
+        });
+
+        if (editInput && (editInput.scrollLeft !== 0 || editInput.focus) || isTouchInScrolledPre) {
             return;
         }
         
