@@ -17,26 +17,31 @@ async function checkBindhostsApp() {
     } catch (error) {
         console.error("Error while checking bindhosts app:", error);
     }
-    tilesContainer.addEventListener('click', async () => {
-        try {
-            showPrompt("control_panel.installing", true, undefined, "[+]");
-            await new Promise(resolve => setTimeout(resolve, 200));
-            const output = await execCommand(`sh ${moduleDirectory}/bindhosts-app.sh`);
-            const lines = output.split("\n");
-            lines.forEach(line => {
-                if (line.includes("[+]")) {
-                    showPrompt("control_panel.installed", true, 5000, "[+]");
-                    tilesContainer.style.display = "none";
-                } else if (line.includes("[x] Failed to download")) {
-                    showPrompt("control_panel.download_fail", false, undefined, "[×]");
-                } else if (line.includes("[*]")) {
-                    showPrompt("control_panel.install_fail", false, 5000, "[×]");
-                }
-            });
-        } catch (error) {
-            console.error("Execution failed:", error);
-        }
-    });
+}
+
+/**
+ * Install the bindhosts app, called by controlPanelEventlistener
+ * @returns {Promise<void>}
+ */
+async function installBindhostsApp () {
+    try {
+        showPrompt("control_panel.installing", true, undefined, "[+]");
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const output = await execCommand(`sh ${moduleDirectory}/bindhosts-app.sh`);
+        const lines = output.split("\n");
+        lines.forEach(line => {
+            if (line.includes("[+]")) {
+                showPrompt("control_panel.installed", true, 5000, "[+]");
+                tilesContainer.style.display = "none";
+            } else if (line.includes("[x] Failed to download")) {
+                showPrompt("control_panel.download_fail", false, undefined, "[×]");
+            } else if (line.includes("[*]")) {
+                showPrompt("control_panel.install_fail", false, 5000, "[×]");
+            }
+        });
+    } catch (error) {
+        console.error("Execution failed:", error);
+    }
 }
 
 /**
@@ -55,8 +60,11 @@ async function checkUpdateStatus() {
     }
 }
 
-// Switch module update status and refreh toggle
-document.getElementById('update-toggle-container').addEventListener('click', async function () {
+/**
+ * Switch module update status and refresh toggle, called by controlPanelEventlistener
+ * @returns {Promise<void>}
+ */
+async function toggleModuleUpdate() {
     try {
         const result = await execCommand(`sh ${moduleDirectory}/bindhosts.sh --toggle-updatejson`);
         const lines = result.split("\n");
@@ -71,10 +79,8 @@ document.getElementById('update-toggle-container').addEventListener('click', asy
     } catch (error) {
         console.error("Failed to toggle update", error);
     }
-});
+}
 
-
-const actionRedirectContainer = document.getElementById('action-redirect-container');
 const actionRedirectStatus = document.getElementById('action-redirect');
 /**
  * Display action redirect switch when running in Magisk
@@ -85,24 +91,29 @@ async function checkMagisk() {
     try {
         const magiskEnv = await execCommand(`command -v magisk >/dev/null 2>&1 && echo "true" || echo "false"`);
         if (magiskEnv.trim() === "true") {
-            actionRedirectContainer.style.display = "flex";
-            actionRedirectContainer.addEventListener('click', async function () {
-                try {
-                    await execCommand(`sed -i "s/^magisk_webui_redirect=.*/magisk_webui_redirect=${actionRedirectStatus.checked ? 0 : 1}/" ${basePath}/webui_setting.sh`);
-                    if (actionRedirectStatus.checked) {
-                        showPrompt("control_panel.action_prompt_false", false, undefined, "[×]");
-                    } else {
-                        showPrompt("control_panel.action_prompt_true", true, undefined, "[+]");
-                    }
-                    await checkRedirectStatus();
-                } catch (error) {
-                    console.error("Failed to execute change status", error);
-                }
-            });
+            document.getElementById('action-redirect-container').style.display = "flex";
             await checkRedirectStatus();
         }
     } catch (error) {
         console.error("Error while checking magisk", error);
+    }
+}
+
+/**
+ * Toggle the action redirect WebUI setting, called by controlPanelEventlistener
+ * @returns {Promise<void>}
+ */
+async function toggleActionRedirectWebui() {
+    try {
+        await execCommand(`sed -i "s/^magisk_webui_redirect=.*/magisk_webui_redirect=${actionRedirectStatus.checked ? 0 : 1}/" ${basePath}/webui_setting.sh`);
+        if (actionRedirectStatus.checked) {
+            showPrompt("control_panel.action_prompt_false", false, undefined, "[×]");
+        } else {
+            showPrompt("control_panel.action_prompt_true", true, undefined, "[+]");
+        }
+        await checkRedirectStatus();
+    } catch (error) {
+        console.error("Failed to execute change status", error);
     }
 }
 
@@ -120,12 +131,12 @@ async function checkRedirectStatus() {
     }
 }
 
+const cronToggle = document.getElementById('toggle-cron');
 /**
  * Check cron status
  * Event listener for cron toggle
  * @returns {Promise<void>}
  */
-const cronToggle = document.getElementById('toggle-cron');
 async function checkCronStatus() {
     try {
         const result = await execCommand(`grep -q "bindhosts.sh" ${basePath}/crontabs/root`);
@@ -136,7 +147,11 @@ async function checkCronStatus() {
     }
 }
 
-document.getElementById('cron-toggle-container').addEventListener('click', async function () {
+/**
+ * Toggle cron job status, called by controlPanelEventlistener
+ * @returns {Promise<void>}
+ */
+async function toggleCron() {
     try {
         const result = await execCommand(`sh ${moduleDirectory}/bindhosts.sh --${cronToggle.checked ? "disable" : "enable"}-cron`);
         const lines = result.split("\n");
@@ -151,12 +166,14 @@ document.getElementById('cron-toggle-container').addEventListener('click', async
     } catch (error) {
         console.error("Failed to toggle cron", error);
     }
-});
+}
 
-// Language menu
-document.getElementById('language-container').addEventListener('click', () => {
+/**
+ * Open language menu overlay, called by controlPanelEventlistener
+ * @returns {void}
+ */
+function openLanguageMenu() {
     const languageOverlay = document.getElementById('language-overlay');
-    const overlayContent = document.querySelector('.overlay-content');
     languageOverlay.style.display = 'flex';
     setTimeout(() => {
         languageOverlay.style.opacity = '1';
@@ -169,11 +186,41 @@ document.getElementById('language-container').addEventListener('click', () => {
         }, 200);
     };
 
-    document.querySelector('.close-btn').addEventListener('click', closeOverlay);
-    languageOverlay.addEventListener('click', (event) => {
-        if (!overlayContent.contains(event.target)) closeOverlay();
+    let languageMenuListener = false;
+    if (!languageMenuListener) {
+        document.querySelector('.close-btn').addEventListener('click', closeOverlay);
+        languageOverlay.addEventListener('click', (event) => {
+            if (event.target === languageOverlay) closeOverlay();
+        });
+        languageMenuListener = true;
+    }
+}
+
+/**
+ * Attach event listeners to control panel items
+ * @returns {void}
+ */
+function controlPanelEventlistener() {
+    const controlPanel = {
+        "language-container": openLanguageMenu,
+        "tiles-container": installBindhostsApp,
+        "update-toggle-container": toggleModuleUpdate,
+        "action-redirect-container": toggleActionRedirectWebui,
+        "cron-toggle-container": toggleCron
+    };
+
+    Object.entries(controlPanel).forEach(([element, functionName]) => {
+        const el = document.getElementById(element);
+        if (el) {
+            let touchMoved = false;
+            el.addEventListener('touchstart', () => touchMoved = false);
+            el.addEventListener('touchmove', () => touchMoved = true);
+            el.addEventListener('touchend', () => {
+                if (!touchMoved) setTimeout(() => functionName(), 10);
+            });
+        }
     });
-});
+}
 
 /**
  * Initial load event listener
@@ -186,5 +233,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     checkUpdateStatus();
     checkBindhostsApp();
     checkMagisk();
+    controlPanelEventlistener();
     applyRippleEffect();
 });

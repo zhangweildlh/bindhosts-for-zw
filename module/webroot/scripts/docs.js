@@ -154,7 +154,15 @@ export async function setupDocsMenu(docsLang) {
 
         // Attach click event to all about docs buttons
         document.querySelectorAll('.about-docs').forEach(element => {
-            element.addEventListener('click', () => {
+            /** 
+             * Manually listen to touch event to replace click event
+             * Fix an issue caused by setupSwipeToClose
+             * It could be an issue caused by momentum scrolling but currently I dont have a better workaround
+            */
+            let touchMoved = false;
+            element.addEventListener('touchstart', () => touchMoved = false);
+            element.addEventListener('touchmove', () => touchMoved = true);
+            element.addEventListener('touchend', () => { if (!touchMoved) {
                 document.getElementById('about-document-content').innerHTML = '';
                 const { link, fallbackLink } = docsData[element.dataset.type] || {};
                 getDocuments(link, fallbackLink, 'about-document-content');
@@ -164,7 +172,7 @@ export async function setupDocsMenu(docsLang) {
                 backButton.style.transform = 'translateX(0)';
                 const titleText = element.querySelector('.document-title').textContent;
                 title.textContent = titleText;
-            });
+            }});
 
             // Alternative way to close about docs with back button
             backButton.addEventListener('click', () => {
