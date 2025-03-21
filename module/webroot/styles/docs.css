@@ -97,7 +97,7 @@
 }
 
 #edit-input::-webkit-scrollbar {
-    width: 20px;
+    width: 25px;
     transition: width 0.2s ease;
 }
 
@@ -108,7 +108,7 @@
 #edit-input::-webkit-scrollbar-thumb {
     min-height: 40px;
     background-color: #888;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 .back-button {
@@ -147,7 +147,7 @@
     }
 
     #edit-input::-webkit-scrollbar-track {
-        background: #121212;
+        background: #1e1e1e;
     }
 
     #edit-input::-webkit-scrollbar-thumb {
