@@ -23,7 +23,7 @@ export async function detectUserLanguage() {
 
         // Fetch preferred language
         const preferredResponse = await fetch('locales/prefered_language.txt');
-        const prefered_language_code = (await preferredResponse.text()).trim();
+        const prefered_language_code = localStorage.getItem('bindhostsLanguage');
 
         // Check if preferred language is valid
         if (prefered_language_code !== 'default' && availableLanguages.includes(prefered_language_code)) {
@@ -126,14 +126,7 @@ if (languageMenu) {
     languageMenu.addEventListener("click", (e) => {
         if (e.target.classList.contains("language-option")) {
             const lang = e.target.getAttribute("data-lang");
-            try {
-                execCommand(`
-                    echo "${lang}" > ${basePath}/prefered_language.txt
-                    [ -L ${moduleDirectory}/webroot/locales/prefered_language.txt ] || ln -s ${basePath}/prefered_language.txt ${moduleDirectory}/webroot/locales/prefered_language.txt
-                `);
-            } catch (error) {
-                console.error("Error setting default language:", error);
-            }
+            localStorage.setItem('bindhostsLanguage', lang);
             location.reload();
         }
     });
