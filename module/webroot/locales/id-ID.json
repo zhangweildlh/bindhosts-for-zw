@@ -100,7 +100,9 @@
         "usage": "Penggunaan",
         "modes": "Mode",
         "hiding": "Sembunyikan",
-        "faq": "FAQ"
+        "faq": "FAQ",
+        "support": "Dukungan",
+        "support_issue": "Laporkan masalah"
     },
     "confirmation": {
         "title": "Hapus Konfirmasi?",

@@ -100,7 +100,9 @@
         "usage": "Utilizzo",
         "modes": "Modalità",
         "hiding": "Nascondi",
-        "faq": "FAQ"
+        "faq": "FAQ",
+        "support": "Supporto",
+        "support_issue": "Segnala un problema"
     },
     "confirmation": {
         "title": "Confermare eliminazione?",

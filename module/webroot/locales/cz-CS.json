@@ -100,7 +100,9 @@
         "usage": "Použití",
         "modes": "Režimy",
         "hiding": "Skrýt",
-        "faq": "FAQ"
+        "faq": "FAQ",
+        "support": "Podpora",
+        "support_issue": "Nahlásit problém"
     },
     "confirmation": {
         "title": "Potvrdit odstranění?",

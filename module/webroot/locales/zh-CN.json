@@ -100,7 +100,9 @@
         "usage": "使用说明",
         "modes": "模式",
         "hiding": "隐藏",
-        "faq": "常见问题"
+        "faq": "常见问题",
+        "support": "支持",
+        "support_issue": "反馈问题"
     },
     "confirmation": {
         "title": "确认删除？",

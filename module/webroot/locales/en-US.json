@@ -100,7 +100,9 @@
         "usage": "Usage",
         "modes": "Modes",
         "hiding": "Hiding",
-        "faq": "FAQ"
+        "faq": "FAQ",
+        "support": "Support",
+        "support_issue": "Report an issue"
     },
     "confirmation": {
         "title": "Confirm Remove?",

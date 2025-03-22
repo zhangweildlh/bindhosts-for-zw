@@ -1,4 +1,4 @@
-import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, moduleDirectory } from './util.js';
+import { execCommand, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, moduleDirectory, linkRedirect } from './util.js';
 import { loadTranslations } from './language.js';
 
 /**
@@ -23,7 +23,7 @@ async function checkBindhostsApp() {
  * Install the bindhosts app, called by controlPanelEventlistener
  * @returns {Promise<void>}
  */
-async function installBindhostsApp () {
+async function installBindhostsApp (event) {
     try {
         showPrompt("control_panel.installing", true, undefined, "[+]");
         await new Promise(resolve => setTimeout(resolve, 200));
@@ -64,7 +64,7 @@ async function checkUpdateStatus() {
  * Switch module update status and refresh toggle, called by controlPanelEventlistener
  * @returns {Promise<void>}
  */
-async function toggleModuleUpdate() {
+async function toggleModuleUpdate(event) {
     try {
         const result = await execCommand(`sh ${moduleDirectory}/bindhosts.sh --toggle-updatejson`);
         const lines = result.split("\n");
@@ -103,7 +103,7 @@ async function checkMagisk() {
  * Toggle the action redirect WebUI setting, called by controlPanelEventlistener
  * @returns {Promise<void>}
  */
-async function toggleActionRedirectWebui() {
+async function toggleActionRedirectWebui(event) {
     try {
         await execCommand(`sed -i "s/^magisk_webui_redirect=.*/magisk_webui_redirect=${actionRedirectStatus.checked ? 0 : 1}/" ${basePath}/webui_setting.sh`);
         if (actionRedirectStatus.checked) {
@@ -151,7 +151,7 @@ async function checkCronStatus() {
  * Toggle cron job status, called by controlPanelEventlistener
  * @returns {Promise<void>}
  */
-async function toggleCron() {
+async function toggleCron(event) {
     try {
         const result = await execCommand(`sh ${moduleDirectory}/bindhosts.sh --${cronToggle.checked ? "disable" : "enable"}-cron`);
         const lines = result.split("\n");
@@ -200,13 +200,14 @@ function openLanguageMenu() {
  * Attach event listeners to control panel items
  * @returns {void}
  */
-function controlPanelEventlistener() {
+function controlPanelEventlistener(event) {
     const controlPanel = {
         "language-container": openLanguageMenu,
         "tiles-container": installBindhostsApp,
         "update-toggle-container": toggleModuleUpdate,
         "action-redirect-container": toggleActionRedirectWebui,
-        "cron-toggle-container": toggleCron
+        "cron-toggle-container": toggleCron,
+        "github-issues": () => linkRedirect('https://github.com/bindhosts/bindhosts/issues/new')
     };
 
     Object.entries(controlPanel).forEach(([element, functionName]) => {
@@ -216,7 +217,7 @@ function controlPanelEventlistener() {
             el.addEventListener('touchstart', () => touchMoved = false);
             el.addEventListener('touchmove', () => touchMoved = true);
             el.addEventListener('touchend', () => {
-                if (!touchMoved) setTimeout(() => functionName(), 10);
+                if (!touchMoved) setTimeout(() => functionName(event), 10);
             });
         }
     });

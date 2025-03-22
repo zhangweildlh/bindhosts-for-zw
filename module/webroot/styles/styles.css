@@ -292,6 +292,7 @@ h2{
     overflow: hidden;
 }
 
+.support-list,
 .about-docs,
 .toggle-list {
     display: flex;
@@ -302,6 +303,7 @@ h2{
     border-bottom: 1px solid #ccc;
 }
 
+.support-list:last-child,
 .about-docs:last-child,
 .toggle-list:last-child {
     border-bottom: none;
@@ -316,6 +318,7 @@ h2{
     display: none;
 }
 
+.support-title,
 .document-title,
 .toggle-text {
     font-size: 16px;
@@ -325,6 +328,7 @@ h2{
     user-select: none;
 }
 
+.support-icon,
 .document-icon,
 .control-icon {
     width: 26px;
@@ -999,6 +1003,7 @@ input:checked+.slider:before {
     .host-list-row,
     .about-docs,
     .toggle-list,
+    .support-list,
     .box li,
     .overlay-content li {
         border-color: #6E6E6E;
@@ -1008,6 +1013,7 @@ input:checked+.slider:before {
     #source-btn,
     .language-option,
     .toggle-list,
+    .support-list,
     .overlay-content,
     .docs-content {
         background-color: #343434;

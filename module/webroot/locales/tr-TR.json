@@ -100,7 +100,9 @@
         "usage": "Kullanım",
         "modes": "Modlar",
         "hiding": "Gizle",
-        "faq": "SSS"
+        "faq": "SSS",
+        "support": "Destek",
+        "support_issue": "Sorun bildir"
     },
     "confirmation": {
         "title": "Silmek istediğinize emin misiniz?",

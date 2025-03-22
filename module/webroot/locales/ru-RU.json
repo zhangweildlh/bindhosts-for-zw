@@ -100,7 +100,9 @@
         "usage": "Использование",
         "modes": "Режимы",
         "hiding": "Скрыть",
-        "faq": "FAQ"
+        "faq": "FAQ",
+        "support": "Поддержка",
+        "support_issue": "Сообщить о проблеме"
     },
     "confirmation": {
         "title": "Удалить подтверждение?",
