@@ -269,11 +269,15 @@ export function initialTransition() {
 export function setupSwipeToClose(element, cover, backButton) {
     let startX = 0, currentX = 0, startY = 0, isDragging = false, isScrolling = false;
 
-    element.addEventListener('touchstart', (e) => {
+    const handleStart = (e) => {
         const editInput = document.getElementById('edit-input');
         const preElements = document.querySelectorAll('.documents *');
 
-        // Check if the touch event is within a scrolled sub element
+        // Get client coordinates from either touch or mouse event
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        // Check if the event is within a scrolled sub element
         // Prevent setupSwipeToClose when browsing within sub-element
         const isTouchInScrolledPre = Array.from(preElements).some(pre => {
             return pre.contains(e.target) && pre.scrollLeft > 0;
@@ -285,17 +289,22 @@ export function setupSwipeToClose(element, cover, backButton) {
         
         isDragging = true;
         isScrolling = false;
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
+        startX = clientX;
+        startY = clientY;
         element.style.transition = 'none';
         cover.style.transition = 'none';
         e.stopPropagation();
-    });
+    };
 
-    element.addEventListener('touchmove', (e) => {
+    const handleMove = (e) => {
         if (!isDragging) return;
-        const deltaX = e.touches[0].clientX - startX;
-        const deltaY = e.touches[0].clientY - startY;
+        
+        // Get client coordinates from either touch or mouse event
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        
+        const deltaX = clientX - startX;
+        const deltaY = clientY - startY;
         
         // Disable right-to-left swipe
         if (deltaX < 0) return;
@@ -306,16 +315,16 @@ export function setupSwipeToClose(element, cover, backButton) {
             return;
         }
         if (isScrolling) return;
-        currentX = e.touches[0].clientX - startX;
+        currentX = clientX - startX;
         if (currentX < 0) return;
         element.style.transform = `translateX(${Math.max(currentX, -window.innerWidth)}px)`;
         // Calculate opacity based on position
         const opacity = 1 - (currentX / window.innerWidth);
         cover.style.opacity = Math.max(0, Math.min(1, opacity));
         e.stopPropagation();
-    });
+    };
 
-    element.addEventListener('touchend', () => {
+    const handleEnd = () => {
         if (!isDragging) return;
         isDragging = false;
         element.style.transition = 'transform 0.2s ease';
@@ -330,7 +339,18 @@ export function setupSwipeToClose(element, cover, backButton) {
         }
         startX = 0;
         currentX = 0;
-    });
+    };
+
+    // Touch events
+    element.addEventListener('touchstart', handleStart);
+    element.addEventListener('touchmove', handleMove);
+    element.addEventListener('touchend', handleEnd);
+    
+    // Mouse events
+    element.addEventListener('mousedown', handleStart);
+    element.addEventListener('mousemove', handleMove);
+    element.addEventListener('mouseup', handleEnd);
+    element.addEventListener('mouseleave', handleEnd);
 }
 
 // Scroll event

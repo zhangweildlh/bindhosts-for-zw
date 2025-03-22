@@ -103,7 +103,7 @@ async function checkMagisk() {
  * Toggle the action redirect WebUI setting, called by controlPanelEventlistener
  * @returns {Promise<void>}
  */
-async function toggleActionRedirectWebui(event) {
+async function toggleActionRedirectWebui() {
     try {
         await execCommand(`sed -i "s/^magisk_webui_redirect=.*/magisk_webui_redirect=${actionRedirectStatus.checked ? 0 : 1}/" ${basePath}/webui_setting.sh`);
         if (actionRedirectStatus.checked) {
@@ -214,11 +214,21 @@ function controlPanelEventlistener(event) {
         const el = document.getElementById(element);
         if (el) {
             let touchMoved = false;
+            
+            // Handler for end events
+            const handleEndEvent = () => {
+                if (!touchMoved) setTimeout(() => functionName(event), 50);
+            };
+            
+            // Touch event
             el.addEventListener('touchstart', () => touchMoved = false);
             el.addEventListener('touchmove', () => touchMoved = true);
-            el.addEventListener('touchend', () => {
-                if (!touchMoved) setTimeout(() => functionName(event), 10);
-            });
+            el.addEventListener('touchend', handleEndEvent);
+
+            // Mouse event
+            el.addEventListener('mousedown', () => touchMoved = false);
+            el.addEventListener('mousemove', () => touchMoved = true);
+            el.addEventListener('mouseup', handleEndEvent);
         }
     });
 }

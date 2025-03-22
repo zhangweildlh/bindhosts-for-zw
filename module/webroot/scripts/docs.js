@@ -160,19 +160,26 @@ export async function setupDocsMenu(docsLang) {
              * It could be an issue caused by momentum scrolling but currently I dont have a better workaround
             */
             let touchMoved = false;
+            element.addEventListener('mousedown', () => touchMoved = false);
             element.addEventListener('touchstart', () => touchMoved = false);
+            element.addEventListener('mousemove', () => touchMoved = true);
             element.addEventListener('touchmove', () => touchMoved = true);
-            element.addEventListener('touchend', () => { if (!touchMoved) {
-                document.getElementById('about-document-content').innerHTML = '';
-                const { link, fallbackLink } = docsData[element.dataset.type] || {};
-                getDocuments(link, fallbackLink, 'about-document-content');
-                aboutContent.style.transform = 'translateX(0)';
-                documentCover.style.opacity = '1';
-                header.classList.add('back');
-                backButton.style.transform = 'translateX(0)';
-                const titleText = element.querySelector('.document-title').textContent;
-                title.textContent = titleText;
-            }});
+            element.addEventListener('mouseup', () => handleClick());
+            element.addEventListener('touchend', () => handleClick());
+
+            function handleClick() {
+                if (!touchMoved) {
+                    document.getElementById('about-document-content').innerHTML = '';
+                    const { link, fallbackLink } = docsData[element.dataset.type] || {};
+                    getDocuments(link, fallbackLink, 'about-document-content');
+                    aboutContent.style.transform = 'translateX(0)';
+                    documentCover.style.opacity = '1';
+                    header.classList.add('back');
+                    backButton.style.transform = 'translateX(0)';
+                    const titleText = element.querySelector('.document-title').textContent;
+                    title.textContent = titleText;
+                }
+            }
 
             // Alternative way to close about docs with back button
             backButton.addEventListener('click', () => {
