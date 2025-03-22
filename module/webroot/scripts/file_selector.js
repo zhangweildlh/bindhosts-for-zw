@@ -100,7 +100,7 @@ async function listFiles(path, skipAnimation = false) {
                             chmod 644 ${basePath}/custom_${fileName}
                         `);
                         closeFileSelector();
-                        showPrompt('global.saved', true, undefined, `${basePath}/custom_${fileName}`);
+                        showPrompt('global.saved', true, undefined, undefined, `${basePath}/custom_${fileName}`);
                         getCustomHostsList();
                     } catch (error) {
                         showPrompt('global.save_fail', false);
