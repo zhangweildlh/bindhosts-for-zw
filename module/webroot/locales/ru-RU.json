@@ -98,7 +98,8 @@
         "documents": "Документы",
         "sources": "Источники",
         "usage": "Использование",
-        "hiding": "Скрытие",
+        "modes": "Режимы",
+        "hiding": "Скрыть",
         "faq": "FAQ"
     },
     "confirmation": {
