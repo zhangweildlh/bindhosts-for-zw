@@ -28,7 +28,13 @@ bindhosts_sh() {
 # this will happen every april fools
 # 50% chance itll open a rickroll on action press
 if [ "$( date +"%d%m" )" = "0104" ]; then
-        ( [ "$(busybox shuf -i 1-2 -n 1)" = "1" ] && sleep 2 && am start -a android.intent.action.VIEW -d "https://youtu.be/dQw4w9WgXcQ" ) &
+        ( [ "$(busybox shuf -i 1-2 -n 1)" = "1" ] && sleep 2 && {
+        	if pm path tv.danmaku.bili > /dev/null 2>&1; then
+			am start -a android.intent.action.VIEW -d "https://b23.tv/Qhk2xvo"
+		else
+	        	am start -a android.intent.action.VIEW -d "https://youtu.be/dQw4w9WgXcQ"
+	        fi
+        } ) &
 fi
 
 # read webui setting here
