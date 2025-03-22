@@ -2,7 +2,6 @@ import { translations } from './language.js';
 
 export let developerOption = false;
 export let learnMore = false;
-export let isRunningOnMMRL = false;
 
 export function setDeveloperOption(value) { developerOption = value; }
 export function setLearnMore(value) { learnMore = value; }
@@ -190,8 +189,6 @@ export function showPrompt(key, isSuccess = true, duration = 2000, preValue = ""
  */
 export function checkMMRL() {
     if (typeof ksu !== 'undefined' && ksu.mmrl) {
-        isRunningOnMMRL = true;
-
         // Adjust inset
         header.style.paddingTop = 'var(--window-inset-top)';
         header.style.height = 'calc(var(--window-inset-top) + 55px)';
@@ -211,7 +208,6 @@ export function checkMMRL() {
 
         // Request API permission
         try {
-            $bindhosts.requestAdvancedKernelSUAPI();
             $bindhosts.requestFileSystemAPI();
         } catch (error) {
             console.log("Error requesting API:", error);
