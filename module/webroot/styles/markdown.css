@@ -2,7 +2,7 @@
     margin: 0;
     display: inline-block;
     vertical-align: top;
-    background-color: #fff;
+    background-color: var(--bg-secondary);
     color: #2079CF;
     width: fit-content;
     border-radius: 5px;
@@ -32,7 +32,7 @@
 }
 
 .documents a {
-    color: black;
+    color: var(--text-primary);
     cursor: none;
     transition: color 0.1s ease-out;
 }
@@ -50,7 +50,7 @@
 
 .documents code {
     font-family: monospace;
-    color: #333;
+    color: var(--text-primary);
     background-color: #f4f4f4;
     border-radius: 5px;
     padding: 1px;
@@ -58,15 +58,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    .documents a {
-        color: white;
-    }
-
-    #copy-link {
-        color: #339BFF;
-        background-color: #343434;
-    }
-
+    #copy-link,
     .documents a:active {
         color: #339BFF;
     }
@@ -76,7 +68,6 @@
     }
 
     .documents code {
-        color: #fff;
         background-color: #6E6E6E;
     }
 }

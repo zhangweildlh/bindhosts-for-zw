@@ -1,0 +1,49 @@
+:root {
+    /* Background colors */
+    --bg-primary: #F5F5F5;
+    --bg-secondary: #fff;
+    --bg-input: #F5F5F5;
+
+    /* Text colors */
+    --text-primary: #000;
+    --text-muted: #757575;
+
+    /* Border colors */
+    --border-color: #ccc;
+
+    /* Scroll bar colors */
+    --scroll-bar-color: #ddd;
+
+    /* Button colors */
+    --btn-primary: #007bff;
+    --btn-primary-text: #fff;
+    --btn-delete: #FF4D4D;
+    --btn-edit: #FFDD00;
+
+    /* Prompt colors */
+    --prompt-success: #4CAF50;
+    --prompt-error: #f44336;
+
+    /* Shadow colors */
+    --shadow-light: rgba(0, 0, 0, 0.2);
+    --shadow-medium: rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Background colors */
+        --bg-primary: #151515;
+        --bg-secondary: #292929;
+        --bg-input: #1b1b1b;
+
+        /* Text colors */
+        --text-primary: #eee;
+        --text-muted: #C2C2C2;
+
+        /* Border colors */
+        --border-color: #636363;
+
+        /* Scroll bar colors */
+        --scroll-bar-color: #666;
+    }
+} 
