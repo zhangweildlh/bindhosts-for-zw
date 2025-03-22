@@ -234,6 +234,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     checkUpdateStatus();
     checkBindhostsApp();
     checkMagisk();
+    checkCronStatus();
     controlPanelEventlistener();
     applyRippleEffect();
 });
