@@ -1,6 +1,7 @@
 # Translation Guide
 
 ## WebUI
+- [Contribute to WebUI localization](https://github.com/bindhosts/bindhosts/new/master/module/webroot/locales)
 ### Fix Bad Translation
 
 1. Find your language string file in `/module/webroot/locales/`.
@@ -18,14 +19,16 @@
 ---
 
 ## Documentation
+- [Contribute to document localization](https://github.com/bindhosts/bindhosts/new/master/Documentation)
 ### Available documentations
-
 - [README.md](https://github.com/bindhosts/bindhosts/blob/master/README.md)
 - [hiding.md](https://github.com/bindhosts/bindhosts/blob/master/Documentation/hiding.md)
 - [modes.md](https://github.com/bindhosts/bindhosts/blob/master/Documentation/modes.md)
 - [usage.md](https://github.com/bindhosts/bindhosts/blob/master/Documentation/usage.md)
+- [faq.md](https://github.com/bindhosts/bindhosts/blob/master/Documentation/faq.md)
 
 ### Document name 
+- Document names' format are required to conform precisely to the given example here.
 - Format: <br>`DOCNAME_language_code-COUNTRY_CODE.md`
 
 - Example: <br>`README_zh-CN.md`
