@@ -54,7 +54,8 @@ function checkUpdateStatus() {
     fetch(`link/MODDIR/module.prop`)
         .then(response => response.text())
         .then(data => {
-            toggleVersion.checked = data.includes("updateJson");
+            const lines = data.split('\n');
+            toggleVersion.checked = lines.some(line => line.trim().startsWith("updateJson="));
         })
 }
 
@@ -219,13 +220,17 @@ function controlPanelEventlistener(event) {
     Object.entries(controlPanel).forEach(([element, functionName]) => {
         const el = document.getElementById(element);
         if (el) {
-            let touchMoved = false;
-            
+            let touchMoved = false, isHandling = false;
+
             // Handler for end events
             const handleEndEvent = () => {
-                if (!touchMoved) setTimeout(() => functionName(event), 50);
-            };
-            
+                if (isHandling) return
+                isHandling = true;
+                if (!touchMoved) setTimeout(() => {
+                    functionName(event)
+                    isHandling = false;
+            }, 50)};
+
             // Touch event
             el.addEventListener('touchstart', () => touchMoved = false);
             el.addEventListener('touchmove', () => touchMoved = true);
