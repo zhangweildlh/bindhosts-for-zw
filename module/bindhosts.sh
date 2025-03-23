@@ -535,10 +535,12 @@ instant_whitelist() {
     rm $rwdir/temphosts
 }
 
-link_hosts() {
-    # Backend for WebUI: locate target hosts file for query
-    # Just a backup if user remove it manually, WebUI still can link it again
-    ln -s "$target_hostsfile" "$MODDIR/webroot/hosts.txt"
+setup_link() {
+    # Backend for WebUI: locate target hosts file for querying and file fetching
+    mkdir -p $MODDIR/webroot/link
+    [ -L "$MODDIR/webroot/link/hosts.txt" ] || ln -s "$target_hostsfile" "$MODDIR/webroot/link/hosts.txt"
+    [ -L "$MODDIR/webroot/link/MODDIR" ] || ln -s "$MODDIR" "$MODDIR/webroot/link/MODDIR"
+    [ -L "$MODDIR/webroot/link/PERSISTENT_DIR" ] || ln -s "$PERSISTENT_DIR" "$MODDIR/webroot/link/PERSISTENT_DIR"
 }
 
 show_help () {
@@ -569,7 +571,7 @@ case "$1" in
 	--toggle-updatejson) toggle_updatejson; exit ;;
 	--hosts-lastmod) hosts_lastmod; exit ;;
 	--whitelist) instant_whitelist "$@"; exit ;;
-	--link-hosts) link_hosts; exit;;
+	--setup-link) setup_link; exit;;
 	--help|*) show_help; exit ;;
 esac
 

@@ -187,7 +187,7 @@ export function showPrompt(key, isSuccess = true, duration = 2000, preValue = ""
  * Check if running in MMRL
  * @returns {void}
  */
-export function checkMMRL() {
+export async function checkMMRL() {
     if (typeof ksu !== 'undefined' && ksu.mmrl) {
         // Adjust inset
         header.style.paddingTop = 'var(--window-inset-top)';
@@ -211,6 +211,15 @@ export function checkMMRL() {
             $bindhosts.requestFileSystemAPI();
         } catch (error) {
             console.log("Error requesting API:", error);
+        }
+
+        // Test API
+        try {
+            execCommand('ls /');
+        } catch (error) {
+            const permissionOverlay = document.getElementById("mmrl-permission-overlay");
+            permissionOverlay.style.display = 'flex';
+            permissionOverlay.style.opacity = 1;
         }
     } else {
         console.log("Not running in MMRL environment.");

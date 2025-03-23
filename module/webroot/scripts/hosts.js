@@ -3,11 +3,11 @@ import { loadTranslations, translations } from './language.js';
 import { openFileSelector } from './file_selector.js';
 
 const filePaths = {
-    custom: `${basePath}/custom.txt`,
-    sources: `${basePath}/sources.txt`,
-    blacklist: `${basePath}/blacklist.txt`,
-    whitelist: `${basePath}/whitelist.txt`,
-    sources_whitelist: `${basePath}/sources_whitelist.txt`,
+    custom: 'custom.txt',
+    sources: 'sources.txt',
+    blacklist: 'blacklist.txt',
+    whitelist: 'whitelist.txt',
+    sources_whitelist: 'sources_whitelist.txt',
 };
 
 /**
@@ -18,19 +18,12 @@ const filePaths = {
  * @returns {Promise<void>}
  */
 async function loadFile(fileType) {
-    try {
-        const content = await execCommand(`
-            [ -f ${filePaths[fileType]} ] || touch ${filePaths[fileType]}
-            cat ${filePaths[fileType]}
-        `);
-        const lines = content
-            .split("\n")
-            .map(line => line)
-            .filter(line => line && !line.startsWith("#"));
-        displayHostsList(lines, fileType);
-    } catch (error) {
-        console.error(`Failed to load ${fileType} file: ${error}`);
-    }
+    const content = await fetch('link/PERSISTENT_DIR/' + filePaths[fileType]).then(response => response.text());
+    const lines = content
+        .split("\n")
+        .map(line => line)
+        .filter(line => line && !line.startsWith("#"));
+    displayHostsList(lines, fileType);
 }
 
 /**
@@ -75,8 +68,8 @@ function displayHostsList(lines, fileType) {
         if (deleteLine) {
             deleteLine.addEventListener("click", async () => {
                 await execCommand(`
-                    filtered=$(grep -vxF '${line}' ${filePaths[fileType]})
-                    echo "$filtered" > ${filePaths[fileType]}
+                    filtered=$(grep -vxF '${line}' ${basePath}/${filePaths[fileType]})
+                    echo "$filtered" > ${basePath}/${filePaths[fileType]}
                 `);
                 listElement.removeChild(listItem);
             });
@@ -133,7 +126,7 @@ async function handleAdd(fileType, prompt) {
     if (inputValue === "") return;
     const inputLines = inputValue.split('\n').map(line => line.trim()).filter(line => line !== "");
     try {
-        const fileContent = await execCommand(`cat ${filePaths[fileType]}`);
+        const fileContent = await fetch('link/PERSISTENT_DIR/' + filePaths[fileType]).then(response => response.text());
         const existingLines = fileContent.split('\n').map(line => line.trim()).filter(line => line !== "");
 
         for (const line of inputLines) {
@@ -141,7 +134,7 @@ async function handleAdd(fileType, prompt) {
                 showPrompt(prompt, false, 2000, `${line}`);
                 continue;
             }
-            await execCommand(`echo "${line}" >> ${filePaths[fileType]}`);
+            await execCommand(`echo "${line}" >> ${basePath}/${filePaths[fileType]}`);
         }
         inputElement.value = ""; // Clear input if add successful
         loadFile(fileType);
@@ -371,14 +364,9 @@ async function fileNameEditor(fileName) {
     fileNameInput.value = rawFileName;
     try {
         // go to error if file is larger than 128KB
-        await execCommand(`
-            if [ $(wc -c < ${basePath}/${fileName}) -gt 131072 ]; then
-                exit 1
-            fi
-            ln -sf ${basePath}/${fileName} ${moduleDirectory}/webroot/${fileName}
-        `);
-        const response = await fetch(`${fileName}`);
-        editorInput.value = await response.text();
+        await execCommand(`[ $(wc -c < ${basePath}/${fileName}) -lt 131072 ] || exit 1`);
+        const content = await fetch(`link/PERSISTENT_DIR/${fileName}`).then(response => response.text());
+        editorInput.value = content;
         openFileEditor(fileName);
     } catch (error) {
         // Only rename is supported for large files

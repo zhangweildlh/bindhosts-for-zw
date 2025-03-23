@@ -5,63 +5,36 @@ let clickCount = 0;
 let clickTimeout;
 
 /**
- * Load the current mode from mode.sh
+ * Update the status elements with data from specified files.
+ * If the file is not found, it attempts to set up the link and retries.
  * @returns {Promise<void>}
  */
-async function getCurrentMode() {
-    const modeElement = document.getElementById('mode-text');
-    try {
-        const mode = await execCommand(`grep '^operating_mode=' ${moduleDirectory}/mode.sh | cut -d'=' -f2`);
-        modeElement.textContent = mode.trim();
-    } catch (error) {
-        console.error("Failed to read current mode from mode.sh:", error);
-        modeElement.textContent = "Error";
-    }
-}
+function updateStatus() {
+    const status = [
+        { element : 'status-text', key : 'description', file: 'link/MODDIR/module.prop' },
+        { element : 'version-text', key : 'version', file: 'link/MODDIR/module.prop' },
+        { element : 'mode-text', key : 'mode', file: 'link/MODDIR/mode.sh' },
+    ]
 
-/**
- * Load the version from module.prop
- * @returns {Promise<void>}
- */
-async function loadVersionFromModuleProp() {
-    const versionElement = document.getElementById('version-text');
-    try {
-        const version = await execCommand(`grep '^version=' ${moduleDirectory}/module.prop | cut -d'=' -f2`);
-        versionElement.textContent = version.trim();
-    } catch (error) {
-        console.error("Failed to read version from module.prop:", error);
-        versionElement.textContent = "Error";
-    }
-}
-
-/**
- * Get the status from module.prop
- * @returns {Promise<void>}
- */
-async function updateStatusFromModuleProp() {
-    try {
-        const description = await execCommand(`grep '^description=' ${moduleDirectory}/module.prop | sed 's/description=status: //'`);
-        if (!description.trim()) throw new Error("Description is empty");
-        updateStatus(description.trim());
-    } catch (error) {
-        console.error("Failed to read description from module.prop:", error);
-        updateStatus("Error reading description from module.prop");
-        if (typeof ksu !== 'undefined' && ksu.mmrl) {
-            const permissionOverlay = document.getElementById("mmrl-permission-overlay");
-            permissionOverlay.style.display = 'flex';
-            permissionOverlay.style.opacity = 1;
+    const fetchStatus = async (item) => {
+        try {
+            const response = await fetch(item.file);
+            if (!response.ok) throw new Error(`File not found: ${item.file}`);
+            const data = await response.text();
+            const value = data.match(new RegExp(`${item.key}=(.*)`))[1];
+            document.getElementById(item.element).textContent = value;
+        } catch (error) {
+            await setupLink();
+            updateStatus();
+            throw error;
         }
-    }
-}
+    };
 
-/**
- * Update the status text dynamically in the UI
- * @param {string} statusText - Status text to display
- * @returns {void}
- */
-function updateStatus(statusText) {
-    const statusElement = document.getElementById('status-text');
-    statusElement.innerHTML = statusText.replace(/\n/g, '<br>');
+    status.reduce((promise, item) => {
+        return promise.then(() => fetchStatus(item));
+    }, Promise.resolve()).catch(error => {
+        console.error("Error updating status:", error);
+    });
 }
 
 /**
@@ -92,20 +65,13 @@ document.getElementById("status-box").addEventListener("click", async (event) =>
  * @returns {Promise<void>}
  */
 async function checkDevOption() {
-    try {
-        const fileExists = await execCommand(`[ -f ${basePath}/mode_override.sh ] && echo 'true' || echo 'false'`);
-        if (fileExists.trim() === "true") {
-            setDeveloperOption(true);
-        }
-    } catch (error) {
-        console.error("Error checking developer option:", error);
-    }
+    const response = await fetch('link/PERSISTENT_DIR/mode_override.sh');
+    if (response.ok) setDeveloperOption(true);
+    else setDeveloperOption(false);
 }
-
 
 // Open mode menu if developer option is enabled
 document.getElementById("mode-btn").addEventListener("click", async () => {
-    await checkDevOption();
     const modeMenu = document.getElementById("mode-menu");
     const overlayContent = document.querySelector(".overlay-content");
     if (developerOption) {
@@ -190,10 +156,10 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
 /**
  * Query box
  * Load hosts dynamically to avoid long loading time due to big hosts file
- * Load 50 each time, and load more when scroll to the bottom
+ * Load 30 each time, and load more when scroll to the bottom
  */
 let hostLines = [], originalHostLines = [], currentIndex = 0, initialHeight = 0;
-const batchSize = 50;
+const batchSize = 30;
 const hostList = document.querySelector('.host-list-item');
 
 /**
@@ -204,7 +170,7 @@ async function getHosts() {
     hostList.innerHTML = '';
 
     try {
-        const response = await fetch('hosts.txt');
+        const response = await fetch('link/hosts.txt');
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const hostsText = await response.text();
 
@@ -240,20 +206,19 @@ async function getHosts() {
             }
         });
     } catch (error) {
-        linkHosts();
-        console.error("Error getting hosts:", error);
+        await setupLink();
+        await getHosts();
     }
 }
 
 /**
- * Link hosts to the webroot if not found
+ * Link necessary file to the webroot if not found
  * @returns {Promise<void>}
  */
-async function linkHosts() {
+async function setupLink() {
     try {
         // backend required due to different target host file
-        await execCommand(`sh ${moduleDirectory}/bindhosts.sh --link-hosts`);
-        await getHosts();
+        await execCommand(`sh ${moduleDirectory}/bindhosts.sh --setup-link`);
     } catch (error) {
         console.error("Error linking hosts:", error);
     }
@@ -322,12 +287,13 @@ async function handleRemove(event, domains) {
  * @returns {void}
  */
 function setupQueryInput() {
+    getHosts();
     const inputBox = document.getElementById('query-input');
     const searchBtn = document.querySelector('.search-btn');
     const clearBtn = document.querySelector('.clear-btn');
 
     // Search functionality
-    searchBtn.addEventListener('click', (event) => {
+    searchBtn.addEventListener('click', () => {
         const query = inputBox.value.trim().toLowerCase();
         if (!query) getHosts();
 
@@ -449,11 +415,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     checkMMRL();
     initialTransition();
     loadTranslations();
-    await getCurrentMode();
-    await updateStatusFromModuleProp();
-    await loadVersionFromModuleProp();
-    await checkDevOption();
-    await getHosts();
+    await updateStatus();
+    checkDevOption();
     setupQueryInput();
     applyRippleEffect();
     setupRickRoll();

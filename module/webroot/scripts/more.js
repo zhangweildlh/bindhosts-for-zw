@@ -47,24 +47,22 @@ async function installBindhostsApp (event) {
 /**
  * Check module update status
  * Event listener for module update toggle
- * @returns {Promise<void>}
+ * @returns {void}
  */
-async function checkUpdateStatus() {
+function checkUpdateStatus() {
     const toggleVersion = document.getElementById('toggle-version');
-    try {
-        const result = await execCommand(`grep -q '^updateJson' ${moduleDirectory}/module.prop`);
-        toggleVersion.checked = true;
-    } catch (error) {
-        toggleVersion.checked = false;
-        console.error('Error checking update status:', error);
-    }
+    fetch(`link/MODDIR/module.prop`)
+        .then(response => response.text())
+        .then(data => {
+            toggleVersion.checked = data.includes("updateJson");
+        })
 }
 
 /**
  * Switch module update status and refresh toggle, called by controlPanelEventlistener
  * @returns {Promise<void>}
  */
-async function toggleModuleUpdate(event) {
+async function toggleModuleUpdate() {
     try {
         const result = await execCommand(`sh ${moduleDirectory}/bindhosts.sh --toggle-updatejson`);
         const lines = result.split("\n");
@@ -105,7 +103,10 @@ async function checkMagisk() {
  */
 async function toggleActionRedirectWebui() {
     try {
-        await execCommand(`sed -i "s/^magisk_webui_redirect=.*/magisk_webui_redirect=${actionRedirectStatus.checked ? 0 : 1}/" ${basePath}/webui_setting.sh`);
+        await execCommand(`
+            echo "magisk_webui_redirect=${actionRedirectStatus.checked ? 0 : 1}" > ${basePath}/webui_setting.sh
+            chmod 755 ${basePath}/webui_setting.sh
+        `);
         if (actionRedirectStatus.checked) {
             showPrompt("control_panel.action_prompt_false", false, undefined, "[×]");
         } else {
@@ -119,16 +120,21 @@ async function toggleActionRedirectWebui() {
 
 /**
  * Check action redirect status
- * @returns {Promise<void>}
+ * @returns {void}
  */
-async function checkRedirectStatus() {
-    try {
-        const result = await execCommand(`[ ! -f ${basePath}/webui_setting.sh ] || grep -q '^magisk_webui_redirect=1' ${basePath}/webui_setting.sh`);
-        actionRedirectStatus.checked = true;
-    } catch (error) {
-        actionRedirectStatus.checked = false;
-        console.error('Error checking action redirect status:', error);
-    }
+function checkRedirectStatus() {
+    fetch(`link/PERSISTENT_DIR/webui_setting.sh`)
+        .then(response => {
+            if (!response.ok) throw new Error('File not found');
+            return response.text();
+        })
+        .then(data => {
+            const redirectStatus = data.match(/magisk_webui_redirect=(\d)/)[1];
+            actionRedirectStatus.checked = redirectStatus === "1";
+        })
+        .catch(error => {
+            actionRedirectStatus.checked = true;
+        });
 }
 
 const cronToggle = document.getElementById('toggle-cron');
@@ -151,7 +157,7 @@ async function checkCronStatus() {
  * Toggle cron job status, called by controlPanelEventlistener
  * @returns {Promise<void>}
  */
-async function toggleCron(event) {
+async function toggleCron() {
     try {
         const result = await execCommand(`sh ${moduleDirectory}/bindhosts.sh --${cronToggle.checked ? "disable" : "enable"}-cron`);
         const lines = result.split("\n");
