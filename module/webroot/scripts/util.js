@@ -389,3 +389,30 @@ content.addEventListener('scroll', () => {
 
     lastScrollY = content.scrollTop;
 });
+
+
+export async function setupCustomBackgournd() {
+    // custom background
+    const bgContainer = document.getElementById("custom-bg");
+    const bgImage = document.getElementById("custom-bg-img");
+    const bgPaths = [
+        "link/PERSISTENT_DIR/.webui_config/custom_background.webp",
+        "link/PERSISTENT_DIR/.webui_config/custom_background.jpg",
+        "link/PERSISTENT_DIR/.webui_config/custom_background.png"
+    ];
+
+    for (const path of bgPaths) {
+        try {
+            const response = await fetch(path, { method: "HEAD" });
+            if (response.ok) {
+                bgImage.src = path;
+                bgContainer.style.display = "flex";
+                break;
+            }
+        } catch (error) {
+            console.error("Error checking background:", error);
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", setupCustomBackgournd);

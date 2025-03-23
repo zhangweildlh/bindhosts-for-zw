@@ -63,7 +63,6 @@
     align-items: center;
     padding: 10px;
     border-radius: 8px;
-    background-color: var(--bg-secondary);
     position: relative;
     overflow: hidden;
     user-select: none;

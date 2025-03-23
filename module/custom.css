@@ -1,0 +1,109 @@
+/* Custom css */
+
+/* Color scheme */
+:root {
+    /* Background colors */
+    /* --bg-primary: #F5F5F5; */
+    /* --bg-secondary: #fff; */
+    /* --bg-input: #F5F5F5; */
+
+    /* Text colors */
+    /* --text-primary: #000; */
+    /* --text-muted: #757575; */
+
+    /* Border colors */
+    /* --border-color: #ccc; */
+
+    /* Scroll bar colors */
+    /* --scroll-bar-color: #ddd; */
+
+    /* Button colors */
+    /* --btn-primary: #007bff; */
+    /* --btn-primary-text: #fff; */
+    /* --btn-delete: #FF4D4D; */
+    /* --btn-edit: #FFDD00; */
+
+    /* Prompt colors */
+    /* --prompt-success: #4CAF50; */
+    /* --prompt-error: #f44336; */
+
+    /* Shadow colors */
+    /* --shadow-light: rgba(0, 0, 0, 0.2); */
+    /* --shadow-medium: rgba(0, 0, 0, 0.5); */
+}
+
+/* Device dark mode color scheme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Background colors */
+        /* --bg-primary: #151515; */
+        /* --bg-secondary: #292929; */
+        /* --bg-input: #1b1b1b; */
+
+        /* Text colors */
+        /* --text-primary: #eee; */
+        /* --text-muted: #C2C2C2; */
+
+        /* Border colors */
+        /* --border-color: #636363; */
+
+        /* Scroll bar colors */
+        /* --scroll-bar-color: #666; */
+    }
+}
+
+/* Enable following if you're using custom backgound */
+/* Choose blur color depends on your custom background color */
+.translucent {
+    /* Dark blur effect */
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    /* Blur intensity */
+    /* backdrop-filter: blur(3px); */
+
+
+    /* Light blur effect */
+    /* background-color: rgba(255, 255, 255, 0.1); */
+    /* Blur intensity */
+    /* backdrop-filter: blur(3px); */
+}
+
+.translucent-menu {
+    /* Dark blur effect */
+    /* background-color: rgba(0, 0, 0, 0.1); */
+    /* Blur intensity */
+    /* backdrop-filter: blur(8px); */
+
+
+    /* Light blur effect */
+    /* background-color: rgba(255, 255, 255, 0.8); */
+    /* Blur intensity */
+    /* backdrop-filter: blur(8px); */
+}
+
+:root {
+    /* Dark blur color scheme */
+    /* Text colors */
+    /* --text-primary: #fff; */
+    /* --text-muted: #C2C2C2; */
+
+    /* Border colors */
+    /* --border-color: #bbb; */
+
+    /* Scroll bar colors */
+    /* --scroll-bar-color: #666; */
+
+
+    /* Light blur color scheme */
+    /* Text colors */
+    /* --text-primary: #000; */
+    /* --text-muted: #757575; */
+
+    /* Border colors */
+    /* --border-color: #333; */
+
+    /* Scroll bar colors */
+    /* --scroll-bar-color: #ddd; */
+
+    /* Shadow colors */
+    /* --shadow-medium: rgba(255, 255, 255, 0.1); */
+}

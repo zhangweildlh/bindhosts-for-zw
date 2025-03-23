@@ -99,6 +99,14 @@ for i in $files ; do
 	rm "$MODPATH/$i"
 done
 
+# webui custom css config
+if [ ! -d "$PERSISTENT_DIR/.webui_config" ] || [ ! -f "$PERSISTENT_DIR/.webui_config/custom.css" ]; then
+    mkdir -p "$PERSISTENT_DIR/.webui_config"
+    mv "$MODPATH/custom.css" "$PERSISTENT_DIR/.webui_config/custom.css"
+else
+    rm "$MODPATH/custom.css"
+fi
+
 # if hosts file empty or just comments
 # just copy real hosts file over
 grep -qv "#" "$MODPATH/system/etc/hosts" > /dev/null 2>&1 || {

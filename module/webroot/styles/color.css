@@ -5,6 +5,7 @@
     --bg-input: #F5F5F5;
 
     /* Text colors */
+    --text-constant: #000;
     --text-primary: #000;
     --text-muted: #757575;
 
@@ -37,6 +38,7 @@
         --bg-input: #1b1b1b;
 
         /* Text colors */
+        --text-constant: #eee;
         --text-primary: #eee;
         --text-muted: #C2C2C2;
 
@@ -46,4 +48,4 @@
         /* Scroll bar colors */
         --scroll-bar-color: #666;
     }
-} 
+}

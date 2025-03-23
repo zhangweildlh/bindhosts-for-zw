@@ -75,7 +75,7 @@
     user-select: none;
 }
 
-#edit-input {
+.edit-input {
     position: relative;
     background-color: var(--bg-primary);
     height: 100%;

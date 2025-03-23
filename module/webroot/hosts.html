@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles/docs.css" type="text/css">
     <link rel="stylesheet" href="styles/file_selector.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="/mmrl/insets.css" />
+    <link rel="stylesheet" href="link/PERSISTENT_DIR/.webui_config/custom.css" type="text/css">
     <script type="module" crossorigin src="scripts/hosts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -37,7 +38,7 @@
     <!-- Content -->
     <div class="content constant-height">
         <!-- Source box -->
-        <div class="box">
+        <div class="box translucent">
             <div>
                 <h2 data-i18n="source.title"></h2>
                 <button class="help-btn" data-type="sources">
@@ -45,7 +46,7 @@
                 </button>
             </div>
             <div class="category-container">
-                <div class="input-box-wrapper">
+                <div class="input-box-wrapper translucent-menu">
                     <textarea autocapitalize="off" class="input-box" id="sources-input" type="text" placeholder="https://adaway.org/hosts.txt"></textarea>
                 </div>
                 <button class="add-btn ripple-element" id="sources-add" onclick="handleAdd('sources')">
@@ -56,7 +57,7 @@
         </div>
 
         <!-- Whitelist source box -->
-        <div class="box">
+        <div class="box translucent">
             <div>
                 <h2 data-i18n="sources_whitelist.title"></h2>
                 <button class="help-btn" data-type="sources_whitelist">
@@ -64,7 +65,7 @@
                 </button>
             </div>
             <div class="category-container">
-                <div class="input-box-wrapper">
+                <div class="input-box-wrapper translucent-menu">
                     <textarea autocapitalize="off" class="input-box" id="sources_whitelist-input" type="text" placeholder="https://example.com/whitelist.txt"></textarea>
                 </div>
                 <button class="add-btn ripple-element" id="sources_whitelist-add" onclick="handleAdd('sources_whitelist')">
@@ -75,7 +76,7 @@
         </div>
 
         <!-- Whitelist box -->
-        <div class="box">
+        <div class="box translucent">
             <div>
                 <h2 data-i18n="whitelist.title"></h2>
                 <button class="help-btn" data-type="whitelist">
@@ -83,7 +84,7 @@
                 </button>
             </div>
             <div class="category-container">
-                <div class="input-box-wrapper">
+                <div class="input-box-wrapper translucent-menu">
                     <textarea autocapitalize="off" class="input-box" id="whitelist-input" type="text" placeholder="s.youtube.com"></textarea>
                 </div>
                 <button class="add-btn ripple-element" id="whitelist-add" onclick="handleAdd('whitelist')">
@@ -94,7 +95,7 @@
         </div>
 
         <!-- Blacklist box -->
-        <div class="box">
+        <div class="box translucent">
             <div>
                 <h2 data-i18n="blacklist.title"></h2>
                 <button class="help-btn" data-type="blacklist">
@@ -102,7 +103,7 @@
                 </button>
             </div>
             <div class="category-container">
-                <div class="input-box-wrapper">
+                <div class="input-box-wrapper translucent-menu">
                     <textarea autocapitalize="off" class="input-box" id="blacklist-input" type="text" placeholder="online-casino.com"></textarea>
                 </div>
                 <button class="add-btn ripple-element" id="blacklist-add" onclick="handleAdd('blacklist')">
@@ -113,7 +114,7 @@
         </div>
 
         <!-- Custom box -->
-        <div class="box">
+        <div class="box translucent">
             <div>
                 <h2 data-i18n="custom.title"></h2>
                 <button class="help-btn" data-type="custom">
@@ -121,7 +122,7 @@
                 </button>
             </div>
             <div class="category-container">
-                <div class="input-box-wrapper">
+                <div class="input-box-wrapper translucent-menu">
                     <textarea autocapitalize="off" class="input-box" id="custom-input" type="text" placeholder="93.184.215.14 example.com"></textarea>
                 </div>
                 <button class="add-btn ripple-element" id="custom-add" onclick="handleAdd('custom')">
@@ -132,7 +133,7 @@
         </div>
 
         <!-- Import custom hosts -->
-        <div class="box">
+        <div class="box translucent">
             <div>
                 <h2 data-i18n="import_custom.title"></h2>
                 <button class="help-btn" data-type="import_custom">
@@ -151,16 +152,21 @@
         <div class="placeholder"></div>
     </div>
 
+    <!-- Custom background -->
+    <div class="custom-bg constant-height" id="custom-bg">
+        <img id="custom-bg-img" src="" alt="Custom Background">
+    </div>
+
     <!-- Edit workspace -->
-    <div class="document-cover constant-height"></div>
+    <div class="document-cover translucent constant-height"></div>
     <div class="constant-height slide-menu" id="edit-content">
         <div class="line-numbers"></div>
-        <textarea id="edit-input"></textarea>
+        <textarea class="edit-input translucent-menu" id="edit-input"></textarea>
     </div>
 
     <!-- Help overlay -->
     <div id="sources-help" class="overlay">
-        <div class="overlay-content">
+        <div class="overlay-content translucent-menu">
             <button class="close-btn">&#x2715;</button>
             <h2 data-i18n="source.title"></h2>
             <ul>
@@ -176,7 +182,7 @@
         </div>
     </div>
     <div id="sources_whitelist-help" class="overlay">
-        <div class="overlay-content">
+        <div class="overlay-content translucent-menu">
             <button class="close-btn">&#x2715;</button>
             <h2 data-i18n="sources_whitelist.title"></h2>
             <ul>
@@ -187,7 +193,7 @@
         </div>
     </div>
     <div id="whitelist-help" class="overlay">
-        <div class="overlay-content">
+        <div class="overlay-content translucent-menu">
             <button class="close-btn">&#x2715;</button>
             <h2 data-i18n="whitelist.title"></h2>
             <ul>
@@ -197,7 +203,7 @@
         </div>
     </div>
     <div id="blacklist-help" class="overlay">
-        <div class="overlay-content">
+        <div class="overlay-content translucent-menu">
             <button class="close-btn">&#x2715;</button>
             <h2 data-i18n="blacklist.title"></h2>
             <ul>
@@ -207,7 +213,7 @@
         </div>
     </div>
     <div id="custom-help" class="overlay">
-        <div class="overlay-content">
+        <div class="overlay-content translucent-menu">
             <button class="close-btn">&#x2715;</button>
             <h2 data-i18n="custom.title"></h2>
             <ul>
@@ -218,7 +224,7 @@
         </div>
     </div>
     <div id="import_custom-help" class="overlay">
-        <div class="overlay-content">
+        <div class="overlay-content translucent-menu">
             <button class="close-btn">&#x2715;</button>
             <h2 data-i18n="import_custom.title"></h2>
             <ul>
@@ -231,7 +237,7 @@
 
     <!-- Source docs overlay -->
     <div id="source-docs" class="docs">
-        <div class="docs-content">
+        <div class="docs-content translucent-menu">
             <button class="close-docs-btn">&#x2715;</button>
             <div class="documents">
                 <div id="source-content">Loading...</div>
@@ -242,7 +248,7 @@
 
     <!-- File selector overlay -->
     <div class="file-selector-overlay overlay">
-        <div class="file-selector">
+        <div class="file-selector translucent-menu">
             <div class="file-selector-header">
                 <button class="file-selector-back-button">
                     <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="40 -1050 900 960" width="22px"><path d="M400-93.85 13.85-480 400-866.15l56.77 56.77L127.38-480l329.39 329.38L400-93.85Z"/></svg>
@@ -256,7 +262,7 @@
 
     <!-- Confirmation dialog overlay -->
     <div class="overlay" id="confirmation-overlay">
-        <div class="overlay-content">
+        <div class="overlay-content translucent-menu">
             <h2 data-i18n="confirmation.title"></h2>
             <p>
                 <span data-i18n="confirmation.message"></span>
