@@ -107,3 +107,23 @@
     /* Shadow colors */
     /* --shadow-medium: rgba(255, 255, 255, 0.1); */
 }
+
+.support-list,
+.about-docs,
+.toggle-list,
+.docs-btn,
+#reset-mode,
+#learn-btn,
+#translate-btn,
+#copy-link {
+    /* Prevent conflict with translucent background */
+    /* background-color: transparent; */
+}
+
+.box {
+    /* Disable box shadow */
+    /* box-shadow: none !important; */
+
+    /* Optional replace with border */
+    /* border: 1px solid var(--border-color); */
+}

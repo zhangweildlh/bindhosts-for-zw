@@ -2,13 +2,18 @@
     margin: 0;
     display: inline-block;
     vertical-align: top;
-    color: #2079CF;
+    color: var(--btn-primary);
+    background-color: var(--bg-primary);
     width: fit-content;
     border-radius: 5px;
     word-break: break-all;
     position: relative;
     overflow: hidden;
     user-select: none;
+}
+
+.docs-content #copy-link {
+    background-color: var(--bg-secondary);
 }
 
 .documents h1,
@@ -41,7 +46,7 @@
 }
 
 .documents pre {
-    background-color: #f4f4f4;
+    background-color: var(--bg-secondary);
     padding: 15px;
     border-radius: 5px;
     overflow-x: auto;
@@ -50,23 +55,8 @@
 .documents code {
     font-family: monospace;
     color: var(--text-primary);
-    background-color: #f4f4f4;
+    background-color: var(--bg-secondary);
     border-radius: 5px;
     padding: 1px;
     user-select: auto;
-}
-
-@media (prefers-color-scheme: dark) {
-    #copy-link,
-    .documents a:active {
-        color: #339BFF;
-    }
-
-    .documents pre {
-        background-color: #6E6E6E;
-    }
-
-    .documents code {
-        background-color: #6E6E6E;
-    }
 }

@@ -22,7 +22,6 @@ body {
     align-items: center;
     padding: 0 15px;
     box-sizing: border-box;
-    box-shadow: 0 0 5px var(--shadow-light);
     user-select: none;
     z-index: 6;
 }
@@ -94,11 +93,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 2px 2px 15px var(--shadow-light);
+    box-shadow: 2px 2px 15px var(--shadow-medium);
     pointer-events: auto;
 }
 
 .action-button svg {
+    fill: var(--btn-primary-text);
     z-index: 1;
 }
 
@@ -233,6 +233,7 @@ body {
     flex-direction: column;
     width: 100%;
     overflow-y: auto;
+    mask-image: linear-gradient(black 0%, black calc(100% - 16px), transparent 100%);
 }
 
 .host-list-header,
@@ -324,6 +325,7 @@ h2 {
     align-items: center;
     padding: 8px 10px;
     text-align: left;
+    background-color: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -468,6 +470,7 @@ input:checked+.slider:before {
     align-items: center;
 }
 
+.import-button svg,
 .add-btn svg {
     fill: var(--btn-primary-text);
     z-index: 1;
@@ -652,7 +655,7 @@ input:checked+.slider:before {
 
 #learn-btn {
     color: var(--text-muted);
-    background-color: transparent;
+    background-color: var(--bg-secondary);
     cursor: default;
     text-decoration: none;
     padding: 10px 10px;
@@ -663,7 +666,7 @@ input:checked+.slider:before {
 .docs-btn,
 #reset-mode {
     color: var(--text-muted);
-    background-color: transparent;
+    background-color: var(--bg-secondary);
     border: none;
     padding: 5px 10px;
     border-radius: 50px 50px;
@@ -786,14 +789,15 @@ input:checked+.slider:before {
     user-select: none;
     white-space: normal;
     overflow-wrap: break-word;
+    mask-image: linear-gradient(black 0%, black calc(100% - 16px), transparent 100%);
 }
 
 .credit-marked {
     text-align: center;
-    font-size: 14px;
-    padding-top: 15px;
+    font-size: 16px;
+    padding: 15px 0;
     width: 100%;
-    color: var(--border-color);
+    color: var(--text-muted);
 }
 
 #language-overlay .overlay-content {
@@ -852,6 +856,7 @@ input:checked+.slider:before {
 #translate-btn {
     gap: 0;
     margin-top: 20px;
+    background-color: var(--bg-secondary);
 }
 
 .language-improve {
@@ -930,7 +935,7 @@ input:checked+.slider:before {
 .footer-btn {
     flex-grow: 1;
     max-width: 200px;
-    color: var(--text-constant);
+    color: var(--filledTonalButtonContentColor, var(--text-constant));
     text-decoration: none;
     font-size: 12px;
     display: flex;
@@ -947,6 +952,10 @@ input:checked+.slider:before {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    svg {
+        fill: var(--filledTonalButtonContentColor, currentColor);
+    }
 }
 
 .focused-footer-btn {
@@ -963,7 +972,7 @@ input:checked+.slider:before {
     width: 0;
     padding: 0 5px;
     height: 100%;
-    background-color: #ccc;
+    background-color: var(--filledTonalButtonContainerColor, var(--border-color));
     border-radius: 50px;
     opacity: 0;
     transition: all 0.2s ease;
@@ -977,7 +986,7 @@ input:checked+.slider:before {
 }
 
 .focused-footer-btn:active::after {
-    background-color: #aaa;
+    background-color: var(--filledTonalButtonDisabledContentColor, #aaa);
 }
 
 .ripple-element {
@@ -1006,16 +1015,7 @@ input:checked+.slider:before {
 }
 
 @media (prefers-color-scheme: dark) {
-    .box {
-        box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
-    }
-
-    .header,
-    .footer {
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-    }
-
-    .focused-footer-btn::after {
-        background-color: #636363;
+    .focused-footer-btn:active::after {
+        background-color: #888;
     }
 }

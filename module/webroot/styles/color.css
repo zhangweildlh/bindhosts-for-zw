@@ -1,25 +1,27 @@
+@import url('https://mui.kernelsu.org/mmrl/colors.css');
+
 :root {
     /* Background colors */
-    --bg-primary: #F5F5F5;
-    --bg-secondary: #fff;
-    --bg-input: #F5F5F5;
+    --bg-primary: var(--background, #F5F5F5);
+    --bg-secondary: var(--tonalSurface, #fff);
+    --bg-input: var(--surfaceBright, #F5F5F5);
 
     /* Text colors */
-    --text-constant: #000;
-    --text-primary: #000;
+    --text-constant: var(--onSurface, #000);
+    --text-primary: var(--onSurface, #000);
     --text-muted: #757575;
 
     /* Border colors */
-    --border-color: #ccc;
+    --border-color: var(--outlineVariant, #ccc);
 
     /* Scroll bar colors */
     --scroll-bar-color: #ddd;
 
     /* Button colors */
-    --btn-primary: #007bff;
-    --btn-primary-text: #fff;
+    --btn-primary: var(--primary, #007bff);
+    --btn-primary-text: var(--onPrimary, #fff);
     --btn-delete: #FF4D4D;
-    --btn-edit: #FFDD00;
+    --btn-edit: var(--error, #FFDD00);
 
     /* Prompt colors */
     --prompt-success: #4CAF50;
@@ -33,17 +35,17 @@
 @media (prefers-color-scheme: dark) {
     :root {
         /* Background colors */
-        --bg-primary: #151515;
-        --bg-secondary: #292929;
-        --bg-input: #1b1b1b;
+        --bg-primary: var(--background, #151515);
+        --bg-secondary: var(--tonalSurface, #292929);
+        --bg-input: var(--surfaceBright, #1b1b1b);
 
         /* Text colors */
-        --text-constant: #eee;
-        --text-primary: #eee;
+        --text-constant: var(--onSurface, #eee);;
+        --text-primary: var(--onSurface, #eee);
         --text-muted: #C2C2C2;
 
         /* Border colors */
-        --border-color: #636363;
+        --border-color: var(--outlineVariant, #636363);
 
         /* Scroll bar colors */
         --scroll-bar-color: #666;
