@@ -43,9 +43,6 @@ function getDocuments(link, fallbackLink, element) {
             // For overlay content
             const docsContent = document.getElementById(element);
             docsContent.innerHTML = marked.parse(data);
-            
-            const aboutContent = document.getElementById('about-document-content');
-            if (aboutContent) aboutContent.innerHTML = marked.parse(data);
 
             addCopyToClipboardListeners();
             applyRippleEffect();
