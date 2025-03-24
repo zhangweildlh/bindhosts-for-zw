@@ -8,7 +8,6 @@ export function setLearnMore(value) { learnMore = value; }
 
 export const basePath = "/data/adb/bindhosts";
 export const moduleDirectory = "/data/adb/modules/bindhosts";
-const header = document.querySelector('.header');
 const actionContainer = document.querySelector('.float');
 const content = document.querySelector('.content');
 
@@ -172,11 +171,7 @@ export function showPrompt(key, isSuccess = true, duration = 2000, preValue = ""
     }
 
     setTimeout(() => {
-        if (typeof ksu !== 'undefined' && ksu.mmrl) {
-            prompt.style.transform = 'translateY(calc((var(--window-inset-bottom) + 85px) * -1))';
-        } else {
-            prompt.style.transform = 'translateY(-85px)';
-        }
+        prompt.style.transform = 'translateY(calc((var(--window-inset-bottom, 0px) + 85px) * -1))';
         window.promptTimeout = setTimeout(() => {
             prompt.style.transform = 'translateY(100%)';
         }, duration);
@@ -189,16 +184,6 @@ export function showPrompt(key, isSuccess = true, duration = 2000, preValue = ""
  */
 export async function checkMMRL() {
     if (typeof ksu !== 'undefined' && ksu.mmrl) {
-        // Adjust inset
-        header.style.paddingTop = 'var(--window-inset-top)';
-        header.style.height = 'calc(var(--window-inset-top) + 55px)';
-        if (actionContainer) actionContainer.style.bottom = 'calc(var(--window-inset-bottom) + 110px)';
-        document.querySelectorAll('.constant-height').forEach(element => {
-            element.style.height = 'calc(100vh - var(--window-inset-top) - var(--window-inset-bottom) - 135px)';
-            element.style.top = 'calc(var(--window-inset-top) + 55px)';
-        });
-        document.querySelector('.footer').style.paddingBottom = 'var(--window-inset-bottom)';
-
         // Set status bars theme based on device theme
         try {
             $bindhosts.setLightStatusBars(!window.matchMedia('(prefers-color-scheme: dark)').matches)
