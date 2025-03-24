@@ -224,12 +224,18 @@ function controlPanelEventlistener(event) {
 
             // Handler for end events
             const handleEndEvent = () => {
-                if (isHandling) return
+                if (isHandling) return;
                 isHandling = true;
-                if (!touchMoved) setTimeout(() => {
-                    functionName(event)
+                if (!touchMoved) {
+                    setTimeout(() => {
+                        functionName(event);
+                        isHandling = false;
+                    }, 50);
+                } else {
                     isHandling = false;
-            }, 50)};
+                }
+                touchMoved = false;
+            };
 
             // Touch event
             el.addEventListener('touchstart', () => touchMoved = false);
