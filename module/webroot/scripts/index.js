@@ -21,7 +21,7 @@ function updateStatus() {
             const response = await fetch(item.file);
             if (!response.ok) throw new Error(`File not found: ${item.file}`);
             const data = await response.text();
-            const value = data.match(new RegExp(`${item.key}=(.*)`))[1];
+            const value = data.match(new RegExp(`${item.key}=(.*)`))[1].replace('status: ', '');
             document.getElementById(item.element).textContent = value;
         } catch (error) {
             await setupLink();
@@ -41,7 +41,7 @@ function updateStatus() {
  * Developer option entrance, status box click event
  * Click 5 times in 2 seconds to enable developer option
  */
-document.getElementById("status-box").addEventListener("click", async (event) => {  
+document.getElementById("status-box").addEventListener("click", async () => {  
     clickCount++;
     clearTimeout(clickTimeout);
     clickTimeout = setTimeout(() => {
