@@ -200,7 +200,7 @@ export async function checkMMRL() {
 
         // Test API
         try {
-            execCommand('ls /');
+            await execCommand('ls /');
         } catch (error) {
             const permissionOverlay = document.getElementById("mmrl-permission-overlay");
             permissionOverlay.style.display = 'flex';
