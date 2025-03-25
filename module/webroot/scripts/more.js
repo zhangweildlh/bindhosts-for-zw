@@ -146,10 +146,9 @@ const cronToggle = document.getElementById('toggle-cron');
  */
 async function checkCronStatus() {
     try {
-        const result = await execCommand(`grep -q "bindhosts.sh" ${basePath}/crontabs/root`);
-        cronToggle.checked = true;
+        const result = await execCommand(`grep -q "bindhosts.sh" ${basePath}/crontabs/root || echo "false"`);
+        cronToggle.checked = result.trim() === "false" ? false : true;
     } catch (error) {
-        cronToggle.checked = false;
         console.error('Error checking cron status:', error);
     }
 }
