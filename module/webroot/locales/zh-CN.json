@@ -109,5 +109,10 @@
         "message": "确认删除",
         "cancel": "取消",
         "remove": "删除"
+    },
+    "footer": {
+        "home": "首页",
+        "hosts": "Hosts",
+        "more": "更多"
     }
 }

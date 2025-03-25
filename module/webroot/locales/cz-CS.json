@@ -109,5 +109,10 @@
         "message": "Opravdu chcete odstranit",
         "cancel": "Zrušit",
         "remove": "Odstranit"
+    },
+    "footer": {
+        "home": "Domů",
+        "hosts": "Hosts",
+        "more": "Více"
     }
 }

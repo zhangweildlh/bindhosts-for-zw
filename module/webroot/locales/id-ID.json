@@ -105,9 +105,14 @@
         "support_issue": "Laporkan masalah"
     },
     "confirmation": {
-        "title": "Hapus Konfirmasi?",
+        "title": "Konfirmasi Hapus?",
         "message": "Apakah Anda yakin ingin menghapus",
         "cancel": "Batal",
         "remove": "Hapus"
+    },
+    "footer": {
+        "home": "Beranda",
+        "hosts": "Hosts",
+        "more": "Lainnya"
     }
 }

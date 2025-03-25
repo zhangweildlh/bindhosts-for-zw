@@ -109,5 +109,10 @@
         "message": "Are you sure you want to remove",
         "cancel": "Cancel",
         "remove": "Remove"
+    },
+    "footer": {
+        "home": "Home",
+        "hosts": "Hosts",
+        "more": "More"
     }
 }

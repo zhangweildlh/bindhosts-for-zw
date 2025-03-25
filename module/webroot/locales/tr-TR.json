@@ -105,9 +105,14 @@
         "support_issue": "Sorun bildir"
     },
     "confirmation": {
-        "title": "Silmek istediğinize emin misiniz?",
-        "message": "Bu işlem geri alınamaz",
+        "title": "Kaldırmayı Onayla?",
+        "message": "Kaldırmak istediğinizden emin misiniz",
         "cancel": "İptal",
-        "remove": "Sil"
+        "remove": "Kaldır"
+    },
+    "footer": {
+        "home": "Ana Sayfa",
+        "hosts": "Hosts",
+        "more": "Daha Fazla"
     }
 }

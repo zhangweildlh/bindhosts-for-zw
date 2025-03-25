@@ -105,9 +105,14 @@
         "support_issue": "Segnala un problema"
     },
     "confirmation": {
-        "title": "Confermare eliminazione?",
-        "message": "Sei sicuro di voler eliminare",
+        "title": "Confermare la rimozione?",
+        "message": "Sei sicuro di voler rimuovere",
         "cancel": "Annulla",
-        "remove": "Elimina"
+        "remove": "Rimuovi"
+    },
+    "footer": {
+        "home": "Home",
+        "hosts": "Hosts",
+        "more": "Altro"
     }
 }

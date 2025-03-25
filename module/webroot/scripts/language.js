@@ -1,5 +1,5 @@
 import { setupDocsMenu } from './docs.js';
-import { execCommand, basePath, applyRippleEffect, moduleDirectory } from './util.js';
+import { execCommand, applyRippleEffect, moduleDirectory } from './util.js';
 
 const languageMenu = document.querySelector('.language-menu');
 
@@ -61,6 +61,7 @@ function applyTranslations() {
     document.querySelectorAll("[data-i18n]").forEach((el) => {
         const keyString = el.getAttribute("data-i18n");
         const translation = keyString.split('.').reduce((acc, key) => acc && acc[key], translations);
+        if (keyString === "footer.home" && el.textContent.trim() !== translation.trim()) updateFooterLanguageKey();
         if (translation) {
             if (el.hasAttribute("placeholder")) {
                 el.setAttribute("placeholder", translation);
@@ -115,6 +116,32 @@ async function generateLanguageMenu() {
         }
     });
     applyRippleEffect();
+}
+
+/**
+ * Directly write translatation key into html file
+ * Optimize for better ui experience
+ * @returns {void}
+ */
+function updateFooterLanguageKey() {
+    try {
+        // Function to escape / and & for use in sed
+        const escapeForSed = (text) => text.replace(/[\/&]/g, '\\$&');
+        const homeText = escapeForSed(translations.footer.home);
+        const hostsText = escapeForSed(translations.footer.hosts);
+        const moreText = escapeForSed(translations.footer.more);
+
+        execCommand(`
+            files="${moduleDirectory}/webroot/index.html ${moduleDirectory}/webroot/hosts.html ${moduleDirectory}/webroot/more.html"
+            for file in $files; do
+                sed -i "s/<span data-i18n=\\"footer.home\\">[^<]*<\\/span>/<span data-i18n=\\"footer.home\\">${homeText}<\\/span>/g" "$file"
+                sed -i "s/<span data-i18n=\\"footer.hosts\\">[^<]*<\\/span>/<span data-i18n=\\"footer.hosts\\">${hostsText}<\\/span>/g" "$file"
+                sed -i "s/<span data-i18n=\\"footer.more\\">[^<]*<\\/span>/<span data-i18n=\\"footer.more\\">${moreText}<\\/span>/g" "$file"
+            done
+        `);
+    } catch (error) {
+        console.error("Error updating translation key in HTML:", error);
+    }
 }
 
 /**

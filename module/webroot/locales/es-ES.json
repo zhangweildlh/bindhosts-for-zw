@@ -106,8 +106,13 @@
     },
     "confirmation": {
         "title": "¿Confirmar eliminación?",
-        "message": "¿Estás seguro de querer eliminar",
+        "message": "¿Está seguro de que desea eliminar",
         "cancel": "Cancelar",
         "remove": "Eliminar"
+    },
+    "footer": {
+        "home": "Inicio",
+        "hosts": "Hosts",
+        "more": "Más"
     }
 }

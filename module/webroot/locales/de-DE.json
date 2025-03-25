@@ -105,9 +105,14 @@
         "support_issue": "Problem melden"
     },
     "confirmation": {
-        "title": "Entfernen bestätigen?",
+        "title": "Löschen bestätigen?",
         "message": "Sind Sie sicher, dass Sie entfernen möchten",
         "cancel": "Abbrechen",
         "remove": "Entfernen"
+    },
+    "footer": {
+        "home": "Startseite",
+        "hosts": "Hosts",
+        "more": "Mehr"
     }
 }
