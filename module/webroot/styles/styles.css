@@ -841,7 +841,7 @@ input:checked+.slider:before {
     font-size: 18px;
     padding: 8px 10px;
     color: var(--text-primary);
-    background-color: transparent;
+    background-color: var(--bg-secondary);
     border: none;
     width: 100%;
     user-select: none;

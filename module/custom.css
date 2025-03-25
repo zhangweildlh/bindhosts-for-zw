@@ -86,9 +86,6 @@
     /* --text-primary: #fff; */
     /* --text-muted: #C2C2C2; */
 
-    /* Border colors */
-    /* --border-color: #bbb; */
-
     /* Scroll bar colors */
     /* --scroll-bar-color: #666; */
 
@@ -97,9 +94,6 @@
     /* Text colors */
     /* --text-primary: #000; */
     /* --text-muted: #757575; */
-
-    /* Border colors */
-    /* --border-color: #333; */
 
     /* Scroll bar colors */
     /* --scroll-bar-color: #ddd; */
@@ -111,6 +105,8 @@
 .support-list,
 .about-docs,
 .toggle-list,
+.file-item,
+.language-option,
 .docs-btn,
 #reset-mode,
 #learn-btn,
@@ -124,6 +120,6 @@
     /* Disable box shadow */
     /* box-shadow: none !important; */
 
-    /* Optional replace with border */
+    /* Optional replace blur with border */
     /* border: 1px solid var(--border-color); */
 }
