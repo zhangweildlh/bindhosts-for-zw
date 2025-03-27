@@ -405,7 +405,7 @@ h2 {
     width: 19px;
     left: 3px;
     bottom: 3px;
-    background-color: white;
+    background-color: var(--text-muted);
     transition: .4s;
 }
 
@@ -418,6 +418,7 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
+    background-color: var(--tonalSurface, #fff);
     transform: translateX(15px);
 }
 
