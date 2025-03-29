@@ -91,6 +91,7 @@ async function generateLanguageMenu() {
     const defaultButton = document.createElement('button');
     defaultButton.classList.add('language-option', 'ripple-element');
     defaultButton.setAttribute('data-lang', 'default');
+    defaultButton.setAttribute('data-i18n', 'system_default');
     defaultButton.textContent = 'System Default';
     languageMenu.appendChild(defaultButton);
 
