@@ -146,6 +146,7 @@ export async function setupDocsMenu(docsLang) {
         const header = document.querySelector('.title-container');
         const title = document.getElementById('title');
         const backButton = document.getElementById('docs-back-btn');
+        const bodyContent = document.querySelector('.content');
 
         setupSwipeToClose(aboutContent, documentCover, backButton);
 
@@ -170,6 +171,7 @@ export async function setupDocsMenu(docsLang) {
                     const { link, fallbackLink } = docsData[element.dataset.type] || {};
                     getDocuments(link, fallbackLink, 'about-document-content');
                     aboutContent.style.transform = 'translateX(0)';
+                    bodyContent.style.transform = 'translateX(-20vw)';
                     documentCover.style.opacity = '1';
                     header.classList.add('back');
                     backButton.style.transform = 'translateX(0)';
@@ -181,6 +183,7 @@ export async function setupDocsMenu(docsLang) {
             // Alternative way to close about docs with back button
             backButton.addEventListener('click', () => {
                 aboutContent.style.transform = 'translateX(100%)';
+                bodyContent.style.transform = 'translateX(0)';
                 documentCover.style.opacity = '0';
                 backButton.style.transform = 'translateX(-100%)';
                 header.classList.remove('back');

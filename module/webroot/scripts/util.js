@@ -231,7 +231,7 @@ export function initialTransition() {
         title.classList.add('loaded');
         if (modeBtn) modeBtn.classList.add('loaded');
         if (actionBtn) actionBtn.style.transform = 'translateY(0)';
-    }, 100);
+    }, 10);
 
     // Quit transition on switching page
     document.querySelectorAll('a').forEach(link => {
@@ -262,6 +262,7 @@ export function initialTransition() {
  */
 export function setupSwipeToClose(element, cover, backButton) {
     let startX = 0, currentX = 0, startY = 0, isDragging = false, isScrolling = false;
+    const bodyContent = document.querySelector('.content');
 
     const handleStart = (e) => {
         const editInput = document.getElementById('edit-input');
@@ -286,6 +287,7 @@ export function setupSwipeToClose(element, cover, backButton) {
         startX = clientX;
         startY = clientY;
         element.style.transition = 'none';
+        bodyContent.style.transition = 'none';
         cover.style.transition = 'none';
         e.stopPropagation();
     };
@@ -312,6 +314,7 @@ export function setupSwipeToClose(element, cover, backButton) {
         currentX = clientX - startX;
         if (currentX < 0) return;
         element.style.transform = `translateX(${Math.max(currentX, -window.innerWidth)}px)`;
+        bodyContent.style.transform = `translateX(calc(${Math.max(currentX, -window.innerWidth)}px / 5 - 20vw))`;
         // Calculate opacity based on position
         const opacity = 1 - (currentX / window.innerWidth);
         cover.style.opacity = Math.max(0, Math.min(1, opacity));
@@ -321,14 +324,16 @@ export function setupSwipeToClose(element, cover, backButton) {
     const handleEnd = () => {
         if (!isDragging) return;
         isDragging = false;
-        element.style.transition = 'transform 0.2s ease';
-        cover.style.transition = 'opacity 0.2s ease';
+        element.style.transition = 'transform 0.3s ease';
+        cover.style.transition = 'opacity 0.3s ease';
+        bodyContent.style.transition = 'transform 0.3s ease';
 
         const threshold = window.innerWidth * 0.2;
         if (Math.abs(currentX) > threshold) {
             backButton.click();
         } else {
             element.style.transform = 'translateX(0)';
+            bodyContent.style.transform = 'translateX(-20vw)';
             cover.style.opacity = '1';
         }
         startX = 0;
@@ -344,7 +349,6 @@ export function setupSwipeToClose(element, cover, backButton) {
     element.addEventListener('mousedown', handleStart);
     element.addEventListener('mousemove', handleMove);
     element.addEventListener('mouseup', handleEnd);
-    element.addEventListener('mouseleave', handleEnd);
 }
 
 // Scroll event

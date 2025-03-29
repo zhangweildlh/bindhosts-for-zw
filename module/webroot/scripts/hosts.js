@@ -392,7 +392,7 @@ function openFileEditor(lastFileName, openEditor = true) {
     const editorCover = document.querySelector('.document-cover');
     const editor = document.getElementById('edit-content');
     const lineNumbers = document.querySelector('.line-numbers');
-    const content = document.querySelector('.content');
+    const bodyContent = document.querySelector('.content');
 
     // Adjust width of fileName according to the length of text in input
     function adjustFileNameWidth() {
@@ -422,11 +422,13 @@ function openFileEditor(lastFileName, openEditor = true) {
     actionButton.style.transform = 'translateY(110px)';
     title.style.display = 'none';
     fileName.style.display = 'flex';
-    content.style.overflowY = 'hidden';
+    bodyContent.style.overflowY = 'hidden';
 
     // Open file editor
-    if (openEditor) editor.style.transform = 'translateX(0)';
-    else setTimeout(() => fileNameInput.focus(), 1000);
+    if (openEditor) {
+        editor.style.transform = 'translateX(0)';
+        bodyContent.style.transform = 'translateX(-20vw)';
+    } else setTimeout(() => fileNameInput.focus(), 1000);
 
     // Set line numbers
     editorInput.addEventListener('input', () => {
@@ -495,7 +497,8 @@ function openFileEditor(lastFileName, openEditor = true) {
         actionButton.style.transform = 'translateY(0)';
         fileName.style.display = 'none';
         saveButton.style.transform = 'translateX(calc(105% + 15px))';
-        content.style.overflowY = 'auto';
+        bodyContent.style.overflowY = 'auto';
+        bodyContent.style.transform = 'translateX(0)';
         document.querySelectorAll('.box li').forEach(li => {
             li.scrollTo({ left: 0, behavior: 'smooth' });
         });
