@@ -42,7 +42,7 @@
 }
 
 .documents a:active {
-    color: #2079CF;
+    color: var(--btn-primary);
 }
 
 .documents pre {

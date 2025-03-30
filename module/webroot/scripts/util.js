@@ -313,11 +313,14 @@ export function setupSwipeToClose(element, cover, backButton) {
         if (isScrolling) return;
         currentX = clientX - startX;
         if (currentX < 0) return;
-        element.style.transform = `translateX(${Math.max(currentX, -window.innerWidth)}px)`;
-        bodyContent.style.transform = `translateX(calc(${Math.max(currentX, -window.innerWidth)}px / 5 - 20vw))`;
-        // Calculate opacity based on position
-        const opacity = 1 - (currentX / window.innerWidth);
-        cover.style.opacity = Math.max(0, Math.min(1, opacity));
+        if (currentX > 50) {
+            const adjustedX = currentX - 50; // 50px trigger threshold 
+            element.style.transform = `translateX(${Math.max(adjustedX, -window.innerWidth)}px)`;
+            bodyContent.style.transform = `translateX(calc(${Math.max(adjustedX, -window.innerWidth)}px / 5 - 20vw))`;
+            // Calculate opacity based on position
+            const opacity = 1 - (adjustedX / window.innerWidth);
+            cover.style.opacity = Math.max(0, Math.min(1, opacity));
+        }
         e.stopPropagation();
     };
 
@@ -328,7 +331,7 @@ export function setupSwipeToClose(element, cover, backButton) {
         cover.style.transition = 'opacity 0.3s ease';
         bodyContent.style.transition = 'transform 0.3s ease';
 
-        const threshold = window.innerWidth * 0.2;
+        const threshold = window.innerWidth * 0.25 + 50;
         if (Math.abs(currentX) > threshold) {
             backButton.click();
         } else {
