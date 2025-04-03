@@ -112,46 +112,49 @@ let activeDocs = null;
  * @returns {Promise<void>}
  */
 export async function setupDocsMenu(docsLang) {
+    let langCode;
+    if (docsLang === 'en-US') langCode = '';
+    else langCode = '_' + docsLang;
     const docsData = {
         source: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources_${docsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources${langCode}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources.md`,
-            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/sources_${docsLang}.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/sources${langCode}.md`,
             fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/sources.md`,
             element: 'source-content',
         },
         translate: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize_${docsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize${langCode}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize.md`,
-            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/localize_${docsLang}.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/localize${langCode}.md`,
             fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/localize.md`,
             element: 'translate-content',
         },
         modes: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes_${docsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes${langCode}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes.md`,
-            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/modes_${docsLang}.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/modes${langCode}.md`,
             fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/modes.md`,
             element: 'modes-content',
         },
         usage: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage_${docsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage${langCode}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage.md`,
-            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/usage_${docsLang}.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/usage${langCode}.md`,
             fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/usage.md`,
             element: 'usage-content',
         },
         hiding: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/hiding_${docsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/hiding${langCode}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/hiding.md`,
-            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/hiding_${docsLang}.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/hiding${langCode}.md`,
             fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/hiding.md`,
             element: 'hiding-content',
         },
         faq: {
-            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq_${docsLang}.md`,
+            link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq${langCode}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq.md`,
-            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/faq_${docsLang}.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/faq${langCode}.md`,
             fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/faq.md`,
             element: 'faq-content',
         },
