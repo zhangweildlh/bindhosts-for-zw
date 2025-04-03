@@ -1,7 +1,9 @@
 # 使用手册
 
 ## 通过终端使用
-<img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/terminal_usage.png?raw=true" width="100%">
+<img src="https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/screenshots/terminal_usage.png" 
+     onerror="this.onerror=null;this.src='https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/screenshots/terminal_usage.png';" 
+     width="100%" alt="Terminal Usage Screenshot">
 
 为了在使用 Magisk/KernelSU/APatch 时均能访问如图所示的多个选项，您可以
 - 通过 Termux (或者其他类似的终端 app)
@@ -33,10 +35,14 @@
 ## Action
  点击 action 以在更新和重置的状态间切换
  
- <img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/manager_action.gif?raw=true" width="100%">
+<img src="https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/screenshots/manager_action.gif" 
+     onerror="this.onerror=null;this.src='https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/screenshots/manager_action.gif';" 
+     width="100%" alt="Manager Action">
 
 ## WebUI
   添加您的自定义规则、规则（源）、白名单或黑名单。
  
- <img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/manager_webui.gif?raw=true" width="100%">
+<img src="https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/screenshots/manager_webui.gif" 
+     onerror="this.onerror=null;this.src='https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/screenshots/manager_webui.gif';" 
+     width="100%" alt="Manager WebUI">
 

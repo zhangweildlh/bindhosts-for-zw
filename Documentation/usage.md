@@ -1,7 +1,9 @@
 # Usage
 
 ## Usage via Terminal
-<img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/terminal_usage.png?raw=true" width="100%">
+<img src="https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/screenshots/terminal_usage.png" 
+     onerror="this.onerror=null;this.src='https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/screenshots/terminal_usage.png';" 
+     width="100%" alt="Terminal Usage Screenshot">
 
 You can access the various options as shown in the image for bindhosts Magisk/KernelSU/APatch
 - via Termux (or other various common terminal apps)
@@ -33,10 +35,14 @@ You can access the various options as shown in the image for bindhosts Magisk/Ke
 ## Action
  press action to toggle update and reset
  
- <img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/manager_action.gif?raw=true" width="100%">
+<img src="https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/screenshots/manager_action.gif" 
+     onerror="this.onerror=null;this.src='https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/screenshots/manager_action.gif';" 
+     width="100%" alt="Manager Action">
 
 ## WebUI
   add your custom rules, sources, whitelist or blacklist
  
- <img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/manager_webui.gif?raw=true" width="100%">
+<img src="https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/screenshots/manager_webui.gif" 
+     onerror="this.onerror=null;this.src='https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/screenshots/manager_webui.gif';" 
+     width="100%" alt="Manager WebUI">
 

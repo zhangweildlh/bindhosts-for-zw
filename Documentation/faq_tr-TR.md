@@ -6,6 +6,9 @@
   1. Süper Kullanıcı
   2. Chrome
   3. Özel
-  4. Umount modüllerini devre dışı bırak<br><img src="https://github.com/bindhosts/bindhosts/blob/master/Documentation/screenshots/umount_chrome.png?raw=true" width="100%">
+  4. Umount modüllerini devre dışı bırak<br>
+  <img src="https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/screenshots/umount_chrome.png" 
+       onerror="this.onerror=null;this.src='https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/screenshots/umount_chrome.png';"
+       width="100%" alt="Disable umount modules screenshot">
 - Bu, diğer Chrome ve Chromium tabanlı web tarayıcıları için de geçerlidir.
 - KernelSU varsayılanlarıyla sık karşılaşılan bir sorun.
