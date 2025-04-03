@@ -23,6 +23,16 @@
     margin-bottom: 5px;
 }
 
+.documents img {
+    max-width: 100%;
+    max-height: calc(100vh - var(--top-inset) - var(--bottom-inset));
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
 .documents ul {
     padding-left: 0;
     margin: 0;
