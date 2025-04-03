@@ -3,54 +3,57 @@ import { translations } from './language.js';
 
 /**
  * Fetch documents from a link and display them in the specified element
+ * @param {string} element - ID of the element to display the document content
  * @param {string} link - Primary link to fetch the document
  * @param {string} fallbackLink - Fallback link if the primary link fails
- * @param {string} element - ID of the element to display the document content
+ * @param {string} linkMirror - mirror link of main link
+ * @param {string} fallbackLinkMirror - mirror link of fallback link
  * @returns {void}
  */
-function getDocuments(link, fallbackLink, element) {
-    fetch(link)
-        .then(response => {
-            if (!response.ok) {
-                return fetch(fallbackLink).then(fallbackResponse => {
-                    if (!fallbackResponse.ok) {
-                        throw new Error(`Fallback link failed with status ${fallbackResponse.status}`);
-                    }
-                    return fallbackResponse.text();
-                });
-            }
-            return response.text();
-        })
-        .then(data => {
-            window.linkRedirect = linkRedirect;
-            marked.setOptions({
-                sanitize: true,
-                walkTokens(token) {
-                    if (token.type === 'link') {
-                        const href = token.href;
-                        const text = token.text;
-                        if (text === href) {
-                            token.type = "html";
-                            token.text = `<span><p class="ripple-element" id="copy-link">${text}</p></span>`;
-                        } else {
-                            token.href = "javascript:void(0);";
-                            token.type = "html";
-                            token.text = `<a href="javascript:void(0);" onclick="linkRedirect('${href}')">${text}</a>`;
+async function getDocuments(element, link, fallbackLink, linkMirror, fallbackLinkMirror) {
+    const urls = [link, fallbackLink, linkMirror, fallbackLinkMirror];
+    let lastError = null;
+    for (const url of urls) {
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+                const data = await response.text();
+                window.linkRedirect = linkRedirect;
+                marked.setOptions({
+                    sanitize: true,
+                    walkTokens(token) {
+                        if (token.type === 'link') {
+                            const href = token.href;
+                            const text = token.text;
+                            if (text === href) {
+                                token.type = "html";
+                                token.text = `<span><p class="ripple-element" id="copy-link">${text}</p></span>`;
+                            } else {
+                                token.href = "javascript:void(0);";
+                                token.type = "html";
+                                token.text = `<a href="javascript:void(0);" onclick="linkRedirect('${href}')">${text}</a>`;
+                            }
                         }
                     }
-                }
-            });
-            // For overlay content
-            const docsContent = document.getElementById(element);
-            docsContent.innerHTML = marked.parse(data);
+                });
+                
+                const docsContent = document.getElementById(element);
+                docsContent.innerHTML = marked.parse(data);
+                
+                addCopyToClipboardListeners();
+                applyRippleEffect();
+                return;
+            }
+            lastError = `Status ${response.status} from ${url}`;
+        } catch (error) {
+            lastError = error.message;
+            continue;
+        }
+    }
 
-            addCopyToClipboardListeners();
-            applyRippleEffect();
-        })
-        .catch(error => {
-            console.error('Error fetching documents:', error);
-            document.getElementById(element).textContent = 'Failed to load content: ' + error.message;
-        });
+    // If we get here, all URLs failed
+    console.error('Error fetching documents:', lastError);
+    document.getElementById(element).textContent = `Failed to load content: ${lastError}`;
 }
 
 /**
@@ -113,31 +116,43 @@ export async function setupDocsMenu(docsLang) {
         source: {
             link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/sources.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/sources_${docsLang}.md`,
+            fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/sources.md`,
             element: 'source-content',
         },
         translate: {
             link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/localize.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/localize_${docsLang}.md`,
+            fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/localize.md`,
             element: 'translate-content',
         },
         modes: {
             link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/modes.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/modes_${docsLang}.md`,
+            fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/modes.md`,
             element: 'modes-content',
         },
         usage: {
             link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/usage.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/usage_${docsLang}.md`,
+            fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/usage.md`,
             element: 'usage-content',
         },
         hiding: {
             link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/hiding_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/hiding.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/hiding_${docsLang}.md`,
+            fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/hiding.md`,
             element: 'hiding-content',
         },
         faq: {
             link: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq_${docsLang}.md`,
             fallbackLink: `https://raw.githubusercontent.com/bindhosts/bindhosts/master/Documentation/faq.md`,
+            linkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/faq_${docsLang}.md`,
+            fallbackLinkMirror: `https://raw.gitmirror.com/bindhosts/bindhosts/master/Documentation/faq.md`,
             element: 'faq-content',
         },
     };
@@ -152,8 +167,8 @@ export async function setupDocsMenu(docsLang) {
             const overlay = document.getElementById(`${type}-docs`);
             if (type === 'modes' && developerOption && !learnMore) return;
             openOverlay(overlay);
-            const { link, fallbackLink, element } = docsData[type] || {};
-            getDocuments(link, fallbackLink, element);
+            const { link, fallbackLink, linkMirror, fallbackLinkMirror, element } = docsData[type] || {};
+            getDocuments(element, link, fallbackLink, linkMirror, fallbackLinkMirror);
         });
     });
 
@@ -198,8 +213,8 @@ export async function setupDocsMenu(docsLang) {
             function handleClick() {
                 if (!touchMoved) {
                     document.getElementById('about-document-content').innerHTML = '';
-                    const { link, fallbackLink } = docsData[element.dataset.type] || {};
-                    getDocuments(link, fallbackLink, 'about-document-content');
+                    const { link, fallbackLink, linkMirror, fallbackLinkMirror } = docsData[element.dataset.type] || {};
+                    getDocuments('about-document-content', link, fallbackLink, linkMirror, fallbackLinkMirror);
                     aboutContent.style.transform = 'translateX(0)';
                     bodyContent.style.transform = 'translateX(-20vw)';
                     documentCover.style.opacity = '1';
