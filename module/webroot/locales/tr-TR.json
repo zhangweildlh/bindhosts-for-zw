@@ -115,5 +115,15 @@
         "home": "Ana Sayfa",
         "hosts": "Hosts",
         "more": "Daha Fazla"
+    },
+    "backup_restore": {
+        "backup_and_restore": "Yedekleme & Geri Yükleme",
+        "export": "Hosts yapılandırmasını dışa aktar",
+        "restore": "Hosts yapılandırmasını geri yükle",
+        "exported": "Yapılandırma şuraya kaydedildi",
+        "export_fail": "Yapılandırma dışa aktarılamadı",
+        "invalid_config": "Geçersiz bindhosts yapılandırması",
+        "restored": "Yapılandırma başarıyla geri yüklendi",
+        "restore_fail": "Yapılandırma geri yüklenemedi"
     }
 }

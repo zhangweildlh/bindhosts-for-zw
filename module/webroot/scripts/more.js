@@ -1,5 +1,6 @@
-import { exec, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, moduleDirectory, linkRedirect } from './util.js';
+import { exec, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, moduleDirectory, linkRedirect, filePaths } from './util.js';
 import { loadTranslations } from './language.js';
+import { openFileSelector } from './file_selector.js';
 
 /**
  * Check if user has installed bindhosts app
@@ -23,7 +24,7 @@ async function checkBindhostsApp() {
  * Install the bindhosts app, called by controlPanelEventlistener
  * @returns {Promise<void>}
  */
-async function installBindhostsApp (event) {
+async function installBindhostsApp () {
     try {
         showPrompt("control_panel.installing", true, undefined, "[+]");
         await new Promise(resolve => setTimeout(resolve, 200));
@@ -203,6 +204,71 @@ function openLanguageMenu() {
 }
 
 /**
+ * Backup config
+ * @returns {Promise<void>}
+ */
+async function exportConfig() {
+    try {
+        const config = {};
+
+        // Fetch and process each file
+        for (const [fileType, filePath] of Object.entries(filePaths)) {
+            const response = await fetch(`link/PERSISTENT_DIR/${filePath}`);
+            if (!response.ok) throw new Error(`Failed to fetch ${filePath}`);
+            const text = await response.text();
+            const lines = text.split('\n').filter(line => !line.trim().startsWith('#') && line.trim() !== '');
+            config[fileType] = lines;
+        }
+
+        // Output in json format
+        const fileName = await exec(`
+            FILENAME="/storage/emulated/0/Download/bindhosts_config_$(date +%Y%m%d_%H%M%S).json"
+            echo '${JSON.stringify(config)}' > "$FILENAME"
+            echo "$FILENAME"
+        `);
+        showPrompt("backup_restore.exported", true, undefined, undefined, fileName.trim());
+    } catch (error) {
+        console.error("Backup failed:", error);
+        showPrompt("backup_restore.export_fail", false);
+    }
+}
+
+/**
+ * Restore config
+ * Open file selector and restore config from selected file
+ * @return {Promise<void>}
+ */
+async function restoreConfig() {
+    try {
+        const jsonConfig = await openFileSelector("json");
+        const config = JSON.parse(jsonConfig);
+
+        // Check if all necessary file types are present
+        const requiredFileTypes = Object.keys(filePaths);
+        const isValid = requiredFileTypes.every(fileType => config[fileType] && Array.isArray(config[fileType]));
+
+        if (!isValid) {
+            showPrompt("backup_restore.invalid_config", false);
+            return;
+        }
+
+        // Restore each file
+        for (const [fileType, data] of Object.entries(config)) {
+            const fileContent = data.join('\n');
+            await exec(`
+                echo '${fileContent}' > ${basePath}/${filePaths[fileType]}
+                chmod 644 ${basePath}/${filePaths[fileType]}
+            `);
+        }
+
+        showPrompt("backup_restore.restored", true);
+    } catch (error) {
+        console.error("Restore failed:", error);
+        showPrompt("backup_restore.restore_fail", false);
+    }
+}
+
+/**
  * Attach event listeners to control panel items
  * @returns {void}
  */
@@ -213,7 +279,9 @@ function controlPanelEventlistener(event) {
         "update-toggle-container": toggleModuleUpdate,
         "action-redirect-container": toggleActionRedirectWebui,
         "cron-toggle-container": toggleCron,
-        "github-issues": () => linkRedirect('https://github.com/bindhosts/bindhosts/issues/new')
+        "github-issues": () => linkRedirect('https://github.com/bindhosts/bindhosts/issues/new'),
+        "export": exportConfig,
+        "restore": restoreConfig
     };
 
     Object.entries(controlPanel).forEach(([element, functionName]) => {

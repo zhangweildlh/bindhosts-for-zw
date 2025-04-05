@@ -1,14 +1,6 @@
-import { exec, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, setupSwipeToClose, moduleDirectory } from './util.js';
+import { exec, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, setupSwipeToClose, moduleDirectory, filePaths } from './util.js';
 import { loadTranslations, translations } from './language.js';
 import { openFileSelector } from './file_selector.js';
-
-const filePaths = {
-    custom: 'custom.txt',
-    sources: 'sources.txt',
-    blacklist: 'blacklist.txt',
-    whitelist: 'whitelist.txt',
-    sources_whitelist: 'sources_whitelist.txt',
-};
 
 /**
  * Read a file and display its content in the UI
@@ -336,7 +328,7 @@ document.getElementById("actionButton").addEventListener("click", async () => {
  * Find out custom hosts list and display it
  * @returns {Promise<void>}
  */
-export async function getCustomHostsList() {
+async function getCustomHostsList() {
     try {
         const output = await exec(`ls ${basePath} | grep "^custom.*\.txt$" | grep -vx "custom.txt"`);
         const lines = output.split("\n");
@@ -347,8 +339,9 @@ export async function getCustomHostsList() {
 }
 
 // Open file selector to import custom hosts file
-document.getElementById("import-custom-button").addEventListener("click", () => {
-    openFileSelector();
+document.getElementById("import-custom-button").addEventListener("click", async () => {
+    const file = await openFileSelector("txt");
+    if (file) getCustomHostsList();
 });
 
 const editorInput = document.getElementById("edit-input");

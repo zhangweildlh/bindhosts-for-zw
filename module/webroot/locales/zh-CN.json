@@ -115,5 +115,15 @@
         "home": "首页",
         "hosts": "Hosts",
         "more": "更多"
+    },
+    "backup_restore": {
+        "backup_and_restore": "备份与恢复",
+        "export": "导出 hosts 配置",
+        "restore": "恢复 hosts 配置",
+        "exported": "配置已保存至",
+        "export_fail": "配置导出失败",
+        "invalid_config": "无效的 bindhosts 配置",
+        "restored": "配置恢复成功",
+        "restore_fail": "配置恢复失败"
     }
 }

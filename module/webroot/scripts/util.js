@@ -6,6 +6,14 @@ export let learnMore = false;
 export function setDeveloperOption(value) { developerOption = value; }
 export function setLearnMore(value) { learnMore = value; }
 
+export const filePaths = {
+    custom: 'custom.txt',
+    sources: 'sources.txt',
+    blacklist: 'blacklist.txt',
+    whitelist: 'whitelist.txt',
+    sources_whitelist: 'sources_whitelist.txt',
+};
+
 export const basePath = "/data/adb/bindhosts";
 export const moduleDirectory = "/data/adb/modules/bindhosts";
 const actionContainer = document.querySelector('.float');

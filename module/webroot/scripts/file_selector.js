@@ -1,5 +1,6 @@
 import { exec, basePath, applyRippleEffect, showPrompt } from './util.js';
-import { getCustomHostsList } from './hosts.js';
+
+let fileType;
 
 // File selector
 const fileSelector = document.querySelector('.file-selector-overlay');
@@ -42,12 +43,13 @@ async function listFiles(path, skipAnimation = false) {
         // Limit to .txt files and directories only, theoretically symlinks supported
         const result = await exec(`
             cd "${path}"
-            find . -maxdepth 1 -type f -name "*.txt" -o -type d ! -name ".*" -o -type l | sort
+            find . -maxdepth 1 -type f -name "*.${fileType}" -o -type d ! -name ".*" -o -type l | sort
         `);
         const items = result.split('\n').filter(Boolean).map(item => ({
             path: path + '/' + item.replace(/^\.\//, ''),
             name: item.split('/').pop(),
-            isDirectory: !item.endsWith('.txt'),
+            isDirectory: !item.endsWith('.' + fileType),
+            isTextFile: item.endsWith('.txt')
         }));
         fileList.innerHTML = '';
 
@@ -91,7 +93,7 @@ async function listFiles(path, skipAnimation = false) {
                         behavior: 'smooth'
                     });
                     await listFiles(item.path);
-                } else {
+                } else if (item.isTextFile) {
                     // Select file
                     try {
                         const fileName = item.name.replace(/ /g, '_');
@@ -101,7 +103,6 @@ async function listFiles(path, skipAnimation = false) {
                         `);
                         closeFileSelector();
                         showPrompt('global.saved', true, undefined, undefined, `${basePath}/custom_${fileName}`);
-                        getCustomHostsList();
                     } catch (error) {
                         showPrompt('global.save_fail', false);
                     }
@@ -169,11 +170,8 @@ document.querySelector('.file-selector-back-button').addEventListener('click', a
     await listFiles(currentPath);
 });
 
-
 // Close file selector overlay
-document.querySelector('.close-selector').addEventListener('click', () => {
-    closeFileSelector();
-});
+document.querySelector('.close-selector').addEventListener('click', () => closeFileSelector());
 fileSelector.addEventListener('click', (event) => {
     if (event.target === fileSelector) closeFileSelector();
 });
@@ -185,16 +183,16 @@ fileSelector.addEventListener('click', (event) => {
 function closeFileSelector() {
     fileSelector.style.opacity = '0';
     document.body.classList.remove("no-scroll");
-    setTimeout(() => {
-        fileSelector.style.display = 'none';
-    }, 300);
+    setTimeout(() => fileSelector.style.display = 'none', 300);
 }
 
 /**
  * Open file selector overlay
- * @returns {Promise<void>}
+ * @param {string} type - Type of file to display (e.g., "json")
+ * @returns {Promise<string>} Resolves with the content of the selected JSON file or true in txt file
  */
-export async function openFileSelector() {
+export async function openFileSelector(type) {
+    fileType = type;
     fileSelector.style.display = 'flex';
     document.body.classList.add("no-scroll");
     fileSelector.offsetHeight;
@@ -207,4 +205,24 @@ export async function openFileSelector() {
         behavior: 'smooth'
     });
     await listFiles(currentPath, true);
+
+    // Return a promise that resolves with the selected JSON content
+    return new Promise((resolve, reject) => {
+        const fileList = document.querySelector('.file-list');
+        fileList.addEventListener('click', async (event) => {
+            const item = event.target.closest('.file-item');
+            if (item && item.querySelector('span').textContent.endsWith('.json')) {
+                try {
+                    const jsonConfig = await exec(`cat ${currentPath}/${item.querySelector('span').textContent}`);
+                    resolve(jsonConfig.trim());
+                    closeFileSelector();
+                } catch (error) {
+                    reject(error);
+                }
+            } else if (item && item.querySelector('span').textContent.endsWith('.txt')) {
+                resolve(true)
+                closeFileSelector();
+            }
+        });
+    });
 }

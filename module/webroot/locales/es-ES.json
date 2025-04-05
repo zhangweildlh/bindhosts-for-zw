@@ -115,5 +115,15 @@
         "home": "Inicio",
         "hosts": "Hosts",
         "more": "Más"
+    },
+    "backup_restore": {
+        "backup_and_restore": "Copia de seguridad y restauración",
+        "export": "Exportar configuración de hosts",
+        "restore": "Restaurar configuración de hosts",
+        "exported": "Configuración guardada en",
+        "export_fail": "Error al exportar la configuración",
+        "invalid_config": "Configuración de bindhosts no válida",
+        "restored": "Configuración restaurada con éxito",
+        "restore_fail": "Error al restaurar la configuración"
     }
 }

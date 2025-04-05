@@ -115,5 +115,15 @@
         "home": "Domů",
         "hosts": "Hosts",
         "more": "Více"
+    },
+    "backup_restore": {
+        "backup_and_restore": "Zálohování a obnovení",
+        "export": "Exportovat konfiguraci hosts",
+        "restore": "Obnovit konfiguraci hosts",
+        "exported": "Konfigurace uložena do",
+        "export_fail": "Chyba při exportu konfigurace",
+        "invalid_config": "Neplatná konfigurace bindhosts",
+        "restored": "Konfigurace úspěšně obnovena",
+        "restore_fail": "Chyba při obnově konfigurace"
     }
 }
