@@ -2,6 +2,8 @@ import { exec, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransi
 import { loadTranslations, translations } from './language.js';
 import { openFileSelector } from './file_selector.js';
 
+const forceUpdateButton = document.getElementById('force-update-btn');
+
 /**
  * Read a file and display its content in the UI
  * Exclude # pattern
@@ -290,15 +292,15 @@ function attachAddButtonListeners() {
 }
 
 /**
- * Action button click event
- * Run bindhosts.sh --action on click
+ * Run bindhosts.sh with showPrompt output
+ * @param {String} args - argument for bindhosts.sh
  * @returns {Promise<void>}
  */
-document.getElementById("actionButton").addEventListener("click", async () => {
+async function runBindhosts(args) {
     try {
         showPrompt("global.executing", true, 50000);
         await new Promise(resolve => setTimeout(resolve, 200));
-            const output = await exec(`sh ${moduleDirectory}/bindhosts.sh --action`);
+            const output = await exec(`sh ${moduleDirectory}/bindhosts.sh ${args}`);
             const lines = output.split("\n");
             // Use translation key as much as possible
             lines.forEach(line => {
@@ -322,7 +324,11 @@ document.getElementById("actionButton").addEventListener("click", async () => {
         showPrompt("global.execute_error", false, undefined, undefined, error);
         console.error("Failed to execute action script:", error);
     }
-});
+}
+
+// Action button and force update button click event
+document.getElementById("action-btn").addEventListener("click", () => runBindhosts("--action"));
+forceUpdateButton.addEventListener('click', () => runBindhosts("--force-update"));
 
 /**
  * Find out custom hosts list and display it
@@ -412,7 +418,8 @@ function openFileEditor(lastFileName, openEditor = true) {
     header.classList.add('back');
     backButton.style.transform = 'translateX(0)';
     saveButton.style.transform = 'translateX(0)';
-    actionButton.style.transform = 'translateY(110px)';
+    setTimeout(() => actionButton.style.transform = 'translateY(110px)', 50);
+    forceUpdateButton.classList.remove('show');
     title.style.display = 'none';
     fileName.style.display = 'flex';
     bodyContent.style.overflowY = 'hidden';
@@ -488,6 +495,7 @@ function openFileEditor(lastFileName, openEditor = true) {
         header.classList.remove('back');
         title.style.display = 'block';
         actionButton.style.transform = 'translateY(0)';
+        setTimeout(() => forceUpdateButton.classList.add('show'), 200);
         fileName.style.display = 'none';
         saveButton.style.transform = 'translateX(calc(105% + 15px))';
         bodyContent.style.overflowY = 'auto';

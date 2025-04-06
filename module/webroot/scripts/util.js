@@ -18,6 +18,7 @@ export const filePaths = {
 export const basePath = "/data/adb/bindhosts";
 export const moduleDirectory = "/data/adb/modules/bindhosts";
 const actionContainer = document.querySelector('.float');
+const forceUpdateButton = document.getElementById('force-update-btn');
 const content = document.querySelector('.content');
 
 /**
@@ -240,6 +241,7 @@ export function initialTransition() {
         title.classList.add('loaded');
         if (modeBtn) modeBtn.classList.add('loaded');
         if (actionBtn) actionBtn.style.transform = 'translateY(0)';
+        if (forceUpdateButton) setTimeout(() => forceUpdateButton.classList.add('show'), 200);
     }, 10);
 
     // Quit transition on switching page
@@ -250,7 +252,8 @@ export function initialTransition() {
                 content.classList.add('exiting');
                 title.classList.remove('loaded');
                 focusedFooterBtn.classList.remove('loaded');
-                if (actionBtn) setTimeout(() => actionBtn.style.transform = 'translateY(110px)', 10);
+                if (actionBtn) setTimeout(() => actionBtn.style.transform = 'translateY(110px)', 50);
+                if (forceUpdateButton) forceUpdateButton.classList.remove('show');
                 if (modeBtn) modeBtn.classList.remove('loaded');
                 if (saveBtn) saveBtn.style.transform = 'translateX(calc(105% + 15px))';
                 if (backBtn) backBtn.click();
@@ -375,9 +378,11 @@ content.addEventListener('scroll', () => {
         isScrolling = false;
     }, 200);
     if (content.scrollTop > lastScrollY && content.scrollTop > scrollThreshold) {
-        if (actionContainer) actionContainer.style.transform = 'translateY(110px)';
+        if (actionContainer) setTimeout(() => actionContainer.style.transform = 'translateY(110px)', 100);
+        if (forceUpdateButton) forceUpdateButton.classList.remove('show');
     } else if (content.scrollTop < lastScrollY) {
         if (actionContainer) actionContainer.style.transform = 'translateY(0)';
+        if (forceUpdateButton) setTimeout(() => forceUpdateButton.classList.add('show'), 200);
     }
 
     // Hide remove button on scroll

@@ -83,7 +83,8 @@ body {
     position: fixed;
     bottom: calc(var(--bottom-inset) + 100px);
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
     width: 100%;
     z-index: 2;
     transform: translateY(110px);
@@ -91,6 +92,7 @@ body {
     pointer-events: none;
 }
 
+.force-update-button,
 .action-button {
     bottom: 0px;
     background-color: var(--btn-primary);
@@ -103,11 +105,25 @@ body {
     align-items: center;
     box-shadow: 2px 2px 15px var(--shadow-medium);
     pointer-events: auto;
+
+    svg {
+        fill: var(--btn-primary-text);
+        z-index: 1;
+    }
 }
 
-.action-button svg {
-    fill: var(--btn-primary-text);
-    z-index: 1;
+.force-update-button {
+    padding: 8px;
+    margin-bottom: 12px;
+    margin-right: 29px;
+    border-radius: 20px;
+    transform: translateY(calc(100% + 12px)) scale(0.5);
+    transition: transform 0.2s ease, border-radius 0.4s ease, scale 0.4s ease;
+}
+
+.force-update-button.show {
+    border-radius: 10px;
+    transform: translate(0) scale(1);
 }
 
 .constant-height {
@@ -946,7 +962,7 @@ input:checked+.slider:before {
     align-items: center;
     justify-content: center;
     background-color: var(--bg-secondary);
-    box-shadow: 0 0 5px var(--shadow-light);
+    box-shadow: 0 0 15px var(--shadow-light);
     z-index: 6;
 }
 
