@@ -118,8 +118,8 @@
     },
     "backup_restore": {
         "backup_and_restore": "النسخ الاحتياطي والاستعادة",
-        "export": "تصدير تكوين hosts",
-        "restore": "استعادة تكوين hosts",
+        "export": "تصدير التكوين",
+        "restore": "استعادة التكوين",
         "exported": "تم حفظ التكوين في",
         "export_fail": "فشل تصدير التكوين",
         "invalid_config": "تكوين bindhosts غير صالح",

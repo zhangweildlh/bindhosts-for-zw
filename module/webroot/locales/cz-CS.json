@@ -118,8 +118,8 @@
     },
     "backup_restore": {
         "backup_and_restore": "Zálohování a obnovení",
-        "export": "Exportovat konfiguraci hosts",
-        "restore": "Obnovit konfiguraci hosts",
+        "export": "Exportovat konfiguraci",
+        "restore": "Obnovit konfiguraci",
         "exported": "Konfigurace uložena do",
         "export_fail": "Chyba při exportu konfigurace",
         "invalid_config": "Neplatná konfigurace bindhosts",

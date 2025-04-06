@@ -12,6 +12,7 @@ export const filePaths = {
     blacklist: 'blacklist.txt',
     whitelist: 'whitelist.txt',
     sources_whitelist: 'sources_whitelist.txt',
+    customCSS: '.webui_config/custom.css',
 };
 
 export const basePath = "/data/adb/bindhosts";

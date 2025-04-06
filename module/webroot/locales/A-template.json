@@ -118,12 +118,12 @@
     },
     "backup_restore": {
         "backup_and_restore": "Backup & Restore",
-        "export": "Export hosts configuration",
-        "restore": "Restore hosts configuration",
+        "export": "Export config",
+        "restore": "Restore config",
         "exported": "Config saved to",
         "export_fail": "Fail to export config",
-        "invalid_config": "Invalid bindhosts configuration",
-        "restored": "config restored succesfully",
+        "invalid_config": "Invalid bindhosts config",
+        "restored": "Config restored succesfully",
         "restore_fail": "Fail to restore config"
     }
 }

@@ -118,8 +118,8 @@
     },
     "backup_restore": {
         "backup_and_restore": "Αντίγραφο ασφαλείας & Επαναφορά",
-        "export": "Εξαγωγή ρυθμίσεων hosts",
-        "restore": "Επαναφορά ρυθμίσεων hosts",
+        "export": "Εξαγωγή ρυθμίσεων",
+        "restore": "Επαναφορά ρυθμίσεων",
         "exported": "Οι ρυθμίσεις αποθηκεύτηκαν σε",
         "export_fail": "Αποτυχία εξαγωγής ρυθμίσεων",
         "invalid_config": "Μη έγκυρη ρύθμιση bindhosts",

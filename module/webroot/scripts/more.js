@@ -204,26 +204,36 @@ function openLanguageMenu() {
 }
 
 /**
- * Backup config
+ * Backup bindhosts config to /sdcard/Download/bindhosts_config.json
  * @returns {Promise<void>}
  */
 async function exportConfig() {
     try {
-        const config = {};
+        const config = {
+            metadata: {
+                version: "v1",
+                description: "bindhosts config backup"
+            }
+        };
 
         // Fetch and process each file
         for (const [fileType, filePath] of Object.entries(filePaths)) {
             const response = await fetch(`link/PERSISTENT_DIR/${filePath}`);
             if (!response.ok) throw new Error(`Failed to fetch ${filePath}`);
             const text = await response.text();
-            const lines = text.split('\n').filter(line => !line.trim().startsWith('#') && line.trim() !== '');
-            config[fileType] = lines;
+            const lines = text.trim();
+            config[fileType] = {
+                path: filePath,
+                content: lines
+            };
         }
 
         // Output in json format
         const fileName = await exec(`
             FILENAME="/storage/emulated/0/Download/bindhosts_config_$(date +%Y%m%d_%H%M%S).json"
-            echo '${JSON.stringify(config)}' > "$FILENAME"
+            cat <<'JSON_EOF' > "$FILENAME"
+${JSON.stringify(config)}
+JSON_EOF
             echo "$FILENAME"
         `);
         showPrompt("backup_restore.exported", true, undefined, undefined, fileName.trim());
@@ -243,22 +253,25 @@ async function restoreConfig() {
         const jsonConfig = await openFileSelector("json");
         const config = JSON.parse(jsonConfig);
 
-        // Check if all necessary file types are present
-        const requiredFileTypes = Object.keys(filePaths);
-        const isValid = requiredFileTypes.every(fileType => config[fileType] && Array.isArray(config[fileType]));
-
+        // Validate using metadata
+        const isValid = config.metadata && config.metadata.description === "bindhosts config backup";
         if (!isValid) {
             showPrompt("backup_restore.invalid_config", false);
             return;
         }
 
-        // Restore each file
-        for (const [fileType, data] of Object.entries(config)) {
-            const fileContent = data.join('\n');
-            await exec(`
-                echo '${fileContent}' > ${basePath}/${filePaths[fileType]}
-                chmod 644 ${basePath}/${filePaths[fileType]}
-            `);
+        // Restore each file according to backup version
+        if (config.metadata.version === "v1") {
+            for (const [fileType, fileData] of Object.entries(config)) {
+                if (!filePaths[fileType] || !fileData.content) continue;
+                const content = fileData.content;
+                await exec(`
+                    cat <<'RESTORE_EOF' > ${basePath}/${fileData.path}
+${content}
+RESTORE_EOF
+                    chmod 644 ${basePath}/${fileData.path}
+                `);
+            }
         }
 
         showPrompt("backup_restore.restored", true);

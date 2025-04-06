@@ -118,8 +118,8 @@
     },
     "backup_restore": {
         "backup_and_restore": "Yedekleme & Geri Yükleme",
-        "export": "Hosts yapılandırmasını dışa aktar",
-        "restore": "Hosts yapılandırmasını geri yükle",
+        "export": "Yapılandırmayı dışa aktar",
+        "restore": "Yapılandırmayı geri yükle",
         "exported": "Yapılandırma şuraya kaydedildi",
         "export_fail": "Yapılandırma dışa aktarılamadı",
         "invalid_config": "Geçersiz bindhosts yapılandırması",

@@ -118,8 +118,8 @@
     },
     "backup_restore": {
         "backup_and_restore": "Cadangkan & Pulihkan",
-        "export": "Ekspor konfigurasi hosts",
-        "restore": "Pulihkan konfigurasi hosts",
+        "export": "Ekspor konfigurasi",
+        "restore": "Pulihkan konfigurasi",
         "exported": "Konfigurasi disimpan ke",
         "export_fail": "Gagal mengekspor konfigurasi",
         "invalid_config": "Konfigurasi bindhosts tidak valid",

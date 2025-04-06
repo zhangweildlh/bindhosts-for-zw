@@ -118,8 +118,8 @@
     },
     "backup_restore": {
         "backup_and_restore": "Copia de seguridad y restauración",
-        "export": "Exportar configuración de hosts",
-        "restore": "Restaurar configuración de hosts",
+        "export": "Exportar configuración",
+        "restore": "Restaurar configuración",
         "exported": "Configuración guardada en",
         "export_fail": "Error al exportar la configuración",
         "invalid_config": "Configuración de bindhosts no válida",
