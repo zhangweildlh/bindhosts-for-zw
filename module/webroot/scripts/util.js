@@ -181,9 +181,9 @@ export function showPrompt(key, isSuccess = true, duration = 2000, preValue = ""
     }
 
     setTimeout(() => {
-        prompt.style.transform = 'translateY(calc((var(--window-inset-bottom, 0px) + 85px) * -1))';
+        prompt.classList.add('show');
         window.promptTimeout = setTimeout(() => {
-            prompt.style.transform = 'translateY(100%)';
+            prompt.classList.remove('show');
         }, duration);
     }, 100);
 }

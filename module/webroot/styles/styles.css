@@ -953,6 +953,10 @@ input:checked+.slider:before {
     background-color: var(--prompt-error);
 }
 
+.prompt.show {
+    transform: translateY(calc((var(--bottom-inset) + 85px) * -1));
+}
+
 .footer {
     position: fixed;
     bottom: 0;
@@ -1095,5 +1099,9 @@ input:checked+.slider:before {
         left: 80px;
         width: calc(100% - 80px);
         height: calc(100vh - var(--top-inset) - 55px);
+    }
+
+    .prompt.show {
+        transform: translateY(calc((var(--bottom-inset) + 20px) * -1));
     }
 }
