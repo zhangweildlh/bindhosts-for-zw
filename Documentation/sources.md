@@ -56,7 +56,7 @@
 ### [Rem01Gaming](https://rem01gaming.dev/)
   - AdBlock: https://hosts.rem01gaming.dev/adblock
   - Root Detection bypass: https://hosts.rem01gaming.dev/bypassroot
-  - Report Issue: https://github.com/Rem01Gaming/hosts/issues
+  - [Report Issue](https://github.com/Rem01Gaming/hosts/issues)
 
 ## Custom rulesets
 
