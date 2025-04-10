@@ -335,10 +335,11 @@ function controlPanelEventlistener(event) {
  * @returns {void}
  */
 document.addEventListener('DOMContentLoaded', async () => {
-    checkMMRL();
     initialTransition();
+    checkMMRL();
     loadTranslations();
     checkUpdateStatus();
+    await new Promise(resolve => setTimeout(resolve, 200));
     checkBindhostsApp();
     checkMagisk();
     checkCronStatus();

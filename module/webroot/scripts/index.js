@@ -412,8 +412,8 @@ function setupRickRoll() {
  * @returns {void}
  */
 document.addEventListener('DOMContentLoaded', async () => {
-    checkMMRL();
     initialTransition();
+    checkMMRL();
     loadTranslations();
     await updateStatus();
     checkDevOption();

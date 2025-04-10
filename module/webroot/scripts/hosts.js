@@ -556,9 +556,9 @@ window.replaceSpaces = function(input) {
  * @returns {void}
  */
 document.addEventListener('DOMContentLoaded', async () => {
+    initialTransition();
     checkMMRL();
     await loadTranslations();
-    initialTransition();
     ["custom", "sources", "blacklist", "whitelist", "sources_whitelist"].forEach(loadFile);
     getCustomHostsList();
     attachAddButtonListeners();

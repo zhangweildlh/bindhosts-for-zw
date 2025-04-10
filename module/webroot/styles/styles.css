@@ -40,7 +40,7 @@ body {
     left: 15px;
     width: calc(100% - 30px);
     transform: translateX(calc(-100% - 15px));
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease;
 }
 
 .title-container.loaded {
@@ -155,7 +155,7 @@ body {
     overflow-x: hidden;
     opacity: 0;
     transform: scale(0.95);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: all 0.2s ease;
     z-index: 1;
 }
 
@@ -972,7 +972,7 @@ input:checked+.slider:before {
 }
 
 .footer-btn {
-    flex-grow: 1;
+    width: 100%;
     max-width: 200px;
     color: var(--filledTonalButtonContentColor, var(--text-constant));
     text-decoration: none;
@@ -986,46 +986,28 @@ input:checked+.slider:before {
 }
 
 .footer-btn-icon {
-    width: 65px;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 20px;
+    background-color: var(--bg-secondary);
+    border-radius: 50px;
 
     svg {
-        fill: var(--filledTonalButtonContentColor, currentColor);
+        fill: var(--filledTonalButtonContentColor, var(--text-constant));
+        z-index: 1;
     }
 }
 
 .focused-footer-btn {
-    position: relative;
-    z-index: 1;
-}
-
-.focused-footer-btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0;
-    padding: 0 5px;
-    height: 100%;
-    background-color: var(--filledTonalButtonContainerColor, var(--border-color));
-    border-radius: 50px;
-    opacity: 0;
+    padding: 0;
     transition: all 0.2s ease;
-    z-index: -1;
-    overflow: hidden;
 }
 
-.focused-footer-btn.loaded::after {
-    padding: 0 32px;
-    opacity: 1;
-}
-
-.focused-footer-btn:active::after {
-    background-color: var(--filledTonalButtonDisabledContentColor, #aaa);
+.focused-footer-btn.loaded {
+    background-color: var(--filledTonalButtonContainerColor, var(--border-color));
+    padding: 0 20px;
 }
 
 .ripple-element {
@@ -1091,6 +1073,10 @@ input:checked+.slider:before {
         max-height: min-content;
         padding: 10px 0;
         padding-left: 15px;
+    }
+
+    .footer-btn-icon {
+        background-color: var(--bg-primary);
     }
 
     .constant-height {
