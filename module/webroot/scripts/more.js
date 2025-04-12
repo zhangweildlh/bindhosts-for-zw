@@ -11,6 +11,7 @@ import { openFileSelector } from './file_selector.js';
 async function checkBindhostsApp() {
     const tilesContainer = document.getElementById('tiles-container');
     try {
+        await new Promise(resolve => setTimeout(resolve, 80));
         const appInstalled = await exec(`pm path me.itejo443.bindhosts >/dev/null 2>&1 || echo "false"`);
         if (appInstalled.trim() === "false") {
             tilesContainer.style.display = "flex";
@@ -89,6 +90,7 @@ const actionRedirectStatus = document.getElementById('action-redirect');
  */
 async function checkMagisk() {
     try {
+        await new Promise(resolve => setTimeout(resolve, 80));
         const magiskEnv = await exec(`command -v magisk >/dev/null 2>&1 && echo "true" || echo "false"`);
         if (magiskEnv.trim() === "true") {
             document.getElementById('action-redirect-container').style.display = "flex";
@@ -154,6 +156,7 @@ async function checkCronStatus() {
             document.getElementById('cron-toggle-container').style.display = 'none';
         }
 
+        await new Promise(resolve => setTimeout(resolve, 80));
         const result = await exec(`grep -q "bindhosts.sh" ${basePath}/crontabs/root || echo "false"`);
         cronToggle.checked = result.trim() === "false" ? false : true;
     } catch (error) {
@@ -346,7 +349,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     checkMMRL();
     loadTranslations();
     checkUpdateStatus();
-    await new Promise(resolve => setTimeout(resolve, 200));
     checkBindhostsApp();
     checkMagisk();
     checkCronStatus();
