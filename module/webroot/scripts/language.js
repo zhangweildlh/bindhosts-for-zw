@@ -12,7 +12,6 @@ let availableLanguages = ['en-US'];
  */
 export async function detectUserLanguage() {
     const userLang = navigator.language || navigator.userLanguage;
-    const langCode = userLang.split('-')[0];
 
     try {
         // Fetch available languages
@@ -22,15 +21,13 @@ export async function detectUserLanguage() {
         generateLanguageMenu();
 
         // Get preferred language
-        const prefered_language_code = localStorage.getItem('bindhostsLanguage');
+        const preferedLang = localStorage.getItem('bindhostsLanguage');
 
         // Check if preferred language is valid
-        if (prefered_language_code !== 'default' && availableLanguages.includes(prefered_language_code)) {
-            return prefered_language_code;
+        if (preferedLang !== 'default' && availableLanguages.includes(preferedLang)) {
+            return preferedLang;
         } else if (availableLanguages.includes(userLang)) {
             return userLang;
-        } else if (availableLanguages.includes(langCode)) {
-            return langCode;
         } else {
             return 'en-US';
         }
