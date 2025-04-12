@@ -92,7 +92,7 @@ async function checkMagisk() {
         const magiskEnv = await exec(`command -v magisk >/dev/null 2>&1 && echo "true" || echo "false"`);
         if (magiskEnv.trim() === "true") {
             document.getElementById('action-redirect-container').style.display = "flex";
-            await checkRedirectStatus();
+            checkRedirectStatus();
         }
     } catch (error) {
         console.error("Error while checking magisk", error);
@@ -114,7 +114,7 @@ async function toggleActionRedirectWebui() {
         } else {
             showPrompt("control_panel.action_prompt_true", true, undefined, "[+]");
         }
-        await checkRedirectStatus();
+        checkRedirectStatus();
     } catch (error) {
         console.error("Failed to execute change status", error);
     }
@@ -147,6 +147,13 @@ const cronToggle = document.getElementById('toggle-cron');
  */
 async function checkCronStatus() {
     try {
+        // Hide cron toggle when using AdAway
+        const status = await fetch('link/MODDIR/module.prop');
+        const text = await status.text();
+        if (text.includes('AdAway')) {
+            document.getElementById('cron-toggle-container').style.display = 'none';
+        }
+
         const result = await exec(`grep -q "bindhosts.sh" ${basePath}/crontabs/root || echo "false"`);
         cronToggle.checked = result.trim() === "false" ? false : true;
     } catch (error) {
