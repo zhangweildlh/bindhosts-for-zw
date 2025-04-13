@@ -40,9 +40,25 @@ function displayHostsList(lines, fileType) {
     
     // Function to create list items
     const createListItem = (line) => {
+        // Free favicon provided by GitHub@twentyhq/favicon
+        let domain = line.trim().split(/\s+/).pop();
+        try {
+            if (!domain.startsWith("http")) domain = "http://" + domain;
+            domain = new URL(domain).hostname;
+        } catch (e) {
+            domain = domain.split(/[/:?#]/)[0];
+        }
+        const faviconUrl = `https://twenty-icons.com/${domain}`;
+
         const listItem = document.createElement("li");
         listItem.innerHTML = `
-            <span>${line}</span>
+            <div class="link-box">
+                ${fileType !== "import_custom" ? `<div class="favicon-wrapper">
+                    <div class="favicon-loader"></div>
+                    <img class="favicon-img favicon" src="${faviconUrl}" />
+                </div>` : ""}
+                <div class="link-text">${line}</div>
+            </div>
             ${fileType === "import_custom" ? `<button class="edit-btn ripple-element">
                 <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#ffffff"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
             </button>` : ""}
@@ -58,6 +74,19 @@ function displayHostsList(lines, fileType) {
         const deleteLine = listItem.querySelector("#line-delete");
         const deleteFile = listItem.querySelector("#file-delete");
         const editFile = listItem.querySelector(".edit-btn");
+        const img = listItem.querySelector(".favicon-img");
+        // Wait for favicon to load
+        if (img) {
+            const loader = listItem.querySelector(".favicon-loader");
+            img.onload = () => {
+                loader.style.display = "none";
+                img.style.display = "block";
+            };
+            img.onerror = () => {
+                loader.style.display = "none";
+                listItem.querySelector(".favicon-wrapper").innerHTML = `<svg class="favicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M80-120v-720h400v160h400v560H80Zm80-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 480h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 480h320v-400H480v80h80v80h-80v80h80v80h-80v80Zm160-240v-80h80v80h-80Zm0 160v-80h80v80h-80Z"/></svg>`;
+            };
+        }
         // Remove line from file
         if (deleteLine) {
             deleteLine.addEventListener("click", async () => {
@@ -71,7 +100,7 @@ function displayHostsList(lines, fileType) {
         // Remove file
         if (deleteFile) {
             deleteFile.addEventListener("click", async () => {
-                const fileName = listItem.querySelector("span").textContent;
+                const fileName = listItem.querySelector(".link-text").textContent;
                 const remove = await removeCustomHostsFile(fileName);
                 if (remove) {
                     await exec(`rm -f ${basePath}/${fileName} ${moduleDirectory}/webroot/${fileName}`);
@@ -82,7 +111,7 @@ function displayHostsList(lines, fileType) {
         // Edit file
         if (editFile) {
             editFile.addEventListener("click", () => {
-                const line = listItem.querySelector("span").textContent;
+                const line = listItem.querySelector(".link-text").textContent;
                 fileNameEditor(line);
             });
         }
@@ -102,9 +131,10 @@ function displayHostsList(lines, fileType) {
         showMoreItem.addEventListener('click', () => {
             listElement.removeChild(showMoreItem);
             lines.slice(showInitialLimit).forEach(line => createListItem(line));
+            applyRippleEffect();
         });
     }
--    applyRippleEffect();
+    applyRippleEffect();
 }
 
 /**

@@ -507,9 +507,8 @@ input:checked+.slider:before {
 .delete-btn {
     height: 35px;
     width: 35px;
-    position: absolute;
     right: 0;
-    transform: translateX(105%);
+    margin-left: 5px;
     background-color: var(--btn-delete);
     display: flex;
     flex-shrink: 0;
@@ -518,11 +517,14 @@ input:checked+.slider:before {
     font-size: 16px;
     justify-content: center;
     align-items: center;
+    
+    svg {
+        z-index: 1;
+    }
 }
 
 .edit-btn {
     background-color: var(--btn-edit);
-    transform: translateX(calc(305% + 8px));
 }
 
 .box ul,
@@ -536,23 +538,9 @@ input:checked+.slider:before {
 .overlay-content li {
     display: flex;
     align-items: center;
-    position: relative;
     padding: 5px 0;
     overflow-x: auto;
     border-bottom: 1px solid var(--border-color);
-}
-
-.permission-header {
-    width: 100%;
-    text-align: center;
-}
-
-.box li span,
-.overlay-content li span {
-    font-size: 14px;
-    word-break: break-all;
-    word-wrap: break-word;
-    flex-grow: 1;
 }
 
 .box li:last-child,
@@ -560,9 +548,72 @@ input:checked+.slider:before {
     border-bottom: none;
 }
 
+.link-box {
+    display: flex;
+    min-width: 100%;
+    align-items: center;
+    gap: 5px;
+}
+
+.link-text {
+    font-size: 14px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.favicon-wrapper {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 35px;
+    height: 35px;
+
+    svg {
+        padding: 5px;
+        box-sizing: border-box;
+        fill: var(--border-alt-text);
+    }
+}
+
+.favicon {
+    width: 100%;
+    height: 100%;
+    background-color: var(--border-alt);
+    border-radius: 8px;
+}
+
+.favicon-loader {
+    width: 22px;
+    height: 22px;
+    margin: 5px;
+    border: 3px solid #ccc;
+    border-top: 3px solid #555;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    left: 0;
+}
+
+.favicon-img {
+    display: none;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.permission-header {
+    width: 100%;
+    text-align: center;
+}
+
 .show-more-item span {
     text-align: center;
     width: 100%;
+    user-select: none;
 }
 
 .help-btn {
@@ -958,7 +1009,7 @@ input:checked+.slider:before {
 .footer-btn {
     width: 100%;
     max-width: 200px;
-    color: var(--filledTonalButtonContentColor, var(--text-constant));
+    color: var(--border-alt-text);
     text-decoration: none;
     font-size: 12px;
     display: flex;
@@ -979,7 +1030,7 @@ input:checked+.slider:before {
     border-radius: 50px;
 
     svg {
-        fill: var(--filledTonalButtonContentColor, var(--text-constant));
+        fill: var(--border-alt-text);
         z-index: 1;
     }
 }
@@ -990,7 +1041,7 @@ input:checked+.slider:before {
 }
 
 .focused-footer-btn.loaded {
-    background-color: var(--filledTonalButtonContainerColor, var(--border-color));
+    background-color: var(--border-alt);
     padding: 0 20px;
 }
 
