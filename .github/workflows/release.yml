@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 2
 
@@ -26,17 +26,23 @@ jobs:
         CURRENT_VERSION_CODE=$(jq -r .versionCode update.json)
         PREVIOUS_VERSION_CODE=$(jq -r .versionCode <(git show HEAD~1:update.json))
         VERSION=$(jq -r .version update.json)
+        CHANGELOG_RAW=$(git diff HEAD^ HEAD -- CHANGELOG.md | grep '^+[^+]' | sed 's/^+//')
+        CHANGELOG=$(echo -e "## bindhosts\nSystemless hosts for APatch, KernelSU and Magisk\n\n---\n\n# Changelog\n$CHANGELOG_RAW")
 
         echo "COMMIT_ID=$COMMIT_ID"
         echo "CURRENT_VERSION_CODE=$CURRENT_VERSION_CODE"
         echo "PREVIOUS_VERSION_CODE=$PREVIOUS_VERSION_CODE"
         echo "VERSION=$VERSION"
+        echo "CHANGELOG=$CHANGELOG"
 
         echo "COMMIT_ID=$COMMIT_ID" >> $GITHUB_ENV
         echo "CURRENT_VERSION_CODE=$CURRENT_VERSION_CODE" >> $GITHUB_ENV
         echo "PREVIOUS_VERSION_CODE=$PREVIOUS_VERSION_CODE" >> $GITHUB_ENV
         echo "VERSION=$VERSION" >> $GITHUB_ENV
-        
+        echo "CHANGELOG<<CHANGELOG_EOF" >> $GITHUB_ENV
+        echo "$CHANGELOG" >> $GITHUB_ENV
+        echo "CHANGELOG_EOF" >> $GITHUB_ENV
+
         if [ "$CURRENT_VERSION_CODE" -gt "$PREVIOUS_VERSION_CODE" ]; then
           echo "version_changed=true" >> $GITHUB_ENV
           echo "ZIP_NAME=bindhosts" >> $GITHUB_ENV
@@ -69,6 +75,6 @@ jobs:
         files: ${{ env.ZIP_NAME }}.zip
         tag_name: "${{ env.VERSION }}"
         name: "Release ${{ env.VERSION }}"
-        body_path: CHANGELOG.md
+        body: "${{ env.CHANGELOG }}"
         draft: false
         prerelease: false
