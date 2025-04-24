@@ -221,20 +221,14 @@ function setupHelpMenu() {
         button.addEventListener("click", () => {
             const type = button.dataset.type;
             const overlay = document.getElementById(`${type}-help`);
-            if (overlay) {
-                openOverlay(overlay);
-            }
+            if (overlay) openOverlay(overlay);
         });
     });
     overlays.forEach(overlay => {
         const closeButton = overlay.querySelector(".close-btn");
         const docsButtons = overlay.querySelector(".docs-btn");
-        const languageContainer = document.getElementById('language-container');
-        const language = document.getElementById('language-help');
-
         if (closeButton) closeButton.addEventListener("click", () => closeOverlay(overlay));
         if (docsButtons) docsButtons.addEventListener("click", () => closeOverlay(overlay));
-        if (languageContainer) languageContainer.addEventListener('click', () => openOverlay(language));
         overlay.addEventListener("click", (e) => {
             if (e.target === overlay) closeOverlay(overlay);
         });
@@ -244,27 +238,64 @@ function setupHelpMenu() {
         activeOverlay = overlay;
         overlay.style.display = "flex";
         document.body.style.overflow = "hidden";
-        setTimeout(() => {
-            overlay.style.opacity = "1";
-        }, 10);
+        setTimeout(() => overlay.style.opacity = "1", 10);
     }
     function closeOverlay(overlay) {
         activeOverlay = null;
         document.body.style.overflow = "";
         overlay.style.opacity = "0";
-        setTimeout(() => {
-            overlay.style.display = "none";
-        }, 200);
+        setTimeout(() => overlay.style.display = "none", 200);
     }
 }
 
 /**
- * Attach event listeners to input boxes to prevent them from being blocked by the keyboard
+ * Handle touch screen textarea experience: force single direction scroll, snap line
+ * Prevent input box from being blocked by soft keyboard
  * Scoll up when focused input is at the bottom of the screen (60%)
  * @returns {void}
  */
-document.querySelectorAll('.input-box').forEach(input => {
-    input.addEventListener('focus', event => {
+document.querySelectorAll('.input-box').forEach(inputBoxes => {
+    let startX, startY, isScrollingX, isScrollingY;
+    const lineHeight = parseFloat(window.getComputedStyle(inputBoxes).lineHeight);
+
+    inputBoxes.addEventListener('touchstart', (event) => {
+        const touch = event.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        isScrollingX = false;
+        isScrollingY = false;
+        document.body.style.overflow = "hidden";
+    });
+    inputBoxes.addEventListener('touchmove', (event) => {
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+        // Only allow X or Y scroll in a single touchmove event
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (!isScrollingX) {
+                isScrollingX = true;
+                isScrollingY = false;
+            }
+            if (isScrollingY) event.preventDefault();
+        } else {
+            if (!isScrollingY) {
+                isScrollingY = true;
+                isScrollingX = false;
+                inputBoxes.scrollTo({ left: 0, behavior: 'smooth' });
+            }
+            if (isScrollingX) event.preventDefault();
+        }
+    });
+    inputBoxes.addEventListener('touchend', () => {
+        isScrollingX = false;
+        isScrollingY = false;
+        document.body.style.overflow = "";
+        // Snap to the nearest line
+        const scrollTop = inputBoxes.scrollTop;
+        const nearestLine = Math.round(scrollTop / lineHeight) * lineHeight;
+        inputBoxes.scrollTo({ top: nearestLine, behavior: 'smooth' });
+    });
+    inputBoxes.addEventListener('focus', (event) => {
         document.querySelector('.placeholder').classList.add('focused');
         const wrapper = event.target.closest('.input-box-wrapper');
         wrapper.classList.add('focus');
@@ -277,16 +308,13 @@ document.querySelectorAll('.input-box').forEach(input => {
             const safeArea = 20;
             if (inputRect.bottom > (viewportHeight - keyboardHeight)) {
                 const scrollAmount = inputRect.bottom - (viewportHeight - keyboardHeight) + safeArea;
-                document.querySelector('.content').scrollBy({
-                    top: scrollAmount,
-                    behavior: 'smooth'
-                });
+                document.querySelector('.content').scrollBy({ top: scrollAmount, behavior: 'smooth' });
             }
         }, 100);
     });
-    input.addEventListener('blur', () => {
+    inputBoxes.addEventListener('blur', () => {
         document.querySelector('.placeholder').classList.remove('focused');
-        const wrapper = input.closest('.input-box-wrapper');
+        const wrapper = inputBoxes.closest('.input-box-wrapper');
         wrapper.classList.remove('focus');
         const inputBox = wrapper.querySelector('.input-box');
         inputBox.style.paddingLeft = '10px';
@@ -311,8 +339,10 @@ function attachAddButtonListeners() {
         const buttonElement = document.getElementById(`${type}-add`);
         if (inputElement) {
             inputElement.addEventListener("keypress", (e) => {
-                if (e.key === "Enter") handleAdd(type, fail);
-                inputElement.blur();
+                if (e.key === "Enter") {
+                    handleAdd(type, fail);
+                    inputElement.blur();
+                }
             });
         }
         if (buttonElement) {
