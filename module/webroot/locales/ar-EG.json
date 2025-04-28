@@ -47,7 +47,9 @@
         "action_prompt_false": "تم ايقاف إعادة تحويل Action إلي واجهة الويب",
         "update_hosts_daily": "تحديث الhosts يوميا",
         "cron_true": "تمت اضافة مدخل Crontab",
-        "cron_false": "تمت إزالة مدخل Crontab"
+        "cron_false": "تمت إزالة مدخل Crontab",
+        "create_shortcut": "إنشاء اختصار للشاشة الرئيسية",
+        "shortcut_created": "تم إنشاء اختصار للشاشة الرئيسية"
     },
     "custom": {
         "title": "قوانين مخصصة",

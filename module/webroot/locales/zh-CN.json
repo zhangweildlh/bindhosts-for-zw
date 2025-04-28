@@ -47,7 +47,9 @@
         "action_prompt_false": "已关闭 Action 跳转 WebUI",
         "update_hosts_daily": "每日自动更新 hosts",
         "cron_true": "已开启 hosts 每日更新",
-        "cron_false": "已关闭 hosts 每日更新"
+        "cron_false": "已关闭 hosts 每日更新",
+        "create_shortcut": "创建桌面快捷方式",
+        "shortcut_created": "桌面快捷方式已创建"
     },
     "custom": {
         "title": "自定义规则",

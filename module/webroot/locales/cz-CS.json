@@ -47,7 +47,9 @@
         "action_prompt_false": "Zakázáno přesměrování akce Magisk WebUI",
         "update_hosts_daily": "Denní aktualizace hosts",
         "cron_true": "Záznam v crontabu přidán",
-        "cron_false": "Záznam v crontabu odstraněn"
+        "cron_false": "Záznam v crontabu odstraněn",
+        "create_shortcut": "Vytvořit zástupce na domovské obrazovce",
+        "shortcut_created": "Zástupce na domovské obrazovce vytvořen"
     },
     "custom": {
         "title": "Vlastní pravidla",

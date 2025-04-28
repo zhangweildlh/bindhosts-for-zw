@@ -47,7 +47,9 @@
         "action_prompt_false": "Deaktivierte Magisk-Aktion leitet WebUI um",
         "update_hosts_daily": "Tägliche Aktualisierung der Hosts",
         "cron_true": "Crontab-Eintrag hinzugefügt",
-        "cron_false": "Crontab-Eintrag entfernt"
+        "cron_false": "Crontab-Eintrag entfernt",
+        "create_shortcut": "Verknüpfung zum Startbildschirm erstellen",
+        "shortcut_created": "Verknüpfung zum Startbildschirm erstellt"
     },
     "custom": {
         "title": "Benutzerdefinierte Regeln",

@@ -47,7 +47,9 @@
         "action_prompt_false": "Redirect Magisk action ke WebUI dinonaktifkan",
         "update_hosts_daily": "Perbarui Host Setiap Hari",
         "cron_true": "Crontab entry ditambahkan",
-        "cron_false": "Crontab entry dihapus"
+        "cron_false": "Crontab entry dihapus",
+        "create_shortcut": "Buat pintasan layar utama",
+        "shortcut_created": "Pintasan layar utama dibuat"
     },
     "custom": {
         "title": "Aturan kustom",

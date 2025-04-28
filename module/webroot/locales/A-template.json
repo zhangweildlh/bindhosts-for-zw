@@ -47,7 +47,9 @@
         "action_prompt_false": "Disabled Magisk action redirect WebUI",
         "update_hosts_daily": "Update Hosts Daily",
         "cron_true": "Crontab entry added",
-        "cron_false": "Crontab entry removed"
+        "cron_false": "Crontab entry removed",
+        "create_shortcut": "Create home screen shortcut",
+        "shortcut_created": "Home screen shortcut created"
     },
     "custom": {
         "title": "Custom Rules",

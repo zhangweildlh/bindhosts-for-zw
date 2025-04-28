@@ -47,7 +47,9 @@
         "action_prompt_false": "Magisk eylem (action) yönlendirmesi WebUI'ı devre dışı bıraktı",
         "update_hosts_daily": "Hosts'u günlük güncelle",
         "cron_true": "Crontab girişi eklendi",
-        "cron_false": "Crontab girişi kaldırıldı"
+        "cron_false": "Crontab girişi kaldırıldı",
+        "create_shortcut": "Ana ekran kısayolu oluştur",
+        "shortcut_created": "Ana ekran kısayolu oluşturuldu"
     },
     "custom": {
         "title": "Özel Kurallar",

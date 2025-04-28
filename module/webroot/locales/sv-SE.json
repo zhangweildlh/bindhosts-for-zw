@@ -47,7 +47,9 @@
         "action_prompt_false": "Inaktiverad Magisk åtgärdsomdirigerings-WebUI",
         "update_hosts_daily": "Uppdatera Hosts dagligen",
         "cron_true": "Crontab-post tillagd",
-        "cron_false": "Crontab-post borttagen"
+        "cron_false": "Crontab-post borttagen",
+        "create_shortcut": "Skapa genväg på hemskärmen",
+        "shortcut_created": "Genväg på hemskärmen skapad"
     },
     "custom": {
         "title": "Anpassade regler",

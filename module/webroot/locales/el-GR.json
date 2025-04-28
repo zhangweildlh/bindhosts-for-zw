@@ -47,7 +47,9 @@
         "action_prompt_false": "Απενεργοποιημένη η ανακατεύθυνση WebUI της ενέργειας Magisk",
         "update_hosts_daily": "Ενημέρωση Hosts Καθημερινά",
         "cron_true": "Προστέθηκε η καταχώριση Crontab",
-        "cron_false": "Καταργήθηκε η καταχώριση Crontab"
+        "cron_false": "Καταργήθηκε η καταχώριση Crontab",
+        "create_shortcut": "Δημιουργία συντόμευσης στην αρχική οθόνη",
+        "shortcut_created": "Η συντόμευση στην αρχική οθόνη δημιουργήθηκε"
     },
     "custom": {
         "title": "Προσαρμοσμένοι Κανόνες",

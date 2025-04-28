@@ -47,7 +47,9 @@
         "action_prompt_false": "Действие Magisk по перенаправлению в WebUI отключено",
         "update_hosts_daily": "Обновлять файл hosts ежедневно",
         "cron_true": "Запись Crontab добавлена",
-        "cron_false": "Запись Crontab удалена"
+        "cron_false": "Запись Crontab удалена",
+        "create_shortcut": "Создать ярлык на главном экране",
+        "shortcut_created": "Ярлык на главном экране создан"
     },
     "custom": {
         "title": "Пользовательские правила",

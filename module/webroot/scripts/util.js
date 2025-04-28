@@ -195,15 +195,22 @@ export function showPrompt(key, isSuccess = true, duration = 2000, preValue = ""
  * @returns {void}
  */
 export async function checkMMRL() {
-    if (typeof ksu !== 'undefined' && ksu.mmrl) {
+    if (Object.keys($bindhosts).length > 0) {
         // Set status bars theme based on device theme
         try {
             $bindhosts.setLightStatusBars(!window.matchMedia('(prefers-color-scheme: dark)').matches)
         } catch (error) {
             console.log("Error setting status bars theme:", error)
         }
-    } else {
-        console.log("Not running in MMRL environment.");
+
+        const shortcutButton = document.getElementById('shortcut-container');
+        if (shortcutButton) {
+            shortcutButton.style.display = 'flex';
+            shortcutButton.addEventListener('click', () => {
+                $bindhosts.createShortcut();
+                showPrompt("control_panel.shortcut_created", true, undefined, "[+]");
+            });
+        }
     }
 }
 

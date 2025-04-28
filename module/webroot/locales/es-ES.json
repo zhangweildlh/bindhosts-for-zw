@@ -47,7 +47,9 @@
         "action_prompt_false": "Redirección de acción WebUI de Magisk desactivada",
         "update_hosts_daily": "Actualizar hosts todos los días",
         "cron_true": "Entrada crontab añadida",
-        "cron_false": "Entrada crontab eliminada"
+        "cron_false": "Entrada crontab eliminada",
+        "create_shortcut": "Crear acceso directo en la pantalla de inicio",
+        "shortcut_created": "Acceso directo en la pantalla de inicio creado"
     },
     "custom": {
         "title": "Reglas Personalizadas",
