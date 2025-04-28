@@ -202,24 +202,6 @@ export async function checkMMRL() {
         } catch (error) {
             console.log("Error setting status bars theme:", error)
         }
-
-        // Check MMRL version
-        try {
-            const mmrlJson = $bindhosts.getMmrl();
-            const mmrlData = JSON.parse(mmrlJson);
-            if (mmrlData.versionCode < 33412) {
-                throw new Error('MMRL version is less than 33412');
-            }
-        } catch (error) {
-            console.error('MMRL version check failed:', error);
-            $bindhosts.requestAdvancedKernelSUAPI(); // Just to ensure linkRedirect work
-            const permissionOverlay = document.getElementById("mmrl-permission-overlay");
-            permissionOverlay.style.display = 'flex';
-            permissionOverlay.style.opacity = 1;
-            setTimeout(() => {
-                linkRedirect('https://github.com/MMRLApp/MMRL/releases/latest');
-            }, 3000)
-        }
     } else {
         console.log("Not running in MMRL environment.");
     }
