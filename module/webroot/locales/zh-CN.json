@@ -44,7 +44,8 @@
         "cron_true": "已开启 hosts 每日更新",
         "cron_false": "已关闭 hosts 每日更新",
         "create_shortcut": "创建桌面快捷方式",
-        "shortcut_created": "桌面快捷方式已创建"
+        "shortcut_created": "桌面快捷方式已创建",
+        "monitor_network_activity": "监控网络活动"
     },
     "custom": {
         "title": "自定义规则",
@@ -92,7 +93,6 @@
         "reset": "重置（自动）"
     },
     "more": {
-        "title": "更多",
         "documents": "文档",
         "sources": "规则（源）",
         "usage": "使用说明",

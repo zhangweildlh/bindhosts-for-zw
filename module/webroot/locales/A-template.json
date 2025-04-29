@@ -44,7 +44,8 @@
         "cron_true": "Crontab entry added",
         "cron_false": "Crontab entry removed",
         "create_shortcut": "Create home screen shortcut",
-        "shortcut_created": "Home screen shortcut created"
+        "shortcut_created": "Home screen shortcut created",
+        "monitor_network_activity": "Monitor Network Activity"
     },
     "custom": {
         "title": "Custom Rules",
@@ -92,7 +93,6 @@
         "reset": "Reset (auto)"
     },
     "more": {
-        "title": "More",
         "documents": "Documents",
         "sources": "Sources",
         "usage": "Usage",

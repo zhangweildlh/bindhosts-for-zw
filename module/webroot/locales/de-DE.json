@@ -43,8 +43,9 @@
         "update_hosts_daily": "Tägliche Aktualisierung der Hosts",
         "cron_true": "Crontab-Eintrag hinzugefügt",
         "cron_false": "Crontab-Eintrag entfernt",
-        "create_shortcut": "Verknüpfung zum Startbildschirm erstellen",
-        "shortcut_created": "Verknüpfung zum Startbildschirm erstellt"
+        "create_shortcut": "Verknüpfung auf dem Startbildschirm erstellen",
+        "shortcut_created": "Verknüpfung auf dem Startbildschirm erstellt",
+        "monitor_network_activity": "Netzwerkaktivität überwachen"
     },
     "custom": {
         "title": "Benutzerdefinierte Regeln",
@@ -92,7 +93,6 @@
         "reset": "Zurücksetzen (Auto)"
     },
     "more": {
-        "title": "Mehr",
         "documents": "Dokumente",
         "sources": "Quellen",
         "usage": "Verwendung",

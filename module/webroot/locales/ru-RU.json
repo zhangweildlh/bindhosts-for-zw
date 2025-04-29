@@ -43,8 +43,9 @@
         "update_hosts_daily": "Обновлять файл hosts ежедневно",
         "cron_true": "Запись Crontab добавлена",
         "cron_false": "Запись Crontab удалена",
-        "create_shortcut": "Создать ярлык на главном экране",
-        "shortcut_created": "Ярлык на главном экране создан"
+        "create_shortcut": "Создать ярлык на рабочем столе",
+        "shortcut_created": "Ярлык создан на рабочем столе",
+        "monitor_network_activity": "Мониторинг сетевой активности"
     },
     "custom": {
         "title": "Пользовательские правила",
@@ -92,7 +93,6 @@
         "reset": "Сброс (автоматический)"
     },
     "more": {
-        "title": "Ещё",
         "documents": "Документы",
         "sources": "Источники",
         "usage": "Использование",

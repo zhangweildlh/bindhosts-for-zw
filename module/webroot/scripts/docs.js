@@ -60,21 +60,24 @@ async function getDocuments(element, link, fallbackLink, linkMirror, fallbackLin
  * Add event listeners to copy link text to clipboard
  * @returns {void}
  */
-function addCopyToClipboardListeners() {
+export function addCopyToClipboardListeners() {
     const sourceLinks = document.querySelectorAll("#copy-link");
     sourceLinks.forEach((element) => {
-        element.addEventListener("click", function () {
-            // Try the modern Clipboard API first
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(element.innerText)
-                    .then(() => {
-                        toast("Text copied to clipboard: " + element.innerText);
-                    })
-                    .catch(() => fallbackCopyToClipboard(element));
-            } else {
-                fallbackCopyToClipboard(element);
-            }
-        });
+        if (element.dataset.copyListener !== "true") {
+            element.addEventListener("click", function () {
+                // Try the modern Clipboard API first
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(element.innerText)
+                        .then(() => {
+                            toast("Text copied to clipboard: " + element.innerText);
+                        })
+                        .catch(() => fallbackCopyToClipboard(element));
+                } else {
+                    fallbackCopyToClipboard(element);
+                }
+            });
+            element.dataset.copyListener = "true";
+        }
     });
 }
 
@@ -237,7 +240,7 @@ export async function setupDocsMenu(docsLang) {
                 documentCover.style.opacity = '0';
                 backButton.style.transform = 'translateX(-100%)';
                 header.classList.remove('back');
-                title.textContent = translations.more.title;
+                title.textContent = translations.footer.more;
             });
         });
     } // End of about docs

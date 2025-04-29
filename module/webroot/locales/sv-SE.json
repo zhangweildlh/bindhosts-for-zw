@@ -43,8 +43,9 @@
         "update_hosts_daily": "Uppdatera Hosts dagligen",
         "cron_true": "Crontab-post tillagd",
         "cron_false": "Crontab-post borttagen",
-        "create_shortcut": "Skapa genväg på hemskärmen",
-        "shortcut_created": "Genväg på hemskärmen skapad"
+        "create_shortcut": "Skapa genväg på startskärmen",
+        "shortcut_created": "Genväg skapad på startskärmen",
+        "monitor_network_activity": "Övervaka nätverksaktivitet"
     },
     "custom": {
         "title": "Anpassade regler",
@@ -92,7 +93,6 @@
         "reset": "Återställ (automatiskt)"
     },
     "more": {
-        "title": "Mer",
         "documents": "Dokument",
         "sources": "Källor",
         "usage": "Användande",

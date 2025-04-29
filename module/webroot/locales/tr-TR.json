@@ -43,8 +43,9 @@
         "update_hosts_daily": "Hosts'u günlük güncelle",
         "cron_true": "Crontab girişi eklendi",
         "cron_false": "Crontab girişi kaldırıldı",
-        "create_shortcut": "Ana ekran kısayolu oluştur",
-        "shortcut_created": "Ana ekran kısayolu oluşturuldu"
+        "create_shortcut": "Ana ekrana kısayol oluştur",
+        "shortcut_created": "Ana ekran kısayolu oluşturuldu",
+        "monitor_network_activity": "Ağ Etkinliğini İzle"
     },
     "custom": {
         "title": "Özel Kurallar",
@@ -92,7 +93,6 @@
         "reset": "Sıfırla (otomatik)"
     },
     "more": {
-        "title": "Daha Fazla",
         "documents": "Belgeler",
         "sources": "Kaynaklar",
         "usage": "Kullanım",

@@ -43,8 +43,9 @@
         "update_hosts_daily": "Perbarui Host Setiap Hari",
         "cron_true": "Crontab entry ditambahkan",
         "cron_false": "Crontab entry dihapus",
-        "create_shortcut": "Buat pintasan layar utama",
-        "shortcut_created": "Pintasan layar utama dibuat"
+        "create_shortcut": "Buat pintasan di layar utama",
+        "shortcut_created": "Pintasan layar utama telah dibuat",
+        "monitor_network_activity": "Pantau Aktivitas Jaringan"
     },
     "custom": {
         "title": "Aturan kustom",
@@ -92,7 +93,6 @@
         "reset": "Atur ulang (auto)"
     },
     "more": {
-        "title": "Lainnya",
         "documents": "Dokumen",
         "sources": "Sumber",
         "usage": "Penggunaan",

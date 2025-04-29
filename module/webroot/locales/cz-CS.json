@@ -44,7 +44,8 @@
         "cron_true": "Záznam v crontabu přidán",
         "cron_false": "Záznam v crontabu odstraněn",
         "create_shortcut": "Vytvořit zástupce na domovské obrazovce",
-        "shortcut_created": "Zástupce na domovské obrazovce vytvořen"
+        "shortcut_created": "Zástupce na domovské obrazovce vytvořen",
+        "monitor_network_activity": "Sledovat síťovou aktivitu"
     },
     "custom": {
         "title": "Vlastní pravidla",
@@ -92,7 +93,6 @@
         "reset": "Reset (automatický)"
     },
     "more": {
-        "title": "Více",
         "documents": "Dokumenty",
         "sources": "Zdroje",
         "usage": "Použití",

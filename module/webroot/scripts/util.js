@@ -267,7 +267,7 @@ export function initialTransition() {
     const title = document.querySelector('.title-container');
     const modeBtn = document.getElementById('mode-btn');
     const saveBtn = document.getElementById('edit-save-btn');
-    const actionBtn = document.querySelector('.float');
+    const actionBtn = document.querySelector('.action-container');
     const backBtn = document.querySelector('.back-button');
     const focusedFooterBtn = document.querySelector('.focused-footer-btn');
     

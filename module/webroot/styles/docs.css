@@ -110,10 +110,45 @@
     border-radius: 5px;
 }
 
+#tcpdump-terminal-content,
 #action-terminal-content {
+    height: 100%;
     padding: 10px;
     box-sizing: border-box;
     word-wrap: break-word;
+    overflow-y: auto;
+    mask-image: linear-gradient(black 0%, black calc(100% - 16px), transparent 100%);
+}
+
+.tcpdump-search {
+    display: none;
+}
+
+.tcpdump-header-content {
+    font-family: monospace;
+    margin: 0;
+}
+
+.tcpdump-line {
+    display: flex;
+    gap: 5px;
+    padding: 5px 0;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tcpdump-line-header {
+    font-weight: bold;
+    border-width: 2px;
+}
+
+.tcpdump-type {
+    flex-shrink: 0;
+    width: 5em;
+}
+
+.tcpdump-domain {
+    background-color: var(--bg-secondary) !important;
 }
 
 .action-terminal-output {

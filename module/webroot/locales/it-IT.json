@@ -43,8 +43,9 @@
         "update_hosts_daily": "Aggiornamento Hosts Quotidiano",
         "cron_true": "Aggiunta voce Crontab",
         "cron_false": "Rimossa vice Crontab",
-        "create_shortcut": "Crea collegamento sulla schermata principale",
-        "shortcut_created": "Collegamento sulla schermata principale creato"
+        "create_shortcut": "Crea collegamento nella schermata iniziale",
+        "shortcut_created": "Collegamento creato nella schermata iniziale",
+        "monitor_network_activity": "Monitora attività di rete"
     },
     "custom": {
         "title": "Regole Personalizzate",
@@ -92,7 +93,6 @@
         "reset": "Reset (auto)"
     },
     "more": {
-        "title": "Altro",
         "documents": "Documenti",
         "sources": "Fonti",
         "usage": "Utilizzo",

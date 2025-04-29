@@ -44,7 +44,8 @@
         "cron_true": "Entrada crontab añadida",
         "cron_false": "Entrada crontab eliminada",
         "create_shortcut": "Crear acceso directo en la pantalla de inicio",
-        "shortcut_created": "Acceso directo en la pantalla de inicio creado"
+        "shortcut_created": "Acceso directo creado en la pantalla de inicio",
+        "monitor_network_activity": "Monitorear actividad de red"
     },
     "custom": {
         "title": "Reglas Personalizadas",
@@ -92,7 +93,6 @@
         "reset": "Restablecer (automático)"
     },
     "more": {
-        "title": "Más",
         "documents": "Documentos",
         "sources": "Fuentes",
         "usage": "Uso",

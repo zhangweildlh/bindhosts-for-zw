@@ -43,8 +43,9 @@
         "update_hosts_daily": "تحديث الhosts يوميا",
         "cron_true": "تمت اضافة مدخل Crontab",
         "cron_false": "تمت إزالة مدخل Crontab",
-        "create_shortcut": "إنشاء اختصار للشاشة الرئيسية",
-        "shortcut_created": "تم إنشاء اختصار للشاشة الرئيسية"
+        "create_shortcut": "إنشاء اختصار على الشاشة الرئيسية",
+        "shortcut_created": "تم إنشاء اختصار على الشاشة الرئيسية",
+        "monitor_network_activity": "مراقبة نشاط الشبكة"
     },
     "custom": {
         "title": "قوانين مخصصة",
@@ -92,7 +93,6 @@
         "reset": "اعادة تهيئة (تلقائي)"
     },
     "more": {
-        "title": "المزيد",
         "documents": "المستندات",
         "sources": "المصادر",
         "usage": "الاستخدام",

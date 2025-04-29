@@ -22,7 +22,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px"><path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>
         </div>
         <div class="title-container">
-            <span id="title" data-i18n="more.title"></span>
+            <span id="title" data-i18n="footer.more"></span>
         </div>
     </div>
 
@@ -38,6 +38,12 @@
                         <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-155.5t86-127Q252-817 325-848.5T480-880q83 0 155.5 31.5t127 86q54.5 54.5 86 127T880-480q0 82-31.5 155t-86 127.5q-54.5 54.5-127 86T480-80Zm0-82q26-36 45-75t31-83H404q12 44 31 83t45 75Zm-104-16q-18-33-31.5-68.5T322-320H204q29 50 72.5 87t99.5 55Zm208 0q56-18 99.5-55t72.5-87H638q-9 38-22.5 73.5T584-178ZM170-400h136q-3-20-4.5-39.5T300-480q0-21 1.5-40.5T306-560H170q-5 20-7.5 39.5T160-480q0 21 2.5 40.5T170-400Zm216 0h188q3-20 4.5-39.5T580-480q0-21-1.5-40.5T574-560H386q-3 20-4.5 39.5T380-480q0 21 1.5 40.5T386-400Zm268 0h136q5-20 7.5-39.5T800-480q0-21-2.5-40.5T790-560H654q3 20 4.5 39.5T660-480q0 21-1.5 40.5T654-400Zm-16-240h118q-29-50-72.5-87T584-782q18 33 31.5 68.5T638-640Zm-234 0h152q-12-44-31-83t-45-75q-26 36-45 75t-31 83Zm-200 0h118q9-38 22.5-73.5T376-782q-56 18-99.5 55T204-640Z" /></svg>
                     </i>
                     <span class="toggle-text" data-i18n="control_panel.language"></span>
+                </div>
+                <div class="toggle-list ripple-element" id="tcpdump-container">
+                    <i class="more-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px"><path d="M200-120q-33 0-56.5-23.5T120-200v-160q0-33 23.5-56.5T200-440h400v-160h80v160h80q33 0 56.5 23.5T840-360v160q0 33-23.5 56.5T760-120H200Zm0-80h560v-160H200v160Zm80-40q17 0 28.5-11.5T320-280q0-17-11.5-28.5T280-320q-17 0-28.5 11.5T240-280q0 17 11.5 28.5T280-240Zm140 0q17 0 28.5-11.5T460-280q0-17-11.5-28.5T420-320q-17 0-28.5 11.5T380-280q0 17 11.5 28.5T420-240Zm140 0q17 0 28.5-11.5T600-280q0-17-11.5-28.5T560-320q-17 0-28.5 11.5T520-280q0 17 11.5 28.5T560-240Zm10-390-58-58q26-24 58-38t70-14q38 0 70 14t58 38l-58 58q-14-14-31.5-22t-38.5-8q-21 0-38.5 8T570-630ZM470-730l-56-56q44-44 102-69t124-25q66 0 124 25t102 69l-56 56q-33-33-76.5-51.5T640-800q-50 0-93.5 18.5T470-730ZM200-200v-160 160Z"/></svg>
+                    </i>
+                    <span class="toggle-text" data-i18n="control_panel.monitor_network_activity"></span>
                 </div>
                 <div class="toggle-list ripple-element" id="tiles-container">
                     <i class="more-icon">
@@ -175,6 +181,11 @@
         <div class="credit-marked">Markdown Parser by markedjs/marked</div>
     </div>
 
+     <!-- Tcpdump terminal -->
+     <div class="constant-height translucent-menu slide-menu" id="tcpdump-terminal">
+        <div id="tcpdump-terminal-content"></div>
+    </div>
+
     <!-- Overlay content -->
     <div id="language-overlay" class="overlay">
         <div class="overlay-content translucent-menu">
@@ -213,6 +224,13 @@
             </div>
             <div class="file-list"></div>
         </div>
+    </div>
+
+    <!-- Action button -->
+    <div class="float">
+        <button id="stop-tcpdump" class="action-button ripple-element">
+            <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px"><path d="M240-240v-480h480v480H240Z"/></svg>
+        </button>
     </div>
 
     <!-- Prompt -->

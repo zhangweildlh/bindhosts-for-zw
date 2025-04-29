@@ -1,6 +1,7 @@
-import { exec, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, moduleDirectory, linkRedirect, filePaths } from './util.js';
-import { loadTranslations } from './language.js';
+import { exec, spawn, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, moduleDirectory, linkRedirect, filePaths, setupSwipeToClose } from './util.js';
+import { loadTranslations, translations } from './language.js';
 import { openFileSelector } from './file_selector.js';
+import { addCopyToClipboardListeners } from './docs.js';
 
 /**
  * Check if user has installed bindhosts app
@@ -213,6 +214,134 @@ function openLanguageMenu() {
     }
 }
 
+let setupTcpdumpTerminal = false, contentBox = false;
+
+/**
+ * Open tcpdump terminal
+ * @returns {void}
+ */
+function openTcpdumpTerminal() {
+    const cover = document.querySelector('.document-cover');
+    const terminal = document.getElementById('tcpdump-terminal');
+    const terminalContent = document.getElementById('tcpdump-terminal-content');
+    const header = document.querySelector('.title-container');
+    const title = document.getElementById('title');
+    const backButton = document.getElementById('docs-back-btn');
+    const bodyContent = document.querySelector('.content');
+    const floatBtn = document.querySelector('.float');
+    const stopBtn = document.getElementById('stop-tcpdump');
+
+    terminalContent.innerHTML = `
+        <div class="tcpdump-header" id="tcpdump-header"></div>
+        <div class="box tcpdump-search translucent" id="tcpdump-search">
+            <h2>Search</h2>
+            <input class="query-input translucent" type="text" id="tcpdump-search-input" placeholder="Search" autocapitalize="off">
+        </div>
+    `;
+
+    if (!setupTcpdumpTerminal) {
+        setupSwipeToClose(terminal, cover, backButton);
+        stopBtn.addEventListener('click', () => stopTcpdump());
+        backButton.addEventListener('click', () => {
+            stopTcpdump();
+            terminal.style.transform = 'translateX(100%)';
+            bodyContent.style.transform = 'translateX(0)';
+            cover.style.opacity = '0';
+            backButton.style.transform = 'translateX(-100%)';
+            header.classList.remove('back');
+            title.textContent = translations.footer.more;
+        });
+        document.getElementById('tcpdump-search-input').addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const tcpdumpLines = document.querySelectorAll('.tcpdump-line');
+            tcpdumpLines.forEach(line => {
+                const domain = line.querySelector('.tcpdump-result');
+                if (!domain) return;
+                line.style.display = domain.textContent.toLowerCase().includes(searchTerm) ? 'flex': 'none';
+            });
+        });
+        setupTcpdumpTerminal = true;
+    }
+
+    const tcpdumpHeader = document.getElementById('tcpdump-header');
+    const output = spawn("sh", [`${moduleDirectory}/bindhosts.sh`, '--tcpdump']);
+    output.stdout.on('data', (data) => {
+        if (data.includes('Out IP')) {
+            if (!contentBox) appendContentBox();
+            const match = data.match(/(\bA+|HTTPS)\?\s+([^\s.]+(?:\.[^\s.]+)+)\./i);
+            if (match) {
+                const type = match[1].toUpperCase();
+                const domain = match[2];
+                const div = document.createElement('div');
+                div.className = 'tcpdump-line';
+                div.innerHTML = `
+                    <div class="tcpdump-type">${type}</div>
+                    <div class="tcpdump-domain tcpdump-result ripple-element" id="copy-link">${domain}</div>
+                `;
+                document.querySelector('.tcpdump-content').appendChild(div);
+                terminalContent.scrollTop = terminalContent.scrollHeight;
+                addCopyToClipboardListeners();
+                applyRippleEffect();
+            }
+        } else if (!data.startsWith("[")) {
+            appendVerbose(data);
+        }
+    });
+    output.stderr.on('data', (data) => appendVerbose(data));
+
+    // Append content box before append content
+    const appendContentBox = () => {
+        const div = document.createElement('div');
+        div.className = 'tcpdump-content';
+        div.classList.add('translucent');
+        div.innerHTML = `
+            <div class="tcpdump-line tcpdump-line-header">
+                <div class="tcpdump-type">Type</div>
+                <div class="tcpdump-domain">Domain</div>
+            <div>
+        `;
+        terminalContent.appendChild(div);
+        contentBox = true;
+    };
+
+    // Append verbose log to header part
+    const appendVerbose = (data) => {
+        const p = document.createElement('p');
+        p.className = 'tcpdump-header-content';
+        p.textContent = data;
+        tcpdumpHeader.appendChild(p);
+    };
+
+    // Terminate tcpdump
+    const stopTcpdump = () => {
+        setTimeout(() => {
+            exec(`
+                PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
+                for i in $(busybox pidof tcpdump); do
+                    kill $i
+                done
+            `);
+            contentBox = false;
+        }, 200);
+        if (contentBox) {
+            document.getElementById('tcpdump-search').style.display = 'block';
+        }
+        floatBtn.style.transform = 'translateY(110px)';
+    };
+
+    // Open output terminal
+    setTimeout(() => {
+        terminal.style.transform = 'translateX(0)';
+        bodyContent.style.transform = 'translateX(-20vw)';
+        cover.style.opacity = '1';
+        header.classList.add('back');
+        backButton.style.transform = 'translateX(0)';
+        floatBtn.style.transform = 'translateY(0)';
+        title.textContent = translations.control_panel.monitor_network_activity;
+        setTimeout(() => stopTcpdump(), 60000);
+    }, 50);
+}
+
 /**
  * Backup bindhosts config to /sdcard/Download/bindhosts_config.json
  * @returns {Promise<void>}
@@ -298,6 +427,7 @@ RESTORE_EOF
 function controlPanelEventlistener(event) {
     const controlPanel = {
         "language-container": openLanguageMenu,
+        "tcpdump-container": openTcpdumpTerminal,
         "tiles-container": installBindhostsApp,
         "update-toggle-container": toggleModuleUpdate,
         "action-redirect-container": toggleActionRedirectWebui,

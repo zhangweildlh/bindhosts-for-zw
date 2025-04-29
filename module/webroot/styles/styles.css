@@ -177,6 +177,7 @@ body {
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+.tcpdump-content,
 .box {
     position: relative;
     flex-shrink: 0;
@@ -202,6 +203,12 @@ body {
 
 .placeholder.focused {
     padding: 25vh 0;
+}
+
+.tcpdump-content,
+.tcpdump-search {
+    width: calc(100% - 30px);
+    max-width: none;
 }
 
 /**
@@ -230,6 +237,10 @@ body {
     outline-color: var(--btn-primary);
     background-color: var(--bg-input);
     color: var(--text-primary);
+}
+
+#tcpdump-search-input {
+    width: 100%;
 }
 
 .search-btn {
