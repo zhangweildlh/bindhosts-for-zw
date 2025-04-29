@@ -39,8 +39,9 @@
     border-bottom: 1px solid var(--border-color);
 }
 
-#edit-content {
+.slide-menu {
     padding: 0;
+    background-color: var(--bg-primary);
     transform: translateX(100%);
     transition: transform 0.2s ease;
     touch-action: pan-y;
@@ -109,6 +110,17 @@
     border-radius: 5px;
 }
 
+#action-terminal-content {
+    padding: 10px;
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+.action-terminal-output {
+    margin: 0;
+    font-family: monospace;
+}
+
 .back-button {
     height: 45px;
     width: 45px;
@@ -130,7 +142,7 @@
 }
 
 @media (min-width: 768px) {
-    #edit-content,
+    .slide-menu,
     .document-cover,
     .document-content {
         left: 0;

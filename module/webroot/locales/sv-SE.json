@@ -5,12 +5,6 @@
         "title": "Status"
     },
     "global": {
-        "executing": "Skriptet körs...",
-        "execute_error": "Fel vid exekvering av årgärdsskript:",
-        "unwritable": "Oskrivbar hosts-fil, behöver korrigeras",
-        "reset": "Återställning av hosts-fil!",
-        "disabled": "Modulen har inaktiverats",
-        "adaway": "Återställ hosts i Adaway innan du fortsätter",
         "dev_opt": "Utvecklaralternativ aktiverat",
         "dev_opt_true": "Utvecklaralternativet är redan aktiverat",
         "reboot": "Starta om för att verkställa, tryck för att starta om",
@@ -20,7 +14,8 @@
         "file_too_large": "Filredigering stöds inte på stora filer",
         "file_name_empty": "Filnamnet får inte vara tomt",
         "show_all": "Visa allt",
-        "more": "Mer"
+        "more": "Mer",
+        "action": "Action"
     },
     "query": {
         "title": "Värdfråga",

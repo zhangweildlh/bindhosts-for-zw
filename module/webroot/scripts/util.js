@@ -23,10 +23,11 @@ const forceUpdateButton = document.getElementById('force-update-btn');
 const content = document.querySelector('.content');
 
 /**
- * Execute shell commands
- * suppress stderr and return stdout only
- * @param {string} command - Command to execute
- * @returns {Promise<string>} - Command output
+ * Executes a shell command with KernelSU privileges
+ * @param {string} command - The shell command to execute
+ * @returns {Promise<string>} A promise that resolves with stdout content
+ * @throws {Error} If command execution fails with:
+ *   - stderr in error message
  */
 export async function exec(command) {
     return new Promise((resolve, reject) => {
@@ -47,6 +48,49 @@ export async function exec(command) {
             reject(error);
         }
     });
+}
+
+/**
+ * Spawns shell process with ksu spawn
+ * @param {string} command - The command to execute
+ * @param {string[]} [args=[]] - Array of arguments to pass to the command
+ * @returns {Object} A child process object with:
+ *   - stdout: Stream for standard output
+ *   - stderr: Stream for standard error
+ *   - stdin: Stream for standard input
+ *   - on(event, listener): Attach event listener ('exit', 'error')
+ *   - emit(event, ...args): Emit events internally
+ */
+export function spawn(command, args = []) {
+    const child = {
+        listeners: {},
+        stdout: { listeners: {} },
+        stderr: { listeners: {} },
+        stdin: { listeners: {} },
+        on: function(event, listener) {
+            if (!this.listeners[event]) this.listeners[event] = [];
+            this.listeners[event].push(listener);
+        },
+        emit: function(event, ...args) {
+            if (this.listeners[event]) {
+                this.listeners[event].forEach(listener => listener(...args));
+            }
+        }
+    };
+    ['stdout', 'stderr', 'stdin'].forEach(io => {
+        child[io].on = child.on.bind(child[io]);
+        child[io].emit = child.emit.bind(child[io]);
+    });
+    const callbackName = `spawn_callback_${Date.now()}`;
+    window[callbackName] = child;
+    child.on("exit", () => delete window[callbackName]);
+    try {
+        ksu.spawn(command, JSON.stringify(args), "{}", callbackName);
+    } catch (error) {
+        child.emit("error", error);
+        delete window[callbackName];
+    }
+    return child;
 }
 
 /**
@@ -271,7 +315,6 @@ export function setupSwipeToClose(element, cover, backButton) {
     const bodyContent = document.querySelector('.content');
 
     const handleStart = (e) => {
-        const editInput = document.getElementById('edit-input');
         const preElements = document.querySelectorAll('.documents *');
 
         // Get client coordinates from either touch or mouse event
@@ -284,10 +327,10 @@ export function setupSwipeToClose(element, cover, backButton) {
             return pre.contains(e.target) && pre.scrollLeft > 0;
         });
 
-        if (editInput && (editInput.scrollLeft !== 0 || editInput.focus) || isTouchInScrolledPre) {
+        if (element.id === 'edit-content' || isTouchInScrolledPre) {
             return;
         }
-        
+
         isDragging = true;
         isScrolling = false;
         startX = clientX;

@@ -1,4 +1,4 @@
-import { exec, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, setupSwipeToClose, moduleDirectory, filePaths } from './util.js';
+import { exec, spawn, showPrompt, applyRippleEffect, checkMMRL, basePath, initialTransition, setupSwipeToClose, moduleDirectory, filePaths } from './util.js';
 import { loadTranslations, translations } from './language.js';
 import { openFileSelector } from './file_selector.js';
 
@@ -351,39 +351,80 @@ function attachAddButtonListeners() {
     });
 }
 
+let actionRunning = false, setupActionTerminal = false, terminalClosed = true;
+
 /**
- * Run bindhosts.sh with showPrompt output
+ * Run bindhosts.sh with and display output in fake terminal
  * @param {String} args - argument for bindhosts.sh
  * @returns {Promise<void>}
  */
-async function runBindhosts(args) {
-    try {
-        showPrompt("global.executing", true, 50000);
-        await new Promise(resolve => setTimeout(resolve, 200));
-            const output = await exec(`sh ${moduleDirectory}/bindhosts.sh ${args}`);
-            const lines = output.split("\n");
-            // Use translation key as much as possible
-            lines.forEach(line => {
-                if (line.includes("[+] hosts file reset!")) {
-                    showPrompt("global.reset", true, undefined, "[+]");
-                } else if (line.includes("[+]")) {
-                    showPrompt(line, true);
-                } else if (line.includes("[x] unwritable")) {
-                    showPrompt("global.unwritable", false, undefined, "[×]");
-                } else if (line.includes("[x]")) {
-                    showPrompt(line, false);
-                } else if (line.includes("[*] not running")) {
-                    showPrompt("global.disabled", false, undefined, "[*]");
-                } else if (line.includes("[*] please reset")) {
-                    showPrompt("global.adaway", false, undefined, "[*]");
-                } else if (line.includes("[*]")) {
-                    showPrompt(line, false); // Final fallback if no translation key available
-                }
-            });
-    } catch (error) {
-        showPrompt("global.execute_error", false, undefined, undefined, error);
-        console.error("Failed to execute action script:", error);
+function runBindhosts(args) {
+    const cover = document.querySelector('.document-cover');
+    const terminal = document.getElementById('action-terminal');
+    const terminalContent = document.getElementById('action-terminal-content');
+    const header = document.querySelector('.title-container');
+    const title = document.getElementById('title');
+    const backButton = document.getElementById('edit-back-btn');
+    const bodyContent = document.querySelector('.content');
+    const actionButton = document.querySelector('.float');
+    const closeBtn = document.getElementById('close-terminal');
+
+    if (!setupActionTerminal) {
+        setupSwipeToClose(terminal, cover, backButton);
+        closeBtn.addEventListener('click', () => backButton.click());
+        backButton.addEventListener('click', () => {
+            terminal.style.transform = 'translateX(100%)';
+            bodyContent.style.transform = 'translateX(0)';
+            cover.style.opacity = '0';
+            backButton.style.transform = 'translateX(-100%)';
+            actionButton.style.transform = 'translateY(0)';
+            forceUpdateButton.classList.add('show');
+            closeBtn.style.opacity = '0';
+            closeBtn.style.pointerEvents = 'none';
+            header.classList.remove('back');
+            title.textContent = translations.footer.hosts;
+            terminalClosed = true;
+        });
+        setupActionTerminal = true;
     }
+
+    if (!actionRunning) {
+        actionRunning = true;
+        terminalClosed = false;
+        terminalContent.innerHTML = '';
+        const output = spawn("sh", [`${moduleDirectory}/bindhosts.sh`, `${args}`]);
+        output.stdout.on('data', (data) => appendOutput(data));
+        output.stderr.on('data', (data) => appendOutput(data));
+        output.on('error', () => appendOutput(translations.global.execute_error));
+        output.on('exit', () => {
+            if (!terminalClosed) {
+                closeBtn.style.opacity = '1';
+                closeBtn.style.pointerEvents = 'auto';
+                actionButton.style.transform = 'translateY(0)';
+            }
+            actionRunning = false;
+        });
+    }
+
+    // Append output to terminal
+    const appendOutput = (output) => {
+        const p = document.createElement('p');
+        p.className = 'action-terminal-output';
+        p.textContent = output;
+        terminalContent.appendChild(p);
+    };
+
+    // Open output terminal
+    setTimeout(() => {
+        terminal.style.transform = 'translateX(0)';
+        bodyContent.style.transform = 'translateX(-20vw)';
+        cover.style.opacity = '1';
+        header.classList.add('back');
+        backButton.style.transform = 'translateX(0)';
+        actionButton.style.transform = 'translateY(110px)';
+        forceUpdateButton.classList.remove('show');
+        title.textContent = translations.global.action;
+    }, 50);
 }
 
 // Action button and force update button click event

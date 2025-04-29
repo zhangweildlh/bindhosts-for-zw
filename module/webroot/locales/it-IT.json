@@ -5,12 +5,6 @@
         "title": "Stato"
     },
     "global": {
-        "executing": "Script in esecuzione...",
-        "execute_error": "Errore esecuzione script action:",
-        "unwritable": "File host non scrivibile, necessita correzione",
-        "reset": "Reset file hosts!",
-        "disabled": "Il modulo è stato disabilitato",
-        "adaway": "Resetta hosts in Adaway prima di continuare",
         "dev_opt": "Opzione sviluppatore abilitata",
         "dev_opt_true": "Opzione sviluppatore già abilitata",
         "reboot": "Riavvia per rendere effettivo, tocca per riavviare",
@@ -20,7 +14,8 @@
         "file_too_large": "Modifica file non supportata su file grandi",
         "file_name_empty": "Il nome del file non può essere vuoto",
         "show_all": "Mostra tutti",
-        "more": "altro"
+        "more": "altro",
+        "action": "Action"
     },
     "query": {
         "title": "Query Host",

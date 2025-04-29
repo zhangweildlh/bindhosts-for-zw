@@ -5,12 +5,6 @@
         "title": "Estado"
     },
     "global": {
-        "executing": "Ejecutando el script...",
-        "execute_error": "Error al ejecutar el script:",
-        "unwritable": "No se puede escribir en el archivo de hosts, se necesita corrección",
-        "reset": "¡Archivo de hosts restablecido!",
-        "disabled": "El módulo ha sido desactivado",
-        "adaway": "Restablece los hosts en Adaway antes de continuar",
         "dev_opt": "Opción de desarrollador activada",
         "dev_opt_true": "La opción de desarrollador ya estaba activada",
         "reboot": "Reinicia para aplicar los cambios, toca para reiniciar",
@@ -20,7 +14,8 @@
         "file_too_large": "Edición de archivos grandes no es soportada",
         "file_name_empty": "El nombre del archivo no puede estar vacío",
         "show_all": "Mostrar todos",
-        "more": "más"
+        "more": "más",
+        "action": "Action"
     },
     "query": {
         "title": "Consulta de Host",

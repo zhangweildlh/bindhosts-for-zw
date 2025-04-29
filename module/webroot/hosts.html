@@ -22,7 +22,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="currentColor"><path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>
         </div>
         <div class="title-container">
-            <span id="title">Hosts</span>
+            <span id="title" data-i18n="footer.hosts">Hosts</span>
             <div class="file-name-editor">
                 <span>custom</span>
                 <input type="text" id="file-name-input" autocapitalize="off" oninput="window.replaceSpaces(this)">
@@ -163,6 +163,11 @@
         <textarea class="edit-input translucent-menu" id="edit-input"></textarea>
     </div>
 
+    <!-- Action terminal -->
+    <div class="constant-height translucent-menu slide-menu" id="action-terminal">
+        <div id="action-terminal-content"></div>
+    </div>
+
     <!-- Help overlay -->
     <div id="sources-help" class="overlay">
         <div class="overlay-content translucent-menu">
@@ -281,6 +286,9 @@
         </button>
         <button id="action-btn" class="action-button ripple-element">
             <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px"><path d="M320-200v-560l440 280-440 280Z"/></svg>
+            <button id="close-terminal" class="action-button ripple-element">
+                <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+            </button>
         </button>
     </div>
 

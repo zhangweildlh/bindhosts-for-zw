@@ -5,12 +5,6 @@
         "title": "Stav"
     },
     "global": {
-        "executing": "Skript se spouští...",
-        "execute_error": "Chyba při spuštění akčního skriptu:",
-        "unwritable": "Soubor hosts není zapisovatelný, je třeba oprava",
-        "reset": "Soubor hosts byl resetován!",
-        "disabled": "Modul byl deaktivován",
-        "adaway": "Resetujte hosts v Adaway před pokračováním",
         "dev_opt": "Možnost vývojáře povolena",
         "dev_opt_true": "Možnost vývojáře je již povolena",
         "reboot": "Restartujte zařízení, aby se změny projevily, klepněte pro restart",
@@ -20,7 +14,8 @@
         "file_too_large": "Jen přejmenování je podporováno na velkých souborech",
         "file_name_empty": "Název souboru nesmí být prázdný",
         "show_all": "Zobrazit vše",
-        "more": "více"
+        "more": "více",
+        "action": "Action"
     },
     "query": {
         "title": "Dotaz na hostitele",

@@ -5,12 +5,6 @@
         "title": "Status"
     },
     "global": {
-        "executing": "Script running...",
-        "execute_error": "Error executing action script:",
-        "unwritable": "Unwritable hosts file, need correction",
-        "reset": "Hosts file reset!",
-        "disabled": "Module has been disabled",
-        "adaway": "Reset hosts in Adaway before continuing",
         "dev_opt": "Developer option enabled",
         "dev_opt_true": "Developer option already enabled",
         "reboot": "Reboot to take effect, tap to reboot",
@@ -20,7 +14,8 @@
         "file_too_large": "File edit is not supported on large file",
         "file_name_empty": "File name cannot be empty",
         "show_all": "Show All",
-        "more": "More"
+        "more": "More",
+        "action": "Action"
     },
     "query": {
         "title": "Host Query",

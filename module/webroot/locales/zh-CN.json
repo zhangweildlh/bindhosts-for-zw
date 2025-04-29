@@ -5,12 +5,6 @@
         "title": "当前状态"
     },
     "global": {
-        "executing": "正在执行脚本…",
-        "execute_error": "执行脚本失败：",
-        "unwritable": "无法写入 hosts 文件，需要修复",
-        "reset": "Hosts 文件已重置！",
-        "disabled": "模块已禁用",
-        "adaway": "请先在 Adaway 内重置 hosts",
         "dev_opt": "开发者模式已启用",
         "dev_opt_true": "您已处于开发者模式",
         "reboot": "重启生效，点击重启",
@@ -20,7 +14,8 @@
         "file_too_large": "文件编辑不支持大文件",
         "file_name_empty": "文件名不能为空",
         "show_all": "显示剩余",
-        "more": "个"
+        "more": "个",
+        "action": "执行"
     },
     "query": {
         "title": "Host 查询",

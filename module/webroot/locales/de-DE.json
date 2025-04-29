@@ -5,12 +5,6 @@
         "title": "Status"
     },
     "global": {
-        "executing": "Script wird ausgeführt...",
-        "execute_error": "Fehler beim Ausführen des Aktionsskripts:",
-        "unwritable": "Nicht beschreibbare hosts-Datei, Korrektur erforderlich",
-        "reset": "Hosts-Datei zurückgesetzt!",
-        "disabled": "Das Modul wurde deaktiviert",
-        "adaway": "Setzen Sie die Hosts in Adaway zurück, bevor Sie fortfahren.",
         "dev_opt": "Entwickler-Option aktiviert",
         "dev_opt_true": "Entwickler-Option bereits aktiviert",
         "reboot": "Betätigen Sie die Taste zum Neustart, damit die Änderungen wirksam werden.",
@@ -20,7 +14,8 @@
         "file_too_large": "Nur Umbenennung wird auf großen Dateien unterstützt",
         "file_name_empty": "Der Dateiname darf nicht leer sein",
         "show_all": "Alle anzeigen",
-        "more": "mehr"
+        "more": "mehr",
+        "action": "Action"
     },
     "query": {
         "title": "Host-Abfrage",
