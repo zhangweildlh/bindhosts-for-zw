@@ -429,7 +429,7 @@ quick_reset_restore () {
 		# force an update if bindhosts_backup == target_hostsfile
 		# this can happen when hosts file got updated to blank
 		# and user will just be reset/restoring hosts with a blank file
-		if [ "$(head -n -1 $PERSISTENT_DIR/bindhosts_backup | busybox crc32 )" = "$(cat $target_hostsfile | busybox crc32 )" ]; then
+		if [ "$(busybox head -n -1 $PERSISTENT_DIR/bindhosts_backup | busybox crc32 )" = "$(cat $target_hostsfile | busybox crc32 )" ]; then
 			run
 			rm -rf $rwdir/bindhosts_lockfile $PERSISTENT_DIR/bindhosts_backup > /dev/null 2>&1
 			exit 0
