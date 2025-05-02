@@ -19,7 +19,9 @@
     },
     "query": {
         "title": "Host 查询",
+        "search": "搜索",
         "host_ip": "IP",
+        "host_type": "类型",
         "host_domain": "域名",
         "remove_prompt": "已移除",
         "remove_error": "移除失败"

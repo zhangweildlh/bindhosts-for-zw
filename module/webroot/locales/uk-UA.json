@@ -18,8 +18,10 @@
         "action": "Action"
     },
     "query": {
-        "title": "Запит хосту",
+        "title": "Запит хоста",
+        "search": "Пошук",
         "host_ip": "IP",
+        "host_type": "Тип",
         "host_domain": "Домен",
         "remove_prompt": "Білий список",
         "remove_error": "Помилка додавання до білого списку"

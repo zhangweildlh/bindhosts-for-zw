@@ -19,7 +19,9 @@
     },
     "query": {
         "title": "Consulta de Host",
+        "search": "Buscar",
         "host_ip": "IP",
+        "host_type": "Tipo",
         "host_domain": "Dominio",
         "remove_prompt": "Lista Blanca",
         "remove_error": "Error al añadir a la lista blanca"

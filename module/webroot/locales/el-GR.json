@@ -19,7 +19,9 @@
     },
     "query": {
         "title": "Αναζήτηση Host",
+        "search": "Αναζήτηση",
         "host_ip": "IP",
+        "host_type": "Τύπος",
         "host_domain": "Όνομα τομέα",
         "remove_prompt": "Λευκή λίστα",
         "remove_error": "Αποτυχία προσθήκης στη λευκή λίστα"

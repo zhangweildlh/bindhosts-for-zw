@@ -236,8 +236,8 @@ function openTcpdumpTerminal() {
     terminalContent.innerHTML = `
         <div class="tcpdump-header" id="tcpdump-header"></div>
         <div class="box tcpdump-search translucent" id="tcpdump-search">
-            <h2>Search</h2>
-            <input class="query-input translucent" type="text" id="tcpdump-search-input" placeholder="Search" autocapitalize="off">
+            <h2>${ translations.query.search }</h2>
+            <input class="query-input translucent" type="text" id="tcpdump-search-input" placeholder="${ translations.query.search }" autocapitalize="off">
         </div>
     `;
 
@@ -268,7 +268,7 @@ function openTcpdumpTerminal() {
     const tcpdumpHeader = document.getElementById('tcpdump-header');
     const output = spawn("sh", [`${moduleDirectory}/bindhosts.sh`, '--tcpdump']);
     output.stdout.on('data', (data) => {
-        if (data.includes('Out IP')) {
+        if (data.includes('Out IP') || data.includes('In IP')) {
             if (!contentBox) appendContentBox();
             const match = data.match(/(\bA+|HTTPS)\?\s+([^\s.]+(?:\.[^\s.]+)+)\./i);
             if (match) {
@@ -298,8 +298,8 @@ function openTcpdumpTerminal() {
         div.classList.add('translucent');
         div.innerHTML = `
             <div class="tcpdump-line tcpdump-line-header">
-                <div class="tcpdump-type">Type</div>
-                <div class="tcpdump-domain">Domain</div>
+                <div class="tcpdump-type">${translations.query.host_type}</div>
+                <div class="tcpdump-domain">${translations.query.host_domain}</div>
             <div>
         `;
         terminalContent.appendChild(div);

@@ -19,7 +19,9 @@
     },
     "query": {
         "title": "Host Sorgulama",
+        "search": "Ara",
         "host_ip": "IP",
+        "host_type": "Tür",
         "host_domain": "Domain",
         "remove_prompt": "Beyaz Liste",
         "remove_error": "Beyaz listeye ekleme başarısız"

@@ -19,7 +19,9 @@
     },
     "query": {
         "title": "Host Query",
+        "search": "Search",
         "host_ip": "IP",
+        "host_type": "Type",
         "host_domain": "Domain",
         "remove_prompt": "Whitelisted",
         "remove_error": "Failed to whitelist"

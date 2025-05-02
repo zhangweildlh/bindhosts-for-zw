@@ -19,7 +19,9 @@
     },
     "query": {
         "title": "استعلام المضيف",
+        "search": "بحث",
         "host_ip": "IP",
+        "host_type": "النوع",
         "host_domain": "النطاق",
         "remove_prompt": "القائمة البيضاء",
         "remove_error": "فشل في إضافة إلى القائمة البيضاء"

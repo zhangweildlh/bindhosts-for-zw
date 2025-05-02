@@ -19,7 +19,9 @@
     },
     "query": {
         "title": "Dotaz na hostitele",
+        "search": "Hledat",
         "host_ip": "IP",
+        "host_type": "Typ",
         "host_domain": "Doména",
         "remove_prompt": "Povoleno",
         "remove_error": "Nepodařilo se přidat do povolených"

@@ -18,8 +18,10 @@
         "action": "Action"
     },
     "query": {
-        "title": "Värdfråga",
+        "title": "Värdförfrågan",
+        "search": "Sök",
         "host_ip": "IP",
+        "host_type": "Typ",
         "host_domain": "Domän",
         "remove_prompt": "Vitlistad",
         "remove_error": "Det gick inte att vitlista"

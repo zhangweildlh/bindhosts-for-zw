@@ -19,7 +19,9 @@
     },
     "query": {
         "title": "Kueri Host",
+        "search": "Cari",
         "host_ip": "IP",
+        "host_type": "Tipe",
         "host_domain": "Domain",
         "remove_prompt": "Whitelist",
         "remove_error": "Gagal menambahkan ke whitelist"

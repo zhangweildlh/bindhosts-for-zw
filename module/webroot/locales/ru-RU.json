@@ -19,7 +19,9 @@
     },
     "query": {
         "title": "Запрос хоста",
+        "search": "Поиск",
         "host_ip": "IP",
+        "host_type": "Тип",
         "host_domain": "Домен",
         "remove_prompt": "Белый список",
         "remove_error": "Ошибка добавления в белый список"
