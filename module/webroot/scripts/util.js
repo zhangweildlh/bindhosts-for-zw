@@ -54,6 +54,9 @@ export async function exec(command) {
  * Spawns shell process with ksu spawn
  * @param {string} command - The command to execute
  * @param {string[]} [args=[]] - Array of arguments to pass to the command
+ * @param {Object{}} [options={}] - Array of options with:
+ *   - cwd <string> - Current working directory of the child process
+ *   - env <Object> - Environment key-value pairs
  * @returns {Object} A child process object with:
  *   - stdout: Stream for standard output
  *   - stderr: Stream for standard error
@@ -61,31 +64,41 @@ export async function exec(command) {
  *   - on(event, listener): Attach event listener ('exit', 'error')
  *   - emit(event, ...args): Emit events internally
  */
-export function spawn(command, args = []) {
+export function spawn(command, args = [], options = {}) {
     const child = {
         listeners: {},
-        stdout: { listeners: {} },
-        stderr: { listeners: {} },
-        stdin: { listeners: {} },
-        on: function(event, listener) {
+        stdout: new Stdio(),
+        stderr: new Stdio(),
+        stdin: new Stdio(),
+        on(event, listener) {
             if (!this.listeners[event]) this.listeners[event] = [];
             this.listeners[event].push(listener);
         },
-        emit: function(event, ...args) {
+        emit(event, ...args) {
             if (this.listeners[event]) {
                 this.listeners[event].forEach(listener => listener(...args));
             }
         }
     };
-    ['stdout', 'stderr', 'stdin'].forEach(io => {
-        child[io].on = child.on.bind(child[io]);
-        child[io].emit = child.emit.bind(child[io]);
-    });
+    function Stdio() {
+        this.listeners = {};
+    }
+    Stdio.prototype.on = function(event, listener) {
+        if (!this.listeners[event]) {
+            this.listeners[event] = [];
+        }
+        this.listeners[event].push(listener);
+    };
+    Stdio.prototype.emit = function(event, ...args) {
+        if (this.listeners[event]) {
+            this.listeners[event].forEach(listener => listener(...args));
+        }
+    };
     const callbackName = `spawn_callback_${Date.now()}`;
     window[callbackName] = child;
     child.on("exit", () => delete window[callbackName]);
     try {
-        ksu.spawn(command, JSON.stringify(args), "{}", callbackName);
+        ksu.spawn(command, JSON.stringify(args), JSON.stringify(options), callbackName);
     } catch (error) {
         child.emit("error", error);
         delete window[callbackName];
