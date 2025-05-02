@@ -3,48 +3,40 @@ import { loadTranslations, translations } from './language.js';
 import { openFileSelector } from './file_selector.js';
 import { addCopyToClipboardListeners } from './docs.js';
 
+const tilesContainer = document.getElementById('tiles-container');
+
 /**
  * Check if user has installed bindhosts app
  * Show QS tile option when user has not installed bindhosts app
  * Click to install bindhosts app
- * @returns {Promise<void>}
+ * @returns {void}
  */
-async function checkBindhostsApp() {
-    const tilesContainer = document.getElementById('tiles-container');
-    try {
-        await new Promise(resolve => setTimeout(resolve, 80));
-        const appInstalled = await exec(`pm path me.itejo443.bindhosts >/dev/null 2>&1 || echo "false"`);
-        if (appInstalled.trim() === "false") {
+function checkBindhostsApp() {
+    const output = spawn("pm", ["path", "me.itejo443.bindhosts"]);
+    output.on('exit', (code) => {
+        if (code !== 0) {
             tilesContainer.style.display = "flex";
         }
-    } catch (error) {
-        console.error("Error while checking bindhosts app:", error);
-    }
+    });
 }
 
 /**
  * Install the bindhosts app, called by controlPanelEventlistener
- * @returns {Promise<void>}
+ * @returns {void}
  */
-async function installBindhostsApp () {
-    try {
-        showPrompt("control_panel.installing", true, undefined, "[+]");
-        await new Promise(resolve => setTimeout(resolve, 200));
-        const output = await exec(`sh ${moduleDirectory}/bindhosts-app.sh`);
-        const lines = output.split("\n");
-        lines.forEach(line => {
-            if (line.includes("[+]")) {
-                showPrompt("control_panel.installed", true, 5000, "[+]");
-                tilesContainer.style.display = "none";
-            } else if (line.includes("[x] Failed to download")) {
-                showPrompt("control_panel.download_fail", false, undefined, "[×]");
-            } else if (line.includes("[*]")) {
-                showPrompt("control_panel.install_fail", false, 5000, "[×]");
-            }
-        });
-    } catch (error) {
-        console.error("Execution failed:", error);
-    }
+function installBindhostsApp() {
+    showPrompt("control_panel.installing", true, 10000, "[+]");
+    const output = spawn("sh", [`${moduleDirectory}/bindhosts-app.sh`]);
+    output.stdout.on('data', (data) => {
+        if (data.includes("[+]")) {
+            showPrompt("control_panel.installed", true, 5000, "[+]");
+            tilesContainer.style.display = "none";
+        } else if (data.includes("[x] Failed to download")) {
+            showPrompt("control_panel.download_fail", false, undefined, "[×]");
+        } else if (data.includes("[*]")) {
+            showPrompt("control_panel.install_fail", false, 5000, "[×]");
+        }
+    });
 }
 
 /**
@@ -87,19 +79,16 @@ const actionRedirectStatus = document.getElementById('action-redirect');
 /**
  * Display action redirect switch when running in Magisk
  * Action redirect WebUI toggle
- * @returns {Promise<void>}
+ * @returns {void}
  */
-async function checkMagisk() {
-    try {
-        await new Promise(resolve => setTimeout(resolve, 80));
-        const magiskEnv = await exec(`command -v magisk >/dev/null 2>&1 && echo "true" || echo "false"`);
-        if (magiskEnv.trim() === "true") {
+function checkMagisk() {
+    const output = spawn("command", ['-v', 'magisk']);
+    output.on('exit', (code) => {
+        if (code === 0) {
             document.getElementById('action-redirect-container').style.display = "flex";
             checkRedirectStatus();
         }
-    } catch (error) {
-        console.error("Error while checking magisk", error);
-    }
+    });
 }
 
 /**
@@ -146,23 +135,25 @@ const cronToggle = document.getElementById('toggle-cron');
 /**
  * Check cron status
  * Event listener for cron toggle
- * @returns {Promise<void>}
+ * @returns {void}
  */
-async function checkCronStatus() {
-    try {
-        // Hide cron toggle when using AdAway
-        const status = await fetch('link/MODDIR/module.prop');
-        const text = await status.text();
-        if (text.includes('AdAway')) {
-            document.getElementById('cron-toggle-container').style.display = 'none';
-        }
-
-        await new Promise(resolve => setTimeout(resolve, 80));
-        const result = await exec(`grep -q "bindhosts.sh" ${basePath}/crontabs/root || echo "false"`);
-        cronToggle.checked = result.trim() === "false" ? false : true;
-    } catch (error) {
-        console.error('Error checking cron status:', error);
-    }
+function checkCronStatus() {
+    // Hide cron toggle when using AdAway
+    fetch('link/MODDIR/module.prop')
+        .then(response => response.text())
+        .then(text => {
+            if (text.includes('AdAway')) {
+                document.getElementById('cron-toggle-container').style.display = 'none';
+            } else {
+                const result = spawn("grep", ["-q", "bindhosts.sh", `${basePath}/crontabs/root`]);
+                result.on('exit', (code) => {
+                    cronToggle.checked = code === 0 ? true : false;
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error checking cron status:', error);
+        });
 }
 
 /**
