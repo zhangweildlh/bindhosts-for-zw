@@ -505,7 +505,7 @@ action () {
 tcpdump () {
 	if command -v tcpdump > /dev/null 2>&1; then
 		# reset hosts
-		reset
+		[ ! -f $PERSISTENT_DIR/bindhosts_backup ] && quick_reset_restore || reset
 		echo "[+] restore hosts as needed"
 		echo "[+] make sure private dns is disabled!"
 		echo "[+] spawning tcpdump"
@@ -516,6 +516,13 @@ tcpdump () {
 		echo "[x] bailing out"
 		exit 1
 	fi
+}
+
+stop_tcpdump() {
+	for i in $(busybox pidof tcpdump); do
+		kill $i
+	done
+	[ -f $PERSISTENT_DIR/bindhosts_backup ] && quick_reset_restore
 }
 
 hosts_lastmod () {
@@ -570,6 +577,7 @@ show_help () {
 case "$1" in 
 	--action) action; exit ;;
 	--tcpdump) tcpdump; exit ;;
+	--stop-tcpdump) stop_tcpdump; exit ;;
 	--query) hosts_query "$@"; exit ;;
 	--force-update) run; exit ;;
 	--force-reset) reset; exit ;;

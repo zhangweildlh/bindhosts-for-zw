@@ -214,6 +214,17 @@ function openLanguageMenu() {
     }
 }
 
+/**
+ * Check availability of tcpdump
+ * @returns {void}
+ */
+function checkTcpdump() {
+    const result = spawn("command", ["-v", "tcpdump"]);
+    result.on('exit', (code) => {
+        if (code !== 0) document.getElementById('tcpdump-container').style.display = 'none';
+    });
+}
+
 let setupTcpdumpTerminal = false, contentBox = false;
 
 /**
@@ -314,15 +325,8 @@ function openTcpdumpTerminal() {
 
     // Terminate tcpdump
     const stopTcpdump = () => {
-        setTimeout(() => {
-            exec(`
-                PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
-                for i in $(busybox pidof tcpdump); do
-                    kill $i
-                done
-            `);
-            contentBox = false;
-        }, 200);
+        const output = spawn("sh", [`${moduleDirectory}/bindhosts.sh`, '--stop-tcpdump']);
+        output.on('exit', () => contentBox = false);
         if (contentBox) {
             document.getElementById('tcpdump-search').style.display = 'block';
         }
@@ -482,6 +486,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     checkBindhostsApp();
     checkMagisk();
     checkCronStatus();
+    checkTcpdump();
     controlPanelEventlistener();
     applyRippleEffect();
 });
