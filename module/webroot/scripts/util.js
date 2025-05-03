@@ -447,7 +447,7 @@ content.addEventListener('scroll', () => {
 });
 
 
-export async function setupCustomBackgournd() {
+export async function setupCustomBackground() {
     // custom background
     const bgContainer = document.getElementById("custom-bg");
     const bgImage = document.getElementById("custom-bg-img");
@@ -471,4 +471,4 @@ export async function setupCustomBackgournd() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", setupCustomBackgournd);
+document.addEventListener("DOMContentLoaded", setupCustomBackground);
