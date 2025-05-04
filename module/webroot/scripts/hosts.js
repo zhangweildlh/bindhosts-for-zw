@@ -378,6 +378,7 @@ function runBindhosts(args) {
             cover.style.opacity = '0';
             backButton.style.transform = 'translateX(-100%)';
             actionButton.style.transform = 'translateY(0)';
+            actionButton.classList.remove('inTerminal');
             forceUpdateButton.classList.add('show');
             closeBtn.style.opacity = '0';
             closeBtn.style.pointerEvents = 'none';
@@ -422,6 +423,7 @@ function runBindhosts(args) {
         header.classList.add('back');
         backButton.style.transform = 'translateX(0)';
         actionButton.style.transform = 'translateY(110px)';
+        actionButton.classList.add('inTerminal');
         forceUpdateButton.classList.remove('show');
         title.textContent = translations.global.action;
     }, 50);

@@ -232,6 +232,7 @@ function openTcpdumpTerminal() {
     const bodyContent = document.querySelector('.content');
     const floatBtn = document.querySelector('.float');
     const stopBtn = document.getElementById('stop-tcpdump');
+    const scrollTopBtn = document.getElementById('scroll-top');
 
     terminalContent.innerHTML = `
         <div class="tcpdump-header" id="tcpdump-header"></div>
@@ -246,6 +247,10 @@ function openTcpdumpTerminal() {
         stopBtn.addEventListener('click', () => stopTcpdump());
         backButton.addEventListener('click', () => {
             stopTcpdump();
+            floatBtn.style.transform = 'translateY(110px)';
+            floatBtn.classList.remove('inTerminal');
+            scrollTopBtn.style.pointerEvents = 'none';
+            scrollTopBtn.style.opacity = '0';
             terminal.style.transform = 'translateX(100%)';
             bodyContent.style.transform = 'translateX(0)';
             cover.style.opacity = '0';
@@ -261,6 +266,9 @@ function openTcpdumpTerminal() {
                 if (!domain) return;
                 line.style.display = domain.textContent.toLowerCase().includes(searchTerm) ? 'flex': 'none';
             });
+        });
+        scrollTopBtn.addEventListener('click', () => {
+            terminalContent.scrollTo({ top: 0, behavior: 'smooth' });
         });
         setupTcpdumpTerminal = true;
     }
@@ -322,6 +330,12 @@ function openTcpdumpTerminal() {
             document.getElementById('tcpdump-search').style.display = 'block';
         }
         floatBtn.style.transform = 'translateY(110px)';
+        if (terminalContent.scrollHeight > 1.5 * terminal.clientHeight) {
+            scrollTopBtn.style.pointerEvents = 'auto';
+            scrollTopBtn.style.opacity = '1';
+            floatBtn.style.transform = 'translateY(0)';
+            setTimeout(() => floatBtn.classList.add('inTerminal'), 100);
+        }
     };
 
     // Open output terminal

@@ -183,7 +183,7 @@
 
      <!-- Tcpdump terminal -->
      <div class="constant-height translucent-menu slide-menu" id="tcpdump-terminal">
-        <div id="tcpdump-terminal-content"></div>
+        <div class="terminal" id="tcpdump-terminal-content"></div>
     </div>
 
     <!-- Overlay content -->
@@ -226,10 +226,13 @@
         </div>
     </div>
 
-    <!-- Action button -->
-    <div class="float">
+    <!-- Stop button -->
+    <div class="float tcpdump-btn">
         <button id="stop-tcpdump" class="action-button ripple-element">
             <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px"><path d="M240-240v-480h480v480H240Z"/></svg>
+            <button id="scroll-top" class="action-button ripple-element">
+                <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px"><path d="m296-345-56-56 240-240 240 240-56 56-184-183-184 183Z"/></svg>
+            </button>
         </button>
     </div>
 

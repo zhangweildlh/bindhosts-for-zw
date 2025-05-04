@@ -428,10 +428,14 @@ content.addEventListener('scroll', () => {
         isScrolling = false;
     }, 200);
     if (content.scrollTop > lastScrollY && content.scrollTop > scrollThreshold) {
-        if (actionContainer) setTimeout(() => actionContainer.style.transform = 'translateY(110px)', 100);
+        if (actionContainer && !actionContainer.classList.contains('tcpdump-btn')) {
+            setTimeout(() => actionContainer.style.transform = 'translateY(110px)', 100);
+        }
         if (forceUpdateButton) forceUpdateButton.classList.remove('show');
     } else if (content.scrollTop < lastScrollY) {
-        if (actionContainer) actionContainer.style.transform = 'translateY(0)';
+        if (actionContainer && !actionContainer.classList.contains('tcpdump-btn')) {
+            actionContainer.style.transform = 'translateY(0)';
+        }
         if (forceUpdateButton) setTimeout(() => forceUpdateButton.classList.add('show'), 200);
     }
 
@@ -446,6 +450,31 @@ content.addEventListener('scroll', () => {
     lastScrollY = content.scrollTop;
 });
 
+// Terminal scroll event
+document.querySelectorAll('.terminal').forEach(terminal => {
+    terminal.addEventListener('scroll', () => {
+        isScrolling = true;
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            isScrolling = false;
+        }, 200);
+        if ((terminal.scrollTop > lastScrollY && terminal.scrollTop > scrollThreshold)
+            || (terminal.scrollTop === 0 && actionContainer.classList.contains('tcpdump-btn'))) {
+            if (actionContainer && actionContainer.classList.contains('inTerminal')) {
+                if (terminal.scrollTop === 0 && actionContainer.classList.contains('tcpdump-btn')) {
+                    setTimeout(() => actionContainer.style.transform = 'translateY(110px)', 100);
+                } else {
+                    actionContainer.style.transform = 'translateY(0)';
+                }
+            }
+        } else if (terminal.scrollTop < lastScrollY && terminal.scrollTop > terminal.clientHeight * 0.5) {
+            if (actionContainer && actionContainer.classList.contains('inTerminal')) {
+                actionContainer.style.transform = 'translateY(0)';
+            }
+        }
+        lastScrollY = terminal.scrollTop;
+    });
+});
 
 export async function setupCustomBackground() {
     // custom background
