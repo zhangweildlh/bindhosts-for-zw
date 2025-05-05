@@ -258,7 +258,8 @@ function openTcpdumpTerminal() {
             header.classList.remove('back');
             title.textContent = translations.footer.more;
         });
-        document.getElementById('tcpdump-search-input').addEventListener('input', () => {
+        const searchInput = document.getElementById('tcpdump-search-input');
+        searchInput.addEventListener('input', () => {
             const searchTerm = searchInput.value.toLowerCase();
             const tcpdumpLines = document.querySelectorAll('.tcpdump-line');
             tcpdumpLines.forEach(line => {
