@@ -55,9 +55,9 @@ if [ -z "$MMRL" ] && [ ! -z "$MAGISKTMP" ] && [ $magisk_webui_redirect = 1 ] ; t
 		am start -n "com.dergoogler.mmrl/.ui.activity.webui.WebUIActivity" -e MOD_ID "bindhosts"
 		exit 0
 	}
-	pm path com.dergoogler.mmrl.webuix > /dev/null 2>&1 && {
+	pm path com.dergoogler.mmrl.wx > /dev/null 2>&1 && {
 		echo "- Launching WebUI in WebUI X..."
-		am start -n "com.dergoogler.mmrl.webuix/.ui.activity.webui.WebUIActivity" -e MOD_ID "bindhosts"
+		am start -n "com.dergoogler.mmrl.wx/.ui.activity.webui.WebUIActivity" -e MOD_ID "bindhosts"
 		exit 0
 	}
 fi
