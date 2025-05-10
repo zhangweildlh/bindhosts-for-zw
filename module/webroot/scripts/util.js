@@ -133,13 +133,16 @@ export async function linkRedirect(link) {
 }
 
 /**
- * Add material design style ripple effect
- * @returns {void}
+ * Simulate MD3 ripple animation
+ * Usage: class="ripple-element" style="position: relative; overflow: hidden;"
+ * Note: Require background-color to work properly
+ * @return {void}
  */
 export function applyRippleEffect() {
     document.querySelectorAll('.ripple-element, .reboot').forEach(element => {
         if (element.dataset.rippleListener !== "true") {
             element.addEventListener("pointerdown", async (event) => {
+                // Pointer up event
                 const handlePointerUp = () => {
                     ripple.classList.add("end");
                     setTimeout(() => {
@@ -152,8 +155,6 @@ export function applyRippleEffect() {
                 element.addEventListener("pointerup", () => setTimeout(handlePointerUp, 80));
                 element.addEventListener("pointercancel", () => setTimeout(handlePointerUp, 80));
 
-                await new Promise(resolve => setTimeout(resolve, 80));
-                if (isScrolling || footerClick) return;
                 const ripple = document.createElement("span");
                 ripple.classList.add("ripple");
 
@@ -186,7 +187,9 @@ export function applyRippleEffect() {
                 };
                 ripple.style.backgroundColor = isDarkColor(bgColor) ? "rgba(255, 255, 255, 0.2)" : "";
 
-                // Append ripple and handle cleanup
+                // Append ripple if not scrolling
+                await new Promise(resolve => setTimeout(resolve, 80));
+                if (isScrolling || footerClick) return;
                 element.appendChild(ripple);
             });
             element.dataset.rippleListener = "true";
