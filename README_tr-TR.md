@@ -23,6 +23,7 @@ Tamamen bağımsız, kendi kendine güncellenen bir sistem.
 
 - [KsuWebUI](https://github.com/5ec1cff/KsuWebUIStandalone) <sup>🌐</sup>
 - [MMRL](https://github.com/DerGoogler/MMRL) <sup>▶ 🌐</sup>
+- [WebUI-X](https://github.com/MMRLApp/WebUI-X-Portable)   <sup>🌐</sup>
 
 ## Kaynaklar
 
