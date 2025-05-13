@@ -1,6 +1,7 @@
 #!/bin/sh
 PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
 MODDIR="/data/adb/modules/bindhosts"
+PERSISTENT_DIR="/data/adb/bindhosts"
 . $MODDIR/utils.sh
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
@@ -94,6 +95,19 @@ skip_mount=1
 # disable all other hosts module
 disable_hosts_modules_verbose=2
 disable_hosts_modules
+
+# detect root manager
+# Take note of capitalization when using them!
+# official names are used!
+[ "$APATCH" = true ] && current_manager="APatch"
+[ "$KSU" = true ] && current_manager="KernelSU"
+[ ! "$APATCH" = true ] && [ ! "$KSU" = true ] && current_manager="Magisk"
+[ ! -f "$PERSISTENT_DIR/root_manager.sh" ] && touch "$PERSISTENT_DIR/root_manager.sh"
+. "$PERSISTENT_DIR/root_manager.sh"
+# this will likely never happen but just to be sure
+if [ ! "$current_manager" = "$manager" ]; then
+	echo "manager=$current_manager" > "$PERSISTENT_DIR/root_manager.sh"
+fi
 
 # debugging
 echo "bindhosts: post-fs-data.sh - probing done" >> /dev/kmsg
