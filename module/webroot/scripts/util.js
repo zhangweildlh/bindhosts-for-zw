@@ -176,16 +176,26 @@ export function applyRippleEffect() {
                 ripple.style.animationDuration = `${duration}s`;
                 ripple.style.transition = `opacity ${duration}s ease`;
 
-                // Adaptive color
-                const computedStyle = window.getComputedStyle(element);
-                const bgColor = computedStyle.backgroundColor || "rgba(0, 0, 0, 0)";
+                // Get effective background color (traverse up if transparent)
+                const getEffectiveBackgroundColor = (el) => {
+                    while (el && el !== document.documentElement) {
+                        const bg = window.getComputedStyle(el).backgroundColor;
+                        if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") {
+                            return bg;
+                        }
+                        el = el.parentElement;
+                    }
+                    return "rgba(255, 255, 255, 1)";
+                };
+
+                const bgColor = getEffectiveBackgroundColor(element);
                 const isDarkColor = (color) => {
                     const rgb = color.match(/\d+/g);
                     if (!rgb) return false;
                     const [r, g, b] = rgb.map(Number);
                     return (r * 0.299 + g * 0.587 + b * 0.114) < 96; // Luma formula
                 };
-                ripple.style.backgroundColor = isDarkColor(bgColor) ? "rgba(255, 255, 255, 0.2)" : "";
+                ripple.style.backgroundColor = isDarkColor(bgColor) ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
 
                 // Append ripple if not scrolling
                 await new Promise(resolve => setTimeout(resolve, 80));
@@ -293,7 +303,7 @@ export function initialTransition() {
         content.classList.add('loaded');
         title.classList.add('loaded');
         if (modeBtn) modeBtn.classList.add('loaded');
-        if (actionBtn) actionBtn.style.transform = 'translateY(0)';
+        if (actionBtn) actionContainer.classList.add('show');
         if (forceUpdateButton) setTimeout(() => forceUpdateButton.classList.add('show'), 200);
     }, 10);
 
@@ -306,7 +316,7 @@ export function initialTransition() {
                 content.classList.add('exiting');
                 title.classList.remove('loaded');
                 focusedFooterBtn.classList.remove('loaded');
-                if (actionBtn) setTimeout(() => actionBtn.style.transform = 'translateY(110px)', 50);
+                if (actionBtn) setTimeout(() => actionContainer.classList.remove('show'), 50);
                 if (forceUpdateButton) forceUpdateButton.classList.remove('show');
                 if (modeBtn) modeBtn.classList.remove('loaded');
                 if (saveBtn) saveBtn.style.transform = 'translateX(calc(105% + 15px))';
@@ -432,12 +442,12 @@ content.addEventListener('scroll', () => {
     }, 200);
     if (content.scrollTop > lastScrollY && content.scrollTop > scrollThreshold) {
         if (actionContainer && !actionContainer.classList.contains('tcpdump-btn')) {
-            setTimeout(() => actionContainer.style.transform = 'translateY(110px)', 100);
+            setTimeout(() => actionContainer.classList.remove('show'), 100);
         }
         if (forceUpdateButton) forceUpdateButton.classList.remove('show');
     } else if (content.scrollTop < lastScrollY) {
         if (actionContainer && !actionContainer.classList.contains('tcpdump-btn')) {
-            actionContainer.style.transform = 'translateY(0)';
+            actionContainer.classList.add('show');
         }
         if (forceUpdateButton) setTimeout(() => forceUpdateButton.classList.add('show'), 200);
     }
@@ -465,14 +475,14 @@ document.querySelectorAll('.terminal').forEach(terminal => {
             || (terminal.scrollTop === 0 && actionContainer.classList.contains('tcpdump-btn'))) {
             if (actionContainer && actionContainer.classList.contains('inTerminal')) {
                 if (terminal.scrollTop === 0 && actionContainer.classList.contains('tcpdump-btn')) {
-                    setTimeout(() => actionContainer.style.transform = 'translateY(110px)', 100);
+                    setTimeout(() => actionContainer.classList.remove('show'), 100);
                 } else {
-                    actionContainer.style.transform = 'translateY(0)';
+                    actionContainer.classList.add('show');
                 }
             }
         } else if (terminal.scrollTop < lastScrollY && terminal.scrollTop > terminal.clientHeight * 0.5) {
             if (actionContainer && actionContainer.classList.contains('inTerminal')) {
-                actionContainer.style.transform = 'translateY(0)';
+                actionContainer.classList.add('show');
             }
         }
         lastScrollY = terminal.scrollTop;
