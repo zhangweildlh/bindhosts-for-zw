@@ -102,8 +102,7 @@ disable_hosts_modules
 [ "$APATCH" = true ] && current_manager="APatch"
 [ "$KSU" = true ] && current_manager="KernelSU"
 [ ! "$APATCH" = true ] && [ ! "$KSU" = true ] && current_manager="Magisk"
-[ ! -f "$PERSISTENT_DIR/root_manager.sh" ] && touch "$PERSISTENT_DIR/root_manager.sh"
-. "$PERSISTENT_DIR/root_manager.sh"
+[ -f "$PERSISTENT_DIR/root_manager.sh" ] && . "$PERSISTENT_DIR/root_manager.sh"
 # this will likely never happen but just to be sure
 if [ ! "$current_manager" = "$manager" ]; then
 	echo "manager=$current_manager" > "$PERSISTENT_DIR/root_manager.sh"
