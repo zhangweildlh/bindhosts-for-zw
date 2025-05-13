@@ -558,6 +558,33 @@ setup_link() {
     [ -L "$MODDIR/webroot/link/PERSISTENT_DIR" ] || ln -s "$PERSISTENT_DIR" "$MODDIR/webroot/link/PERSISTENT_DIR"
 }
 
+install_latest_artifact() {
+	# TODO: harden for failure
+	latest_zip_url=$(download "https://nightly.link/bindhosts/bindhosts/workflows/release/master?preview" | sed 's/>/\n/g; s/</\n/g' | grep "^https")
+	latest_zip_local="$rwdir/bindhosts_latest.zip"
+
+	# download
+	if echo "$latest_zip_url" | grep -q "^https"; then
+		echo "[+] downloading: $latest_zip_url "
+		download "$latest_zip_url" > "$latest_zip_local"
+	else
+		echo "[!] failure grabbing latest artifact" 
+		exit 1
+	fi
+
+	# install
+	if [ -f "$latest_zip_local" ] ; then
+		# TODO: add AP and Magisk
+		echo "[+] zip: $latest_zip_local" 
+		ksud module install "$latest_zip_local"
+	else
+		echo "[!] artifact download fail" 
+		exit 1
+	fi
+	[ -f "$latest_zip_local" ] && rm "$latest_zip_local"
+
+}
+
 show_help () {
 	echo "[%] $( grep '^description=' $MODDIR/module.prop | sed 's/description=//' )"
 	echo "usage:"
@@ -587,6 +614,7 @@ case "$1" in
 	--toggle-updatejson) toggle_updatejson; exit ;;
 	--hosts-lastmod) hosts_lastmod; exit ;;
 	--whitelist) instant_whitelist "$@"; exit ;;
+	--install-canary) install_latest_artifact; exit;;
 	--setup-link) setup_link; exit;;
 	--help|*) show_help; exit ;;
 esac
