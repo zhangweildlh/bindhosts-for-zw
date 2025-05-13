@@ -561,7 +561,8 @@ setup_link() {
 manager_install_zip() {
 	# sanity check	
 	if [ -z "$1" ] || [ ! -f "$1" ] || [ ! -f "$PERSISTENT_DIR/root_manager.sh" ]; then 
-		echo "[!] no manager logged, nothing specified or file not found" 
+		echo "[!] no manager logged, nothing specified or file not found"
+		return
 	fi
 	# read which manager
 	. "$PERSISTENT_DIR/root_manager.sh"
@@ -578,10 +579,10 @@ manager_install_zip() {
 			echo "[+] installing via magisk" 
 			magisk --install-module "$1" 
 			;;
-		*) 
+		*) # catch invalid
 			echo "[!] root manager unknown??"
 			exit 1
-		;; # catch invalid
+			;;
 	esac
 }
 
@@ -593,13 +594,19 @@ install_latest_artifact() {
 	fi
 
 	# via nightly.link
-	latest_zip_url=$(download "https://nightly.link/bindhosts/bindhosts/workflows/release/master?preview" | sed 's/>/\n/g; s/</\n/g' | grep "^https")
+	latest_zip_url=$(download "https://nightly.link/bindhosts/bindhosts/workflows/release/master?preview" | sed 's/>/\n/g; s/</\n/g' | busybox grep -E "^https.*\.zip$" | head -n1)
 	latest_zip_local="$rwdir/bindhosts_latest.zip"
 
 	# download
 	if echo "$latest_zip_url" | grep -q "^https"; then
 		echo "[+] downloading: $latest_zip_url "
 		download "$latest_zip_url" > "$latest_zip_local"
+		# check if empty
+		if [ ! -s "$latest_zip_local" ]; then
+			echo "[!] artifact download failed or file is empty"
+			rm "$latest_zip_local"
+			exit 1
+		fi
 	else
 		echo "[!] failure grabbing latest artifact" 
 		exit 1
