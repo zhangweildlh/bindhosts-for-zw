@@ -558,8 +558,41 @@ setup_link() {
     [ -L "$MODDIR/webroot/link/PERSISTENT_DIR" ] || ln -s "$PERSISTENT_DIR" "$MODDIR/webroot/link/PERSISTENT_DIR"
 }
 
+manager_install_zip() {
+	# sanity check	
+	if [ -z "$1" ] || [ ! -f "$1" ] || [ ! -f "$PERSISTENT_DIR/root_manager.sh" ]; then 
+		echo "[!] no manager logged, nothing specified or file not found" 
+	fi
+	# read which manager
+	. "$PERSISTENT_DIR/root_manager.sh"
+	case $manager in
+		APatch) 
+			echo "[+] installing via apd" 
+			apd module install "$1" 
+			;;
+		KernelSU) 
+			echo "[+] installing via ksud" 
+			ksud module install "$1" 
+			;;
+		Magisk) 
+			echo "[+] installing via magisk" 
+			magisk --install-module "$1" 
+			;;
+		*) 
+			echo "[!] root manager unknown??"
+			exit 1
+		;; # catch invalid
+	esac
+}
+
 install_latest_artifact() {
-	# TODO: harden for failure
+	# likely won't happen but lets be defensive
+	if [ ! -f "$PERSISTENT_DIR/root_manager.sh" ]; then
+		echo "[!] root manager not detected"
+		exit 1
+	fi
+
+	# via nightly.link
 	latest_zip_url=$(download "https://nightly.link/bindhosts/bindhosts/workflows/release/master?preview" | sed 's/>/\n/g; s/</\n/g' | grep "^https")
 	latest_zip_local="$rwdir/bindhosts_latest.zip"
 
@@ -574,15 +607,13 @@ install_latest_artifact() {
 
 	# install
 	if [ -f "$latest_zip_local" ] ; then
-		# TODO: add AP and Magisk
 		echo "[+] zip: $latest_zip_local" 
-		ksud module install "$latest_zip_local"
+		manager_install_zip "$latest_zip_local"
 	else
-		echo "[!] artifact download fail" 
+		echo "[x] artifact download fail"
 		exit 1
 	fi
 	[ -f "$latest_zip_local" ] && rm "$latest_zip_local"
-
 }
 
 show_help () {
