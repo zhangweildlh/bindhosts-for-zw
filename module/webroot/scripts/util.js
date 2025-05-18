@@ -218,9 +218,8 @@ export function applyRippleEffect() {
  */
 export function showPrompt(key, isSuccess = true, duration = 2000, preValue = "", postValue = "") {
     const prompt = document.getElementById('prompt');
-    const message = key.split('.').reduce((acc, k) => acc && acc[k], translations) || key;
-    const finalMessage = `${preValue} ${message} ${postValue}`.trim();
-    prompt.textContent = finalMessage;
+    const message = `${preValue} ${translations[key]} ${postValue}`.trim();
+    prompt.textContent = message;
     prompt.classList.toggle('error', !isSuccess);
 
     if (window.promptTimeout) {
@@ -278,7 +277,7 @@ export async function checkMMRL() {
             shortcutButton.style.display = 'flex';
             shortcutButton.addEventListener('click', () => {
                 $bindhosts.createShortcut();
-                showPrompt("control_panel.shortcut_created", true, undefined, "[+]");
+                showPrompt("control_panel_shortcut_created", true, undefined, "[+]");
             });
         }
     }

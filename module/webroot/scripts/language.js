@@ -4,7 +4,30 @@ import { exec, applyRippleEffect, moduleDirectory } from './util.js';
 const languageMenu = document.querySelector('.language-menu');
 
 export let translations = {};
-let availableLanguages = ['en-US'];
+let baseTranslations = {};
+let availableLanguages = ['en'];
+let languageNames = {};
+
+/**
+ * Parse XML translation file into a JavaScript object
+ * @param {string} xmlText - The XML content as string
+ * @returns {Object} - Parsed translations
+ */
+function parseTranslationsXML(xmlText) {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+    const strings = xmlDoc.getElementsByTagName('string');
+    const translations = {};
+
+    for (let i = 0; i < strings.length; i++) {
+        const string = strings[i];
+        const name = string.getAttribute('name');
+        const value = string.textContent;
+        translations[name] = value;
+    }
+
+    return translations;
+}
 
 /**
  * Detect user's default language
@@ -12,12 +35,14 @@ let availableLanguages = ['en-US'];
  */
 export async function detectUserLanguage() {
     const userLang = navigator.language || navigator.userLanguage;
+    const langCode = userLang.split('-')[0];
 
     try {
         // Fetch available languages
-        const availableResponse = await fetch('locales/available-lang.json');
+        const availableResponse = await fetch('locales/languages.json');
         const availableData = await availableResponse.json();
-        availableLanguages = availableData.languages;
+        availableLanguages = Object.keys(availableData);
+        languageNames = availableData;
         generateLanguageMenu();
 
         // Get preferred language
@@ -28,12 +53,15 @@ export async function detectUserLanguage() {
             return preferedLang;
         } else if (availableLanguages.includes(userLang)) {
             return userLang;
+        } else if (availableLanguages.includes(langCode)) {
+            return langCode;
         } else {
-            return 'en-US';
+            localStorage.removeItem('bindhostsLanguage');
+            return 'en';
         }
     } catch (error) {
         console.error('Error detecting user language:', error);
-        return 'en-US';
+        return 'en';
     }
 }
 
@@ -42,9 +70,28 @@ export async function detectUserLanguage() {
  * @returns {Promise<void>}
  */
 export async function loadTranslations() {
-    const lang = await detectUserLanguage();
-    const response = await fetch(`locales/${lang}.json`);
-    translations = await response.json();
+    let lang;
+    try {
+        // load Englsih as base translations
+        const baseResponse = await fetch('locales/strings/en.xml');
+        const baseXML = await baseResponse.text();
+        baseTranslations = parseTranslationsXML(baseXML);
+
+        // load user's language if available
+        lang = await detectUserLanguage();
+        if (lang !== 'en') {
+            const response = await fetch(`locales/strings/${lang}.xml`);
+            const userXML = await response.text();
+            const userTranslations = parseTranslationsXML(userXML);
+            translations = { ...baseTranslations, ...userTranslations };
+        } else {
+            translations = baseTranslations;
+        }
+    } catch (error) {
+        console.error('Error loading translations:', error);
+        lang = 'en';
+        translations = baseTranslations;
+    }
     applyTranslations();
     setupDocsMenu(lang);
 }
@@ -55,9 +102,9 @@ export async function loadTranslations() {
  */
 function applyTranslations() {
     document.querySelectorAll("[data-i18n]").forEach((el) => {
-        const keyString = el.getAttribute("data-i18n");
-        const translation = keyString.split('.').reduce((acc, key) => acc && acc[key], translations);
-        if (keyString === "footer.home" && el.textContent.trim() !== translation.trim()) updateFooterLanguageKey();
+        const key = el.getAttribute("data-i18n");
+        const translation = translations[key];
+        if (key === "footer_home" && el.textContent.trim() !== translation.trim()) updateFooterLanguageKey();
         if (translation) {
             if (el.hasAttribute("placeholder")) {
                 el.setAttribute("placeholder", translation);
@@ -91,18 +138,10 @@ async function generateLanguageMenu() {
     defaultButton.textContent = 'System Default';
     languageMenu.appendChild(defaultButton);
 
-    const languagePromises = availableLanguages.map(async (lang) => {
-        try {
-            const response = await fetch(`locales/${lang}.json`);
-            const data = await response.json();
-            return { lang, name: data.language || lang };
-        } catch (error) {
-            console.error(`Error fetching language name for ${lang}:`, error);
-            return { lang, name: lang };
-        }
-    });
-    const languageData = await Promise.all(languagePromises);
-    const sortedLanguages = languageData.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedLanguages = Object.entries(languageNames)
+        .map(([lang, name]) => ({ lang, name }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
     sortedLanguages.forEach(({ lang, name }) => {
         const button = document.createElement('button');
         button.classList.add('language-option', 'ripple-element');
@@ -124,9 +163,9 @@ function updateFooterLanguageKey() {
     try {
         // Function to escape / and & for use in sed
         const escapeForSed = (text) => text.replace(/[\/&]/g, '\\$&');
-        const homeText = escapeForSed(translations.footer.home);
-        const hostsText = escapeForSed(translations.footer.hosts);
-        const moreText = escapeForSed(translations.footer.more);
+        const homeText = escapeForSed(translations.footer_home);
+        const hostsText = escapeForSed(translations.footer_hosts);
+        const moreText = escapeForSed(translations.footer_more);
 
         exec(`
             files="${moduleDirectory}/webroot/index.html ${moduleDirectory}/webroot/hosts.html ${moduleDirectory}/webroot/more.html"

@@ -125,7 +125,7 @@ function displayHostsList(lines, fileType) {
         const showMoreItem = document.createElement("li");
         showMoreItem.className = "show-more-item";
         // Special styling to make it visually distinct
-        showMoreItem.innerHTML = `<span>${translations.global.show_all} ${lines.length - showInitialLimit} ${translations.global.more}</span>`;
+        showMoreItem.innerHTML = `<span>${translations.global_show_all} ${lines.length - showInitialLimit} ${translations.global_more}</span>`;
         listElement.appendChild(showMoreItem);
         // Remove the "Show More" button and show remaining items
         showMoreItem.addEventListener('click', () => {
@@ -328,11 +328,11 @@ document.querySelectorAll('.input-box').forEach(inputBoxes => {
 function attachAddButtonListeners() {
     // id - input id, type - file type, fail - prompt message
     const elements = [
-        { id: "custom-input", type: "custom", fail: "custom.prompt_fail" },
-        { id: "sources-input", type: "sources", fail: "source.prompt_fail" },
-        { id: "blacklist-input", type: "blacklist", fail: "blacklist.prompt_fail" },
-        { id: "whitelist-input", type: "whitelist", fail: "whitelist.prompt_fail" },
-        { id: "sources_whitelist-input", type: "sources_whitelist", fail: "sources_whitelist.prompt_fail" }
+        { id: "custom-input", type: "custom", fail: "custom_prompt_fail" },
+        { id: "sources-input", type: "sources", fail: "source_prompt_fail" },
+        { id: "blacklist-input", type: "blacklist", fail: "blacklist_prompt_fail" },
+        { id: "whitelist-input", type: "whitelist", fail: "whitelist_prompt_fail" },
+        { id: "sources_whitelist-input", type: "sources_whitelist", fail: "sources_whitelist_prompt_fail" }
     ];
     elements.forEach(({ id, type, fail }) => {
         const inputElement = document.getElementById(id);
@@ -383,7 +383,7 @@ function runBindhosts(args) {
             closeBtn.style.opacity = '0';
             closeBtn.style.pointerEvents = 'none';
             header.classList.remove('back');
-            title.textContent = translations.footer.hosts;
+            title.textContent = translations.footer_hosts;
             terminalClosed = true;
         });
         setupActionTerminal = true;
@@ -396,7 +396,7 @@ function runBindhosts(args) {
         const output = spawn("sh", [`${moduleDirectory}/bindhosts.sh`, `${args}`]);
         output.stdout.on('data', (data) => appendOutput(data));
         output.stderr.on('data', (data) => appendOutput(data));
-        output.on('error', () => appendOutput(translations.global.execute_error));
+        output.on('error', () => appendOutput(translations.global_execute_error));
         output.on('exit', () => {
             if (!terminalClosed) {
                 closeBtn.style.opacity = '1';
@@ -425,7 +425,7 @@ function runBindhosts(args) {
         actionButton.style.transform = 'translateY(110px)';
         actionButton.classList.add('inTerminal');
         forceUpdateButton.classList.remove('show');
-        title.textContent = translations.global.action;
+        title.textContent = translations.global_action;
     }, 50);
 }
 
@@ -473,7 +473,7 @@ async function fileNameEditor(fileName) {
     } catch (error) {
         // Only rename is supported for large files
         openFileEditor(fileName, false);
-        showPrompt("global.file_too_large", true);
+        showPrompt("global_file_too_large", true);
         console.error("Failed to get custom hosts list:", error);
     }
 }
@@ -614,7 +614,7 @@ function openFileEditor(lastFileName, openEditor = true) {
         const newFileName = fileNameInput.value;
         const content = editorInput.value.trim();
         if (newFileName === "") {
-            showPrompt("global.file_name_empty", false);
+            showPrompt("global_file_name_empty", false);
             return;
         }
         try {
@@ -627,14 +627,14 @@ ${content}
 AUniqueEOF
                     chmod 644 ${basePath}/custom${newFileName}.txt
                 `);
-                showPrompt("global.saved", true, undefined, undefined, `${basePath}/custom${newFileName}.txt`);
+                showPrompt("global_saved", true, undefined, undefined, `${basePath}/custom${newFileName}.txt`);
             } else {
                 // Rename file
                 await exec(`mv -f ${basePath}/${lastFileName} ${basePath}/custom${newFileName}.txt`);
             }
-            showPrompt("global.saved", true, undefined, undefined, `${basePath}/custom${newFileName}.txt`);
+            showPrompt("global_saved", true, undefined, undefined, `${basePath}/custom${newFileName}.txt`);
         } catch (error) {
-            showPrompt("global.save_fail", false);
+            showPrompt("global_save_fail", false);
             console.error("Failed to save file:", error);
         }
         getCustomHostsList();

@@ -52,9 +52,9 @@ document.getElementById("status-box").addEventListener("click", async () => {
         await checkDevOption();
         if (!developerOption) {
             setDeveloperOption(true);
-            showPrompt("global.dev_opt", true);
+            showPrompt("global_dev_opt", true);
         } else {
-            showPrompt("global.dev_opt_true", true);
+            showPrompt("global_dev_opt_true", true);
         }
     }
 });
@@ -113,7 +113,7 @@ document.getElementById("mode-btn").addEventListener("click", async () => {
             } else {
                 await exec(`echo "mode=${mode}" > ${basePath}/mode_override.sh`);
             }
-            showPrompt("global.reboot", true, 4000);
+            showPrompt("global_reboot", true, 4000);
             await updateModeSelection();
         } catch (error) {
             console.error("Error saving mode selection:", error);
@@ -275,10 +275,10 @@ async function handleRemove(event, domains) {
         if (hostItem) {
             hostList.removeChild(hostItem);
         }
-        showPrompt("query.remove_prompt", true, 2000, undefined, domains.join(' '));
+        showPrompt("query_remove_prompt", true, 2000, undefined, domains.join(' '));
     } catch (error) {
         console.error("Error removing host:", error);
-        showPrompt("query.remove_error", false, 2000, undefined, domains.join(' '));
+        showPrompt("query_remove_error", false, 2000, undefined, domains.join(' '));
     }
 }
 

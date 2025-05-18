@@ -25,16 +25,16 @@ function checkBindhostsApp() {
  * @returns {void}
  */
 function installBindhostsApp() {
-    showPrompt("control_panel.installing", true, 10000, "[+]");
+    showPrompt("control_panel_installing", true, 10000, "[+]");
     const output = spawn("sh", [`${moduleDirectory}/bindhosts-app.sh`]);
     output.stdout.on('data', (data) => {
         if (data.includes("[+]")) {
-            showPrompt("control_panel.installed", true, 5000, "[+]");
+            showPrompt("control_panel_installed", true, 5000, "[+]");
             tilesContainer.style.display = "none";
         } else if (data.includes("[x] Failed to download")) {
-            showPrompt("control_panel.download_fail", false, undefined, "[×]");
+            showPrompt("control_panel_download_fail", false, undefined, "[×]");
         } else if (data.includes("[*]")) {
-            showPrompt("control_panel.install_fail", false, 5000, "[×]");
+            showPrompt("control_panel_install_fail", false, 5000, "[×]");
         }
     });
 }
@@ -64,9 +64,9 @@ async function toggleModuleUpdate() {
         const lines = result.split("\n");
         lines.forEach(line => {
             if (line.includes("[+]")) {
-                showPrompt("control_panel.update_true", true, undefined, "[+]");
+                showPrompt("control_panel_update_true", true, undefined, "[+]");
             } else if (line.includes("[x]")) {
-                showPrompt("control_panel.update_false", false, undefined, "[×]");
+                showPrompt("control_panel_update_false", false, undefined, "[×]");
             }
         });
         checkUpdateStatus();
@@ -102,9 +102,9 @@ async function toggleActionRedirectWebui() {
             chmod 755 ${basePath}/webui_setting.sh
         `);
         if (actionRedirectStatus.checked) {
-            showPrompt("control_panel.action_prompt_false", false, undefined, "[×]");
+            showPrompt("control_panel_action_prompt_false", false, undefined, "[×]");
         } else {
-            showPrompt("control_panel.action_prompt_true", true, undefined, "[+]");
+            showPrompt("control_panel_action_prompt_true", true, undefined, "[+]");
         }
         checkRedirectStatus();
     } catch (error) {
@@ -166,9 +166,9 @@ async function toggleCron() {
         const lines = result.split("\n");
         lines.forEach(line => {
             if (line.includes("[+]")) {
-                showPrompt("control_panel.cron_true", true, undefined, "[+]");
+                showPrompt("control_panel_cron_true", true, undefined, "[+]");
             } else if (line.includes("[x]")) {
-                showPrompt("control_panel.cron_false", false, undefined, "[×]");
+                showPrompt("control_panel_cron_false", false, undefined, "[×]");
             }
         });
         checkCronStatus();
@@ -237,8 +237,8 @@ function openTcpdumpTerminal() {
     terminalContent.innerHTML = `
         <div class="tcpdump-header" id="tcpdump-header"></div>
         <div class="box tcpdump-search translucent" id="tcpdump-search">
-            <h2>${ translations.query.search }</h2>
-            <input class="query-input translucent" type="text" id="tcpdump-search-input" placeholder="${ translations.query.search }" autocapitalize="off">
+            <h2>${ translations.query_search }</h2>
+            <input class="query-input translucent" type="text" id="tcpdump-search-input" placeholder="${ translations.query_search }" autocapitalize="off">
         </div>
     `;
 
@@ -256,7 +256,7 @@ function openTcpdumpTerminal() {
             cover.style.opacity = '0';
             backButton.style.transform = 'translateX(-100%)';
             header.classList.remove('back');
-            title.textContent = translations.footer.more;
+            title.textContent = translations.footer_more;
         });
         const searchInput = document.getElementById('tcpdump-search-input');
         searchInput.addEventListener('input', () => {
@@ -307,8 +307,8 @@ function openTcpdumpTerminal() {
         div.classList.add('translucent');
         div.innerHTML = `
             <div class="tcpdump-line tcpdump-line-header">
-                <div class="tcpdump-type">${translations.query.host_type}</div>
-                <div class="tcpdump-domain">${translations.query.host_domain}</div>
+                <div class="tcpdump-type">${translations.query_host_type}</div>
+                <div class="tcpdump-domain">${translations.query_host_domain}</div>
             <div>
         `;
         terminalContent.appendChild(div);
@@ -347,7 +347,7 @@ function openTcpdumpTerminal() {
         header.classList.add('back');
         backButton.style.transform = 'translateX(0)';
         floatBtn.classList.add('show');
-        title.textContent = translations.control_panel.monitor_network_activity;
+        title.textContent = translations.control_panel_monitor_network_activity;
         setTimeout(() => stopTcpdump(), 60000);
     }, 50);
 }
@@ -385,10 +385,10 @@ ${JSON.stringify(config)}
 JSON_EOF
             echo "$FILENAME"
         `);
-        showPrompt("backup_restore.exported", true, undefined, undefined, fileName.trim());
+        showPrompt("backup_restore_exported", true, undefined, undefined, fileName.trim());
     } catch (error) {
         console.error("Backup failed:", error);
-        showPrompt("backup_restore.export_fail", false);
+        showPrompt("backup_restore_export_fail", false);
     }
 }
 
@@ -405,7 +405,7 @@ async function restoreConfig() {
         // Validate using metadata
         const isValid = config.metadata && config.metadata.description === "bindhosts config backup";
         if (!isValid) {
-            showPrompt("backup_restore.invalid_config", false);
+            showPrompt("backup_restore_invalid_config", false);
             return;
         }
 
@@ -423,10 +423,10 @@ RESTORE_EOF
             }
         }
 
-        showPrompt("backup_restore.restored", true);
+        showPrompt("backup_restore_restored", true);
     } catch (error) {
         console.error("Restore failed:", error);
-        showPrompt("backup_restore.restore_fail", false);
+        showPrompt("backup_restore_restore_fail", false);
     }
 }
 

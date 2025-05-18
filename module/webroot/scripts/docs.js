@@ -116,7 +116,7 @@ let activeDocs = null;
  */
 export async function setupDocsMenu(docsLang) {
     let langCode;
-    if (docsLang === 'en-US') langCode = '';
+    if (docsLang === 'en') langCode = '';
     else langCode = '_' + docsLang;
     const docsData = {
         source: {
@@ -240,7 +240,7 @@ export async function setupDocsMenu(docsLang) {
                 documentCover.style.opacity = '0';
                 backButton.style.transform = 'translateX(-100%)';
                 header.classList.remove('back');
-                title.textContent = translations.footer.more;
+                title.textContent = translations.footer_more;
             });
         });
     } // End of about docs
