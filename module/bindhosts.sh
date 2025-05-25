@@ -370,13 +370,14 @@ adblock() {
 	# if there is a remote whitelist, we clean it up
 	if [ -f "$rwdir/remote_whitelist" ]; then
 		sed -i '/#/d; /!/d; s/  */ /g; /^$/d; s/\r$//' "$rwdir/remote_whitelist"
-		for i in $(sort -u "$rwdir/remote_whitelist" ); do echo "0.0.0.0 $i" ; done >> "$rwdir/tempwhitelist"
+		for i in $(sort -u "$rwdir/remote_whitelist" ); do echo "$i" ; done >> "$rwdir/tempwhitelist"
 	fi
-	for i in $(sed '/#/d' $PERSISTENT_DIR/whitelist.txt); do echo "0.0.0.0 $i" ; done >> "$rwdir/tempwhitelist"
+	for i in $(sed '/#/d' $PERSISTENT_DIR/whitelist.txt); do echo "$i" ; done >> "$rwdir/tempwhitelist"
 	# sed strip out everything with # and !, double space to single space, delete empty lines, dos2unix (CRLF), replace all 127.0.0.1 to 0.0.0.0
 	# then sort uniq, then grep out whitelist.txt from it
 	sed -i '/#/d; /!/d; s/  */ /g; /^$/d; s/\r$//; s/127.0.0.1/0.0.0.0/g' "$rwdir/temphosts"
-	sort -u "$rwdir/temphosts" | grep -Fxvf "$rwdir/tempwhitelist" >> $target_hostsfile
+	# no need to -x on grep, allow wildmatches! bindhosts/issue #112
+	sort -u "$rwdir/temphosts" | grep -Fvf "$rwdir/tempwhitelist" >> $target_hostsfile
 	# mark it, will be read by service.sh to deduce
 	echo "# bindhosts v$versionCode" >> $target_hostsfile
 }
