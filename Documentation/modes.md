@@ -39,11 +39,12 @@
 ### plain bindhosts
 - mount --bind
 - **Highest compatibility**
-- Actually works on all managers, but not really preferable
-- leaks a bind mount, leaks a globally modified hosts file  
+- Actually works on all managers.
+- will leak a bind mount and a globally modified hosts file if unassisted.
 - selected when APatch is on OverlayFS (default mode) as it offers better compatibility.
+- selected when a known "denylist handler" is found.
 - Adaway compatible
-- Hiding: essentially no hiding, needs assistance
+- Hiding: requires assisted hiding
 
 ---
 

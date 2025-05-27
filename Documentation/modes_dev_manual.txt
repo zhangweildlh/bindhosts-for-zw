@@ -24,7 +24,8 @@ mode=2
        actually works on all managers but not really preferrable as it leaks a global mount
     Adaway compatible
     This is selected when APatch is on OverlayFS mdoe as that offers better compatibility
-    hiding: none at all
+    Selected when either NoHello, Shamiko or Zygisk Assistant is found
+    hiding: requires assistance, easy detection if not
     
 mode=3
     apatch_hfr, hosts file redirect
