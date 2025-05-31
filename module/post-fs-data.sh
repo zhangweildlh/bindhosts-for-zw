@@ -30,10 +30,10 @@ if { [ "$APATCH" = "true" ] && [ ! "$APATCH_BIND_MOUNT" = "true" ]; } ||
 fi
 
 # we can force mode 2 if user has something that gives unconditional umount to /system/etc/hosts
-# so far NoHello, Shamiko and Zygisk Assistant does it
+# so far NoHello, Zygisk Assistant does it
 # while Zygisk Next can also do it, it will only do that when denylist is enforced (DE)
 # while deducing DE status is likely possible, that thing is hot-toggleable anyway so theres no assurance.
-denylist_handlers="zygisk-assistant zygisk_nohello zygisk_shamiko"
+denylist_handlers="zygisk-assistant zygisk_nohello"
 for module_name in $denylist_handlers; do
 	if [ -d "/data/adb/modules/$module_name" ] && [ ! -f "/data/adb/modules/$module_name/disable" ]; then
 		echo "bindhosts: post-fs-data.sh - $module_name found" >> /dev/kmsg
