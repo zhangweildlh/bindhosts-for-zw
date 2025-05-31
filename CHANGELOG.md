@@ -4,6 +4,9 @@ Systemless hosts for APatch, KernelSU and Magisk
 ---
 
 # Changelog
+### 2.0.4
+- scripts: pull shamiko out of mode 2
+
 ### 2.0.3
 - webui: ksu.spawn on update
 - webui: ksu.spawn on tcpdump
