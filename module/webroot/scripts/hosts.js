@@ -103,7 +103,7 @@ function displayHostsList(lines, fileType) {
                 const fileName = listItem.querySelector(".link-text").textContent;
                 const remove = await removeCustomHostsFile(fileName);
                 if (remove) {
-                    await exec(`rm -f ${basePath}/${fileName} ${moduleDirectory}/webroot/${fileName}`);
+                    await exec(`rm -f "${basePath}/${fileName}"`);
                     listElement.removeChild(listItem);
                 }
             });
@@ -439,7 +439,7 @@ forceUpdateButton.addEventListener('click', () => runBindhosts("--force-update")
  */
 async function getCustomHostsList() {
     try {
-        const output = await exec(`ls ${basePath} | grep "^custom.*\.txt$" | grep -vx "custom.txt"`);
+        const output = await exec(`ls ${basePath} | grep "^custom.*\.txt$" | grep -vx "custom.txt" || true`);
         const lines = output.split("\n");
         displayHostsList(lines, "import_custom");
     } catch (error) {

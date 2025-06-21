@@ -214,14 +214,14 @@ export async function openFileSelector(type) {
             if (item && item.querySelector('span').textContent.endsWith('.json')) {
                 try {
                     const jsonConfig = await exec(`cat ${currentPath}/${item.querySelector('span').textContent}`);
-                    resolve(jsonConfig.trim());
                     closeFileSelector();
+                    resolve(jsonConfig.trim());
                 } catch (error) {
                     reject(error);
                 }
             } else if (item && item.querySelector('span').textContent.endsWith('.txt')) {
-                resolve(true);
                 closeFileSelector();
+                resolve(true);
             }
         });
     });
