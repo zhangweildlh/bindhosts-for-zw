@@ -440,8 +440,10 @@ forceUpdateButton.addEventListener('click', () => runBindhosts("--force-update")
 async function getCustomHostsList() {
     try {
         const output = await exec(`ls ${basePath} | grep "^custom.*\.txt$" | grep -vx "custom.txt" || true`);
-        const lines = output.split("\n");
-        displayHostsList(lines, "import_custom");
+        if (output.trim() !== '') {
+            const lines = output.split("\n");
+            displayHostsList(lines, "import_custom");
+        }
     } catch (error) {
         console.error("Failed to get custom hosts list:", error);
     }
