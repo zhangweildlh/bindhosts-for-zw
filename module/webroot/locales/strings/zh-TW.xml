@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">每日自動更新 hosts</string>
     <string name="control_panel_cron_true">已開啟 hosts 每日更新</string>
     <string name="control_panel_cron_false">已關閉 hosts 每日更新</string>
-    <string name="control_panel_create_shortcut">建立桌面捷徑</string>
-    <string name="control_panel_shortcut_created">桌面捷徑已建立</string>
     <string name="control_panel_monitor_network_activity">監控網路活動</string>
 
     <!-- Custom -->

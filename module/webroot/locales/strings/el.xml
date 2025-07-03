@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">Ενημέρωση Hosts Καθημερινά</string>
     <string name="control_panel_cron_true">Προστέθηκε η καταχώριση Crontab</string>
     <string name="control_panel_cron_false">Καταργήθηκε η καταχώριση Crontab</string>
-    <string name="control_panel_create_shortcut">Δημιουργία συντόμευσης στην αρχική οθόνη</string>
-    <string name="control_panel_shortcut_created">Η συντόμευση δημιουργήθηκε στην αρχική οθόνη</string>
     <string name="control_panel_monitor_network_activity">Παρακολούθηση δραστηριότητας δικτύου</string>
 
     <!-- Custom -->

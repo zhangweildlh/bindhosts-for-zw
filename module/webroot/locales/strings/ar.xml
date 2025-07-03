@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">تحديث الhosts يوميا</string>
     <string name="control_panel_cron_true">تمت اضافة مدخل Crontab</string>
     <string name="control_panel_cron_false">تمت إزالة مدخل Crontab</string>
-    <string name="control_panel_create_shortcut">إنشاء اختصار على الشاشة الرئيسية</string>
-    <string name="control_panel_shortcut_created">تم إنشاء اختصار على الشاشة الرئيسية</string>
     <string name="control_panel_monitor_network_activity">مراقبة نشاط الشبكة</string>
 
     <!-- Custom -->

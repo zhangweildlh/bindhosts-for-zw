@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">Perbarui Host Setiap Hari</string>
     <string name="control_panel_cron_true">Crontab entry ditambahkan</string>
     <string name="control_panel_cron_false">Crontab entry dihapus</string>
-    <string name="control_panel_create_shortcut">Buat pintasan di layar utama</string>
-    <string name="control_panel_shortcut_created">Pintasan layar utama telah dibuat</string>
     <string name="control_panel_monitor_network_activity">Pantau Aktivitas Jaringan</string>
 
     <!-- Custom -->

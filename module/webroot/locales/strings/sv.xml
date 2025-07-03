@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">Uppdatera Hosts dagligen</string>
     <string name="control_panel_cron_true">Crontab-post tillagd</string>
     <string name="control_panel_cron_false">Crontab-post borttagen</string>
-    <string name="control_panel_create_shortcut">Skapa genväg på startskärmen</string>
-    <string name="control_panel_shortcut_created">Genväg skapad på startskärmen</string>
     <string name="control_panel_monitor_network_activity">Övervaka nätverksaktivitet</string>
 
     <!-- Custom -->

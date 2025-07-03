@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">Aggiornamento Hosts Quotidiano</string>
     <string name="control_panel_cron_true">Aggiunta voce Crontab</string>
     <string name="control_panel_cron_false">Rimossa vice Crontab</string>
-    <string name="control_panel_create_shortcut">Crea collegamento nella schermata iniziale</string>
-    <string name="control_panel_shortcut_created">Collegamento creato nella schermata iniziale</string>
     <string name="control_panel_monitor_network_activity">Monitora attività di rete</string>
 
     <!-- Custom -->

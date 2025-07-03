@@ -271,15 +271,6 @@ export async function checkMMRL() {
         } catch (error) {
             console.log("Error setting status bars theme:", error)
         }
-
-        const shortcutButton = document.getElementById('shortcut-container');
-        if (shortcutButton) {
-            shortcutButton.style.display = 'flex';
-            shortcutButton.addEventListener('click', () => {
-                $bindhosts.createShortcut();
-                showPrompt("control_panel_shortcut_created", true, undefined, "[+]");
-            });
-        }
     }
 }
 

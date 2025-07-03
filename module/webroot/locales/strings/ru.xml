@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">Обновлять файл hosts ежедневно</string>
     <string name="control_panel_cron_true">Запись Crontab добавлена</string>
     <string name="control_panel_cron_false">Запись Crontab удалена</string>
-    <string name="control_panel_create_shortcut">Создать ярлык на рабочем столе</string>
-    <string name="control_panel_shortcut_created">Ярлык создан на рабочем столе</string>
     <string name="control_panel_monitor_network_activity">Мониторинг сетевой активности</string>
 
     <!-- Custom -->

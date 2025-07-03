@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">Hosts&apos;u günlük güncelle</string>
     <string name="control_panel_cron_true">Crontab girişi eklendi</string>
     <string name="control_panel_cron_false">Crontab girişi kaldırıldı</string>
-    <string name="control_panel_create_shortcut">Ana ekrana kısayol oluştur</string>
-    <string name="control_panel_shortcut_created">Ana ekran kısayolu oluşturuldu</string>
     <string name="control_panel_monitor_network_activity">Ağ Etkinliğini İzle</string>
 
     <!-- Custom -->

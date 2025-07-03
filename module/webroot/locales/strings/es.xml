@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">Actualizar hosts todos los días</string>
     <string name="control_panel_cron_true">Entrada crontab añadida</string>
     <string name="control_panel_cron_false">Entrada crontab eliminada</string>
-    <string name="control_panel_create_shortcut">Crear acceso directo en la pantalla de inicio</string>
-    <string name="control_panel_shortcut_created">Acceso directo creado en la pantalla de inicio</string>
     <string name="control_panel_monitor_network_activity">Monitorear actividad de red</string>
 
     <!-- Custom -->

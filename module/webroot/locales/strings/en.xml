@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">Update Hosts Daily</string>
     <string name="control_panel_cron_true">Crontab entry added</string>
     <string name="control_panel_cron_false">Crontab entry removed</string>
-    <string name="control_panel_create_shortcut">Create home screen shortcut</string>
-    <string name="control_panel_shortcut_created">Home screen shortcut created</string>
     <string name="control_panel_monitor_network_activity">Monitor Network Activity</string>
 
     <!-- Custom -->

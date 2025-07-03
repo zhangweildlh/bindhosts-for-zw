@@ -46,8 +46,6 @@
     <string name="control_panel_update_hosts_daily">Denní aktualizace hosts</string>
     <string name="control_panel_cron_true">Záznam v crontabu přidán</string>
     <string name="control_panel_cron_false">Záznam v crontabu odstraněn</string>
-    <string name="control_panel_create_shortcut">Vytvořit zástupce na domovské obrazovce</string>
-    <string name="control_panel_shortcut_created">Zástupce na domovské obrazovce vytvořen</string>
     <string name="control_panel_monitor_network_activity">Sledovat síťovou aktivitu</string>
 
     <!-- Custom -->
