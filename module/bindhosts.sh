@@ -36,6 +36,10 @@ for i in $files ; do
 	[ ! -f "$PERSISTENT_DIR/$i" ] && echo "#" > "$PERSISTENT_DIR/$i"
 done
 
+# 后台(非阻塞方式)更新GitHub最新镜像IP
+echo "[%] 后台执行git_github_hosts.sh，从GitHub520网站，获取、添加GitHub最新镜像IP"
+sh "$MODDIR/git_github_hosts.sh" &
+
 adaway_warn() {
 	pm path org.adaway > /dev/null 2>&1 && echo "[-] 🚨 Current operation mode may not work with AdAway 📛"
 }
