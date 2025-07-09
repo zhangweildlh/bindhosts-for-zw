@@ -43,3 +43,9 @@
 如果遇到问题请在 [这里](https://github.com/bindhosts/bindhosts/issues) 提交你的 issues
 
 我们始终欢迎你们来提交 [请求](https://github.com/bindhosts/bindhosts/pulls)
+
+## 基于GitHub520网站，获取、添加GitHub最新镜像IP，提升访问速度
+
+采用在bindhosts.sh中后台(非阻塞方式)执行git_github_hosts.sh脚本方式实现
+
+新增git_github_hosts.sh，将从 https://raw.hellogithub.com/hosts 下载最新GitHub镜像IP，写入/data/adb/bindhosts/custom_github.txt
